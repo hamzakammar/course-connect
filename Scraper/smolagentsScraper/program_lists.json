@@ -1,0 +1,1693 @@
+{
+  "course_lists": {
+    "Undergraduate Communication Requirement": {
+      "list_name": "Undergraduate Communication Requirement",
+      "courses": [
+        {
+          "course_id": "65b861ad5a8cf717288a5b6b",
+          "code": "CS 137",
+          "title": "Programming Principles",
+          "units": "0.50",
+          "href": "#/courses/view/65b861ad5a8cf717288a5b6b"
+        },
+        {
+          "course_id": "65cb8c253cb0dd422f9288ab",
+          "code": "CHE 102",
+          "title": "Chemistry for Engineers",
+          "units": "0.50",
+          "href": "#/courses/view/65cb8c253cb0dd422f9288ab"
+        },
+        {
+          "course_id": "65b90628b44f43033f69e76a",
+          "code": "MATH 115",
+          "title": "Linear Algebra for Engineering",
+          "units": "0.50",
+          "href": "#/courses/view/65b90628b44f43033f69e76a"
+        },
+        {
+          "course_id": "65b906f75c94795825e56ec8",
+          "code": "MATH 117",
+          "title": "Calculus 1 for Engineering",
+          "units": "0.50",
+          "href": "#/courses/view/65b906f75c94795825e56ec8"
+        },
+        {
+          "course_id": "66ed9d777a6d1f397daa9fe0",
+          "code": "MATH 135",
+          "title": "Algebra for Honours Mathematics",
+          "units": "0.50",
+          "href": "#/courses/view/66ed9d777a6d1f397daa9fe0"
+        },
+        {
+          "course_id": "65b9b0d323cba7815947c32a",
+          "code": "SE 101",
+          "title": "Introduction to Methods of Software Engineering",
+          "units": "0.25",
+          "href": "#/courses/view/65b9b0d323cba7815947c32a"
+        },
+        {
+          "course_id": "65b267bd23cba719b1479aa2",
+          "code": "CS 138",
+          "title": "Introduction to Data Abstraction and Implementation",
+          "units": "0.50",
+          "href": "#/courses/view/65b267bd23cba719b1479aa2"
+        },
+        {
+          "course_id": "66d9e352a4a61e37256cadeb",
+          "code": "ECE 124",
+          "title": "Digital Circuits and Systems",
+          "units": "0.50",
+          "href": "#/courses/view/66d9e352a4a61e37256cadeb"
+        },
+        {
+          "course_id": "66d9e38c6a6e2eaccb63ae51",
+          "code": "ECE 140",
+          "title": "Linear Circuits",
+          "units": "0.50",
+          "href": "#/courses/view/66d9e38c6a6e2eaccb63ae51"
+        },
+        {
+          "course_id": "6627d34e126715e91cef80fe",
+          "code": "ECE 192",
+          "title": "Engineering Economics and Impact on Society",
+          "units": "0.25",
+          "href": "#/courses/view/6627d34e126715e91cef80fe"
+        },
+        {
+          "course_id": "65b9082c23cba710ea47be65",
+          "code": "MATH 119",
+          "title": "Calculus 2 for Engineering",
+          "units": "0.50",
+          "href": "#/courses/view/65b9082c23cba710ea47be65"
+        },
+        {
+          "course_id": "65b9b0fc6cd5896ac3e90980",
+          "code": "SE 102",
+          "title": "Seminar",
+          "units": "0.00",
+          "href": "#/courses/view/65b9b0fc6cd5896ac3e90980"
+        },
+        {
+          "course_id": "6627d8a1466ac1cf38cb4d61",
+          "code": "CS 241",
+          "title": "Foundations of Sequential Programs",
+          "units": "0.50",
+          "href": "#/courses/view/6627d8a1466ac1cf38cb4d61"
+        },
+        {
+          "course_id": "68923b16f8a6877efe974332",
+          "code": "ECE 222",
+          "title": "Digital Computers",
+          "units": "0.50",
+          "href": "#/courses/view/68923b16f8a6877efe974332"
+        },
+        {
+          "course_id": "681a7a2e76ad7b403b617046",
+          "code": "SE 201",
+          "title": "Seminar",
+          "units": "0.00",
+          "href": "#/courses/view/681a7a2e76ad7b403b617046"
+        },
+        {
+          "course_id": "65b9b17d5c94792964e573e4",
+          "code": "SE 212",
+          "title": "Logic and Computation",
+          "units": "0.50",
+          "href": "#/courses/view/65b9b17d5c94792964e573e4"
+        },
+        {
+          "course_id": "65b9b3ed2ce9d30de9ecb0ba",
+          "code": "STAT 206",
+          "title": "Statistics for Software Engineering",
+          "units": "0.50",
+          "href": "#/courses/view/65b9b3ed2ce9d30de9ecb0ba"
+        },
+        {
+          "course_id": "66d9e0513c4aac782c58097e",
+          "code": "ECE 105",
+          "title": "Classical Mechanics",
+          "units": "0.50",
+          "href": "#/courses/view/66d9e0513c4aac782c58097e"
+        },
+        {
+          "course_id": "65b995bc5c94795c1ce57325",
+          "code": "PHYS 115",
+          "title": "Mechanics",
+          "units": "0.50",
+          "href": "#/courses/view/65b995bc5c94795c1ce57325"
+        },
+        {
+          "course_id": "66db3e18f999f25eebc2eaf6",
+          "code": "PHYS 121",
+          "title": "Mechanics",
+          "units": "0.50",
+          "href": "#/courses/view/66db3e18f999f25eebc2eaf6"
+        },
+        {
+          "course_id": "660daaddbca6567fc24b145c",
+          "code": "CS 240",
+          "title": "Data Structures and Data Management",
+          "units": "0.50",
+          "href": "#/courses/view/660daaddbca6567fc24b145c"
+        },
+        {
+          "course_id": "6626b654b4dce0ae892ac57c",
+          "code": "CS 247",
+          "title": "Software Engineering Principles",
+          "units": "0.50",
+          "href": "#/courses/view/6626b654b4dce0ae892ac57c"
+        },
+        {
+          "course_id": "6627d1d87be622222eefb8ba",
+          "code": "CS 348",
+          "title": "Introduction to Database Management",
+          "units": "0.50",
+          "href": "#/courses/view/6627d1d87be622222eefb8ba"
+        },
+        {
+          "course_id": "65b91bf318ca23d8820b6dba",
+          "code": "MATH 239",
+          "title": "Introduction to Combinatorics",
+          "units": "0.50",
+          "href": "#/courses/view/65b91bf318ca23d8820b6dba"
+        },
+        {
+          "course_id": "664cb9433783eada1570c15c",
+          "code": "SE 202",
+          "title": "Seminar",
+          "units": "0.00",
+          "href": "#/courses/view/664cb9433783eada1570c15c"
+        },
+        {
+          "course_id": "6627d327126715c17eef80fc",
+          "code": "CS 341",
+          "title": "Algorithms",
+          "units": "0.50",
+          "href": "#/courses/view/6627d327126715c17eef80fc"
+        },
+        {
+          "course_id": "64a5b95a64e0fe83a2173c79",
+          "code": "MATH 213",
+          "title": "Signals, Systems, and Differential Equations",
+          "units": "0.50",
+          "href": "#/courses/view/64a5b95a64e0fe83a2173c79"
+        },
+        {
+          "course_id": "681b5d0eca3b6007dd62d640",
+          "code": "SE 301",
+          "title": "Seminar",
+          "units": "0.00",
+          "href": "#/courses/view/681b5d0eca3b6007dd62d640"
+        },
+        {
+          "course_id": "664cbaf92ed76b55b1d8dab8",
+          "code": "SE 350",
+          "title": "Operating Systems",
+          "units": "0.50",
+          "href": "#/courses/view/664cbaf92ed76b55b1d8dab8"
+        },
+        {
+          "course_id": "662678db219773696dcc412b",
+          "code": "SE 464",
+          "title": "Software Design and Architectures",
+          "units": "0.50",
+          "href": "#/courses/view/662678db219773696dcc412b"
+        },
+        {
+          "course_id": "6626791721977312d7cc4131",
+          "code": "SE 465",
+          "title": "Software Testing and Quality Assurance",
+          "units": "0.50",
+          "href": "#/courses/view/6626791721977312d7cc4131"
+        },
+        {
+          "course_id": "6627d2f5f9d2cd224833988e",
+          "code": "CS 343",
+          "title": "Concurrent and Parallel Programming",
+          "units": "0.50",
+          "href": "#/courses/view/6627d2f5f9d2cd224833988e"
+        },
+        {
+          "course_id": "65b86f3fedfead35ae34093a",
+          "code": "ECE 358",
+          "title": "Computer Networks",
+          "units": "0.50",
+          "href": "#/courses/view/65b86f3fedfead35ae34093a"
+        },
+        {
+          "course_id": "681b5d57878f91c2d9afc254",
+          "code": "SE 302",
+          "title": "Seminar",
+          "units": "0.00",
+          "href": "#/courses/view/681b5d57878f91c2d9afc254"
+        },
+        {
+          "course_id": "664cbb492ed76bc0a3d8dabb",
+          "code": "SE 380",
+          "title": "Introduction to Feedback Control",
+          "units": "0.50",
+          "href": "#/courses/view/664cbb492ed76bc0a3d8dabb"
+        },
+        {
+          "course_id": "66624b64314dfa91c33efa7c",
+          "code": "SE 463",
+          "title": "Software Project Management, Requirements, and Analysis",
+          "units": "0.50",
+          "href": "#/courses/view/66624b64314dfa91c33efa7c"
+        },
+        {
+          "course_id": "6627d19cb4dce059152acac9",
+          "code": "CS 349",
+          "title": "User Interfaces",
+          "units": "0.50",
+          "href": "#/courses/view/6627d19cb4dce059152acac9"
+        },
+        {
+          "course_id": "6627bf7c466ac1c9e1cb4ce5",
+          "code": "CS 449",
+          "title": "Human-Computer Interaction",
+          "units": "0.50",
+          "href": "#/courses/view/6627bf7c466ac1c9e1cb4ce5"
+        },
+        {
+          "course_id": "65e0c0447a54051a2380d63c",
+          "code": "MSE 343",
+          "title": "Human-Computer Interaction",
+          "units": "0.50",
+          "href": "#/courses/view/65e0c0447a54051a2380d63c"
+        },
+        {
+          "course_id": "664cbb8f763e857fa59c786b",
+          "code": "SE 401",
+          "title": "Seminar",
+          "units": "0.00",
+          "href": "#/courses/view/664cbb8f763e857fa59c786b"
+        },
+        {
+          "course_id": "65eb7a99c897cc0298453067",
+          "code": "GENE 403",
+          "title": "Interdisciplinary Design Project 1",
+          "units": "0.50",
+          "href": "#/courses/view/65eb7a99c897cc0298453067"
+        },
+        {
+          "course_id": "65b70344778630fecb7ff1a9",
+          "code": "SE 490",
+          "title": "Design Project 1",
+          "units": "0.50",
+          "href": "#/courses/view/65b70344778630fecb7ff1a9"
+        },
+        {
+          "course_id": "681b5da2ca3b6007dd62da4e",
+          "code": "SE 402",
+          "title": "Seminar",
+          "units": "0.00",
+          "href": "#/courses/view/681b5da2ca3b6007dd62da4e"
+        },
+        {
+          "course_id": "65eb7aca8b15d81cd8217003",
+          "code": "GENE 404",
+          "title": "Interdisciplinary Design Project 2",
+          "units": "0.50",
+          "href": "#/courses/view/65eb7aca8b15d81cd8217003"
+        },
+        {
+          "course_id": "65b703705f44049016f28bab",
+          "code": "SE 491",
+          "title": "Design Project 2",
+          "units": "0.50",
+          "href": "#/courses/view/65b703705f44049016f28bab"
+        },
+        {
+          "course_id": "67e30d30df56bb6e749c4b85",
+          "code": "COMMST 100",
+          "title": "Interpersonal Communication",
+          "units": "0.50",
+          "href": "#/courses/view/67e30d30df56bb6e749c4b85"
+        },
+        {
+          "course_id": "65b1d1a6b44f4318a969bfed",
+          "code": "COMMST 223",
+          "title": "Public Speaking",
+          "units": "0.50",
+          "href": "#/courses/view/65b1d1a6b44f4318a969bfed"
+        },
+        {
+          "course_id": "65b2ad1c3f91c769ff68e4a4",
+          "code": "EMLS 101R",
+          "title": "Oral Communications for Academic Purposes",
+          "units": "0.50",
+          "href": "#/courses/view/65b2ad1c3f91c769ff68e4a4"
+        },
+        {
+          "course_id": "65b2ad8a98f044a475101246",
+          "code": "EMLS 102R",
+          "title": "Clear Communication in English Writing",
+          "units": "0.50",
+          "href": "#/courses/view/65b2ad8a98f044a475101246"
+        },
+        {
+          "course_id": "65b2af7277863077067fdb3d",
+          "code": "EMLS 129R",
+          "title": "Written Academic English",
+          "units": "0.50",
+          "href": "#/courses/view/65b2af7277863077067fdb3d"
+        },
+        {
+          "course_id": "64a5b8cd5d75775a9d76c818",
+          "code": "ENGL 109",
+          "title": "Introduction to Academic Writing",
+          "units": "0.50",
+          "href": "#/courses/view/64a5b8cd5d75775a9d76c818"
+        },
+        {
+          "course_id": "64a5b94f4973966b65a31536",
+          "code": "ENGL 119",
+          "title": "Communications in Mathematics and Computer Science",
+          "units": "0.50",
+          "href": "#/courses/view/64a5b94f4973966b65a31536"
+        },
+        {
+          "course_id": "65b2afa85a8cf71bdd8a3c6f",
+          "code": "ENGL 129R",
+          "title": "Written Academic English",
+          "units": "0.50",
+          "href": "#/courses/view/65b2afa85a8cf71bdd8a3c6f"
+        },
+        {
+          "course_id": "64a5b9e964e0fe5d79173d43",
+          "code": "ENGL 209",
+          "title": "Advanced Academic Writing",
+          "units": "0.50",
+          "href": "#/courses/view/64a5b9e964e0fe5d79173d43"
+        },
+        {
+          "course_id": "64a5b8cdec4d1ac5bb6b513f",
+          "code": "ENGL 210E",
+          "title": "Genres of Technical Communication",
+          "units": "0.50",
+          "href": "#/courses/view/64a5b8cdec4d1ac5bb6b513f"
+        }
+      ]
+    },
+    "Natural Science List": {
+      "list_name": "Natural Science List",
+      "courses": [
+        {
+          "course_id": "65fd8f1f92fd7fc9f00dc4a9",
+          "code": "AMATH 382",
+          "title": "Computational Modelling of Cellular Systems",
+          "units": "0.50",
+          "href": "#/courses/view/65fd8f1f92fd7fc9f00dc4a9"
+        },
+        {
+          "course_id": "65d4da97b406406509de0696",
+          "code": "BIOL 110",
+          "title": "Biodiversity, Biomes, and Evolution",
+          "units": "0.50",
+          "href": "#/courses/view/65d4da97b406406509de0696"
+        },
+        {
+          "course_id": "65e8c7fc3c5b444c481dfecb",
+          "code": "BIOL 130",
+          "title": "Introductory Cell Biology",
+          "units": "0.50",
+          "href": "#/courses/view/65e8c7fc3c5b444c481dfecb"
+        },
+        {
+          "course_id": "65b7cf94f81cd80650130eb6",
+          "code": "BIOL 130L",
+          "title": "Cell Biology Laboratory",
+          "units": "0.25",
+          "href": "#/courses/view/65b7cf94f81cd80650130eb6"
+        },
+        {
+          "course_id": "65b7ed31026eba8657bb5259",
+          "code": "BIOL 150",
+          "title": "Organismal and Evolutionary Ecology",
+          "units": "0.50",
+          "href": "#/courses/view/65b7ed31026eba8657bb5259"
+        },
+        {
+          "course_id": "65b7ed6123cba706e047b82e",
+          "code": "BIOL 165",
+          "title": "Diversity of Life",
+          "units": "0.50",
+          "href": "#/courses/view/65b7ed6123cba706e047b82e"
+        },
+        {
+          "course_id": "65d4db8e6632c6c83235cc2b",
+          "code": "BIOL 211",
+          "title": "Introductory Vertebrate Zoology",
+          "units": "0.50",
+          "href": "#/courses/view/65d4db8e6632c6c83235cc2b"
+        },
+        {
+          "course_id": "65d4dbf8f40b27b2c726ee70",
+          "code": "BIOL 220",
+          "title": "Introduction to Plant Structure and Function",
+          "units": "0.50",
+          "href": "#/courses/view/65d4dbf8f40b27b2c726ee70"
+        },
+        {
+          "course_id": "66fae7e2b53b7d5c3373de4b",
+          "code": "BIOL 239",
+          "title": "Genetics",
+          "units": "0.50",
+          "href": "#/courses/view/66fae7e2b53b7d5c3373de4b"
+        },
+        {
+          "course_id": "65b12cb76cd5896581e8d947",
+          "code": "BIOL 240",
+          "title": "Fundamentals of Microbiology",
+          "units": "0.50",
+          "href": "#/courses/view/65b12cb76cd5896581e8d947"
+        },
+        {
+          "course_id": "65b7cfe9fd7afef942086dd2",
+          "code": "BIOL 240L",
+          "title": "Microbiology Laboratory",
+          "units": "0.25",
+          "href": "#/courses/view/65b7cfe9fd7afef942086dd2"
+        },
+        {
+          "course_id": "65d4dcb1d3ef75e03db0ba76",
+          "code": "BIOL 241",
+          "title": "Introduction to Applied Microbiology",
+          "units": "0.50",
+          "href": "#/courses/view/65d4dcb1d3ef75e03db0ba76"
+        },
+        {
+          "course_id": "65b134fcfd7afec0c9084a99",
+          "code": "BIOL 273",
+          "title": "Principles of Human Physiology 1",
+          "units": "0.50",
+          "href": "#/courses/view/65b134fcfd7afec0c9084a99"
+        },
+        {
+          "course_id": "65b7f013026ebae8fcbb5277",
+          "code": "BIOL 280",
+          "title": "Introduction to Biophysics",
+          "units": "0.50",
+          "href": "#/courses/view/65b7f013026ebae8fcbb5277"
+        },
+        {
+          "course_id": "65d604f1187f5e0dce9187aa",
+          "code": "BIOL 365",
+          "title": "Methods in Bioinformatics",
+          "units": "0.50",
+          "href": "#/courses/view/65d604f1187f5e0dce9187aa"
+        },
+        {
+          "course_id": "65b7f6b55f44045314f290ce",
+          "code": "BIOL 373",
+          "title": "Principles of Human Physiology 2",
+          "units": "0.50",
+          "href": "#/courses/view/65b7f6b55f44045314f290ce"
+        },
+        {
+          "course_id": "65b7ff68026ebaee7bbb5308",
+          "code": "BIOL 373L",
+          "title": "Human Physiology Laboratory",
+          "units": "0.25",
+          "href": "#/courses/view/65b7ff68026ebaee7bbb5308"
+        },
+        {
+          "course_id": "65b13956b44f43cc8069bc8f",
+          "code": "BIOL 376",
+          "title": "Cellular Neurophysiology",
+          "units": "0.50",
+          "href": "#/courses/view/65b13956b44f43cc8069bc8f"
+        },
+        {
+          "course_id": "6656482bfa8dc61f5398c1ca",
+          "code": "BIOL 382",
+          "title": "Computational Modelling of Cellular Systems",
+          "units": "0.50",
+          "href": "#/courses/view/6656482bfa8dc61f5398c1ca"
+        },
+        {
+          "course_id": "65b7fd34026eba0477bb52f9",
+          "code": "BIOL 469",
+          "title": "Genomics",
+          "units": "0.50",
+          "href": "#/courses/view/65b7fd34026eba0477bb52f9"
+        },
+        {
+          "course_id": "65b13bc56cd58985b0e8d9af",
+          "code": "BIOL 476",
+          "title": "Systems Neuroscience: From Neurons to Behaviour",
+          "units": "0.50",
+          "href": "#/courses/view/65b13bc56cd58985b0e8d9af"
+        },
+        {
+          "course_id": "65b13dccfd7afe9237084ad8",
+          "code": "BIOL 489",
+          "title": "Arctic Ecology",
+          "units": "0.50",
+          "href": "#/courses/view/65b13dccfd7afe9237084ad8"
+        },
+        {
+          "course_id": "65b71a825f4404d426f28c1c",
+          "code": "CHE 161",
+          "title": "Engineering Biology",
+          "units": "0.50",
+          "href": "#/courses/view/65b71a825f4404d426f28c1c"
+        },
+        {
+          "course_id": "65e62d756632c67a2b363d54",
+          "code": "CHEM 123",
+          "title": "General Chemistry 2",
+          "units": "0.50",
+          "href": "#/courses/view/65e62d756632c67a2b363d54"
+        },
+        {
+          "course_id": "65b1c03a23cba765c347977c",
+          "code": "CHEM 123L",
+          "title": "General Chemistry Laboratory 2",
+          "units": "0.25",
+          "href": "#/courses/view/65b1c03a23cba765c347977c"
+        },
+        {
+          "course_id": "65b8471d5c947949cde56a6d",
+          "code": "CHEM 209",
+          "title": "Introductory Spectroscopy and Structure",
+          "units": "0.50",
+          "href": "#/courses/view/65b8471d5c947949cde56a6d"
+        },
+        {
+          "course_id": "65b848c26cd58955c4e90061",
+          "code": "CHEM 237",
+          "title": "Introductory Biochemistry",
+          "units": "0.50",
+          "href": "#/courses/view/65b848c26cd58955c4e90061"
+        },
+        {
+          "course_id": "65b7d4135f440458e3f28feb",
+          "code": "CHEM 237L",
+          "title": "Introductory Biochemistry Laboratory",
+          "units": "0.25",
+          "href": "#/courses/view/65b7d4135f440458e3f28feb"
+        },
+        {
+          "course_id": "65b84946f81cd8859d131221",
+          "code": "CHEM 254",
+          "title": "Introductory Chemical Thermodynamics",
+          "units": "0.50",
+          "href": "#/courses/view/65b84946f81cd8859d131221"
+        },
+        {
+          "course_id": "661e8acef9d2cd72c8335502",
+          "code": "CHEM 262",
+          "title": "Organic Chemistry for Engineering",
+          "units": "0.50",
+          "href": "#/courses/view/661e8acef9d2cd72c8335502"
+        },
+        {
+          "course_id": "65e778e8187f5eed5f91e4c6",
+          "code": "CHEM 262L",
+          "title": "Organic Chemistry Laboratory for Engineering Students",
+          "units": "0.25",
+          "href": "#/courses/view/65e778e8187f5eed5f91e4c6"
+        },
+        {
+          "course_id": "65d617db187f5e45d691880c",
+          "code": "CHEM 266",
+          "title": "Basic Organic Chemistry 1",
+          "units": "0.50",
+          "href": "#/courses/view/65d617db187f5e45d691880c"
+        },
+        {
+          "course_id": "65b84e8f5f4404dab6f2930f",
+          "code": "CHEM 356",
+          "title": "Introductory Quantum Mechanics",
+          "units": "0.50",
+          "href": "#/courses/view/65b84e8f5f4404dab6f2930f"
+        },
+        {
+          "course_id": "64a5b8c79e76ccd6a6848f09",
+          "code": "CS 482",
+          "title": "Computational Techniques in Biological Sequence Analysis",
+          "units": "0.50",
+          "href": "#/courses/view/64a5b8c79e76ccd6a6848f09"
+        },
+        {
+          "course_id": "65b2870e7786301a127fda15",
+          "code": "EARTH 121",
+          "title": "Introductory Earth Sciences",
+          "units": "0.50",
+          "href": "#/courses/view/65b2870e7786301a127fda15"
+        },
+        {
+          "course_id": "65b2875a5a8cf735378a3b56",
+          "code": "EARTH 122",
+          "title": "Introductory Environmental Sciences",
+          "units": "0.50",
+          "href": "#/courses/view/65b2875a5a8cf735378a3b56"
+        },
+        {
+          "course_id": "65b862c8f81cd8bb5f1312f7",
+          "code": "EARTH 123",
+          "title": "Introductory Hydrology",
+          "units": "0.50",
+          "href": "#/courses/view/65b862c8f81cd8bb5f1312f7"
+        },
+        {
+          "course_id": "65b863145f4404275cf29395",
+          "code": "EARTH 221",
+          "title": "Introductory Geochemistry",
+          "units": "0.50",
+          "href": "#/courses/view/65b863145f4404275cf29395"
+        },
+        {
+          "course_id": "65b863e96cd5895d4fe9014e",
+          "code": "EARTH 270",
+          "title": "Disasters and Natural Hazards",
+          "units": "0.50",
+          "href": "#/courses/view/65b863e96cd5895d4fe9014e"
+        },
+        {
+          "course_id": "65b86416f81cd85fce131306",
+          "code": "EARTH 281",
+          "title": "Geological Impacts on Human Health",
+          "units": "0.50",
+          "href": "#/courses/view/65b86416f81cd85fce131306"
+        },
+        {
+          "course_id": "66d9e2d62669d079df417540",
+          "code": "ECE 106",
+          "title": "Electricity and Magnetism",
+          "units": "0.50",
+          "href": "#/courses/view/66d9e2d62669d079df417540"
+        },
+        {
+          "course_id": "65cce331501877e16251108d",
+          "code": "ECE 231",
+          "title": "Semiconductor Physics and Devices",
+          "units": "0.50",
+          "href": "#/courses/view/65cce331501877e16251108d"
+        },
+        {
+          "course_id": "65d807facaf2ebda8f3dc5ce",
+          "code": "ECE 305",
+          "title": "Introduction to Quantum Mechanics",
+          "units": "0.50",
+          "href": "#/courses/view/65d807facaf2ebda8f3dc5ce"
+        },
+        {
+          "course_id": "65b870c1fd7afe255b087278",
+          "code": "ECE 403",
+          "title": "Thermal Physics",
+          "units": "0.50",
+          "href": "#/courses/view/65b870c1fd7afe255b087278"
+        },
+        {
+          "course_id": "65b8712323cba748a947bb49",
+          "code": "ECE 404",
+          "title": "Geometrical and Physical Optics",
+          "units": "0.50",
+          "href": "#/courses/view/65b8712323cba748a947bb49"
+        },
+        {
+          "course_id": "66e48c22f5b8c9c351a18800",
+          "code": "ENVE 275",
+          "title": "Aquatic Chemistry",
+          "units": "0.50",
+          "href": "#/courses/view/66e48c22f5b8c9c351a18800"
+        },
+        {
+          "course_id": "65b2c15d6cd5895b71e8e25d",
+          "code": "ENVS 200",
+          "title": "Field Ecology",
+          "units": "0.50",
+          "href": "#/courses/view/65b2c15d6cd5895b71e8e25d"
+        },
+        {
+          "course_id": "65cd3389d3ef7532c0b078ec",
+          "code": "NE 222",
+          "title": "Organic Chemistry for Nanotechnology Engineers",
+          "units": "0.50",
+          "href": "#/courses/view/65cd3389d3ef7532c0b078ec"
+        },
+        {
+          "course_id": "67a0e7cd339747a1167ebd94",
+          "code": "PHYS 122",
+          "title": "Waves, Electricity and Magnetism",
+          "units": "0.50",
+          "href": "#/courses/view/67a0e7cd339747a1167ebd94"
+        },
+        {
+          "course_id": "6787c79ec80049e7ba26bb10",
+          "code": "PHYS 124",
+          "title": "Modern Physics",
+          "units": "0.50",
+          "href": "#/courses/view/6787c79ec80049e7ba26bb10"
+        },
+        {
+          "course_id": "65f4659a3c734ae0ba7ad726",
+          "code": "PHYS 175",
+          "title": "Introduction to the Universe",
+          "units": "0.50",
+          "href": "#/courses/view/65f4659a3c734ae0ba7ad726"
+        },
+        {
+          "course_id": "6787cadb1a6d98ce93edae8a",
+          "code": "PHYS 233",
+          "title": "Introduction to Quantum Mechanics",
+          "units": "0.50",
+          "href": "#/courses/view/6787cadb1a6d98ce93edae8a"
+        },
+        {
+          "course_id": "678540c386e8f3b452c183b6",
+          "code": "PHYS 234",
+          "title": "Quantum Physics 1",
+          "units": "0.50",
+          "href": "#/courses/view/678540c386e8f3b452c183b6"
+        },
+        {
+          "course_id": "65b9a0f7ec4e64c2f5e24a0c",
+          "code": "PHYS 263",
+          "title": "Classical Mechanics and Special Relativity",
+          "units": "0.50",
+          "href": "#/courses/view/65b9a0f7ec4e64c2f5e24a0c"
+        },
+        {
+          "course_id": "65b9a15b23cba76b5c47c2af",
+          "code": "PHYS 275",
+          "title": "Planets",
+          "units": "0.50",
+          "href": "#/courses/view/65b9a15b23cba76b5c47c2af"
+        },
+        {
+          "course_id": "65b9a1ca7405c423d1ac5d09",
+          "code": "PHYS 280",
+          "title": "Introduction to Biophysics",
+          "units": "0.50",
+          "href": "#/courses/view/65b9a1ca7405c423d1ac5d09"
+        },
+        {
+          "course_id": "65b9a1f3b44f43f10469ebef",
+          "code": "PHYS 334",
+          "title": "Quantum Physics 2",
+          "units": "0.50",
+          "href": "#/courses/view/65b9a1f3b44f43f10469ebef"
+        },
+        {
+          "course_id": "6660770b68be9e27e4f7b5af",
+          "code": "PHYS 335",
+          "title": "Condensed Matter Physics",
+          "units": "0.50",
+          "href": "#/courses/view/6660770b68be9e27e4f7b5af"
+        },
+        {
+          "course_id": "65b9a3fef81cd8a118131b8b",
+          "code": "PHYS 375",
+          "title": "Stars",
+          "units": "0.50",
+          "href": "#/courses/view/65b9a3fef81cd8a118131b8b"
+        },
+        {
+          "course_id": "65b6738f98f04405a3102577",
+          "code": "PHYS 380",
+          "title": "Molecular and Cellular Biophysics",
+          "units": "0.50",
+          "href": "#/courses/view/65b6738f98f04405a3102577"
+        },
+        {
+          "course_id": "65b9a6bf77863004ff80018c",
+          "code": "PHYS 468",
+          "title": "Introduction to the Implementation of Quantum Information Processing",
+          "units": "0.50",
+          "href": "#/courses/view/65b9a6bf77863004ff80018c"
+        },
+        {
+          "course_id": "64a5b8ef64e0fe7c73173c0e",
+          "code": "PSYCH 207",
+          "title": "Cognitive Processes",
+          "units": "0.50",
+          "href": "#/courses/view/64a5b8ef64e0fe7c73173c0e"
+        },
+        {
+          "course_id": "64a5b8ef4973966f49a314de",
+          "code": "PSYCH 261",
+          "title": "Physiological Psychology",
+          "units": "0.50",
+          "href": "#/courses/view/64a5b8ef4973966f49a314de"
+        },
+        {
+          "course_id": "64a5b8ef497396b5eea314db",
+          "code": "PSYCH 306",
+          "title": "Perception",
+          "units": "0.50",
+          "href": "#/courses/view/64a5b8ef497396b5eea314db"
+        },
+        {
+          "course_id": "64a5b8ef3bbc4e74133ef5d2",
+          "code": "PSYCH 307",
+          "title": "Human Neuropsychology",
+          "units": "0.50",
+          "href": "#/courses/view/64a5b8ef3bbc4e74133ef5d2"
+        },
+        {
+          "course_id": "65b9aff22ce9d32c40ecb093",
+          "code": "SCI 200",
+          "title": "Energy - Its Development, Use, and Issues",
+          "units": "0.50",
+          "href": "#/courses/view/65b9aff22ce9d32c40ecb093"
+        },
+        {
+          "course_id": "65b9b01bec4e645d45e24a81",
+          "code": "SCI 201",
+          "title": "Global Warming and Climate Change",
+          "units": "0.50",
+          "href": "#/courses/view/65b9b01bec4e645d45e24a81"
+        },
+        {
+          "course_id": "65f8441f532380797e60d166",
+          "code": "SCI 238",
+          "title": "Introductory Astronomy",
+          "units": "0.50",
+          "href": "#/courses/view/65f8441f532380797e60d166"
+        },
+        {
+          "course_id": "65b9b0a1b44f4309ad69ec4e",
+          "code": "SCI 250",
+          "title": "Environmental Geology",
+          "units": "0.50",
+          "href": "#/courses/view/65b9b0a1b44f4309ad69ec4e"
+        }
+      ]
+    },
+    "List 1": {
+      "list_name": "List 1",
+      "courses": [
+        {
+          "course_id": "65f88820bca656742d4aa0f7",
+          "code": "AMATH 242",
+          "title": "Introduction to Computational Mathematics",
+          "units": "0.50",
+          "href": "#/courses/view/65f88820bca656742d4aa0f7"
+        },
+        {
+          "course_id": "66fef900bcf5cc4ef17491a4",
+          "code": "AMATH 449",
+          "title": "Neural Networks",
+          "units": "0.50",
+          "href": "#/courses/view/66fef900bcf5cc4ef17491a4"
+        },
+        {
+          "course_id": "6626a754a48ab9f4b8222ecb",
+          "code": "CS 360",
+          "title": "Introduction to the Theory of Computing",
+          "units": "0.50",
+          "href": "#/courses/view/6626a754a48ab9f4b8222ecb"
+        },
+        {
+          "course_id": "6627d0487be622a0ceefb8af",
+          "code": "CS 365",
+          "title": "Models of Computation",
+          "units": "0.50",
+          "href": "#/courses/view/6627d0487be622a0ceefb8af"
+        },
+        {
+          "course_id": "65b2709ab44f4336f569c2c4",
+          "code": "CS 370",
+          "title": "Numerical Computation",
+          "units": "0.50",
+          "href": "#/courses/view/65b2709ab44f4336f569c2c4"
+        },
+        {
+          "course_id": "663e153ea808786a9397d72e",
+          "code": "CS 371",
+          "title": "Introduction to Computational Mathematics",
+          "units": "0.50",
+          "href": "#/courses/view/663e153ea808786a9397d72e"
+        },
+        {
+          "course_id": "666859a5a36d7addaf459174",
+          "code": "CS 442",
+          "title": "Principles of Programming Languages",
+          "units": "0.50",
+          "href": "#/courses/view/666859a5a36d7addaf459174"
+        },
+        {
+          "course_id": "6627c48ea48ab9064d2233b7",
+          "code": "CS 444",
+          "title": "Compiler Construction",
+          "units": "0.50",
+          "href": "#/courses/view/6627c48ea48ab9064d2233b7"
+        },
+        {
+          "course_id": "6627bfe7219773eba5cc4889",
+          "code": "CS 448",
+          "title": "Database Systems Implementation",
+          "units": "0.50",
+          "href": "#/courses/view/6627bfe7219773eba5cc4889"
+        },
+        {
+          "course_id": "6627bec73fe4b24821343820",
+          "code": "CS 450",
+          "title": "Computer Architecture",
+          "units": "0.50",
+          "href": "#/courses/view/6627bec73fe4b24821343820"
+        },
+        {
+          "course_id": "66269c91046a8d1a8288e2b4",
+          "code": "CS 451",
+          "title": "Data-Intensive Distributed Computing",
+          "units": "0.50",
+          "href": "#/courses/view/66269c91046a8d1a8288e2b4"
+        },
+        {
+          "course_id": "6627be64b4dce0e1b82aca6a",
+          "code": "CS 452",
+          "title": "Real-Time Programming",
+          "units": "0.50",
+          "href": "#/courses/view/6627be64b4dce0e1b82aca6a"
+        },
+        {
+          "course_id": "6669bfe9d7e38da0ff4aee96",
+          "code": "CS 453",
+          "title": "Software and Systems Security",
+          "units": "0.50",
+          "href": "#/courses/view/6669bfe9d7e38da0ff4aee96"
+        },
+        {
+          "course_id": "66269b7f466ac136a3cb4735",
+          "code": "CS 454",
+          "title": "Distributed Systems",
+          "units": "0.50",
+          "href": "#/courses/view/66269b7f466ac136a3cb4735"
+        },
+        {
+          "course_id": "6627bd13466ac1b781cb4cd6",
+          "code": "CS 457",
+          "title": "System Performance Evaluation",
+          "units": "0.50",
+          "href": "#/courses/view/6627bd13466ac1b781cb4cd6"
+        },
+        {
+          "course_id": "6669c0d5aee3363925c7f125",
+          "code": "CS 459",
+          "title": "Privacy, Cryptography, Network and Data Security",
+          "units": "0.50",
+          "href": "#/courses/view/6669c0d5aee3363925c7f125"
+        },
+        {
+          "course_id": "662699d9046a8d7dce88e281",
+          "code": "CS 462",
+          "title": "Formal Languages and Parsing",
+          "units": "0.50",
+          "href": "#/courses/view/662699d9046a8d7dce88e281"
+        },
+        {
+          "course_id": "66269a307be6223e98efb346",
+          "code": "CS 466",
+          "title": "Algorithm Design and Analysis",
+          "units": "0.50",
+          "href": "#/courses/view/66269a307be6223e98efb346"
+        },
+        {
+          "course_id": "66f18bcf88e1c8753b9107d3",
+          "code": "CS 479",
+          "title": "Neural Networks",
+          "units": "0.50",
+          "href": "#/courses/view/66f18bcf88e1c8753b9107d3"
+        },
+        {
+          "course_id": "666858ff9c2178648769fe6a",
+          "code": "CS 480",
+          "title": "Introduction to Machine Learning",
+          "units": "0.50",
+          "href": "#/courses/view/666858ff9c2178648769fe6a"
+        },
+        {
+          "course_id": "6627bb297e8d73a067710019",
+          "code": "CS 484",
+          "title": "Computational Vision",
+          "units": "0.50",
+          "href": "#/courses/view/6627bb297e8d73a067710019"
+        },
+        {
+          "course_id": "6627ba77b4dce02a752aca55",
+          "code": "CS 485",
+          "title": "Statistical and Computational Foundations of Machine Learning",
+          "units": "0.50",
+          "href": "#/courses/view/6627ba77b4dce02a752aca55"
+        },
+        {
+          "course_id": "666856feb1cda97031284d4f",
+          "code": "CS 486",
+          "title": "Introduction to Artificial Intelligence",
+          "units": "0.50",
+          "href": "#/courses/view/666856feb1cda97031284d4f"
+        },
+        {
+          "course_id": "65b27838fd7afe251508519c",
+          "code": "CS 487",
+          "title": "Introduction to Symbolic Computation",
+          "units": "0.50",
+          "href": "#/courses/view/65b27838fd7afe251508519c"
+        },
+        {
+          "course_id": "6627b7c9b4dce04d272aca44",
+          "code": "CS 488",
+          "title": "Introduction to Computer Graphics",
+          "units": "0.50",
+          "href": "#/courses/view/6627b7c9b4dce04d272aca44"
+        },
+        {
+          "course_id": "66268966046a8d537888e1d7",
+          "code": "CS 489",
+          "title": "Advanced Topics in Computer Science",
+          "units": "0.50",
+          "href": "#/courses/view/66268966046a8d537888e1d7"
+        }
+      ]
+    },
+    "List 2": {
+      "list_name": "List 2",
+      "courses": [
+        {
+          "course_id": "65b86e025c94790f70e56bc7",
+          "code": "ECE 313",
+          "title": "Digital Signal Processing",
+          "units": "0.50",
+          "href": "#/courses/view/65b86e025c94790f70e56bc7"
+        },
+        {
+          "course_id": "65b86e5a5a8cf707318a5bd6",
+          "code": "ECE 320",
+          "title": "Computer Architecture",
+          "units": "0.50",
+          "href": "#/courses/view/65b86e5a5a8cf707318a5bd6"
+        },
+        {
+          "course_id": "65b86e8298f0440dda103192",
+          "code": "ECE 327",
+          "title": "Digital Hardware Systems",
+          "units": "0.50",
+          "href": "#/courses/view/65b86e8298f0440dda103192"
+        },
+        {
+          "course_id": "65cce3ce481f46553481aabb",
+          "code": "ECE 340",
+          "title": "Electronic Circuits 2",
+          "units": "0.50",
+          "href": "#/courses/view/65cce3ce481f46553481aabb"
+        },
+        {
+          "course_id": "65cce457cd2beb35dbe755fe",
+          "code": "ECE 405A",
+          "title": "Quantum Information Processing Devices",
+          "units": "0.50",
+          "href": "#/courses/view/65cce457cd2beb35dbe755fe"
+        },
+        {
+          "course_id": "68b6f788bc00f88a04f635fd",
+          "code": "ECE 405B",
+          "title": "Fundamentals of Experimental Quantum Information",
+          "units": "0.50",
+          "href": "#/courses/view/68b6f788bc00f88a04f635fd"
+        },
+        {
+          "course_id": "68b6f8d093a7f2d517176bb5",
+          "code": "ECE 405C",
+          "title": "Programming of Quantum Computing Algorithms",
+          "units": "0.50",
+          "href": "#/courses/view/68b6f8d093a7f2d517176bb5"
+        },
+        {
+          "course_id": "68b6f8d320d1e605380202ee",
+          "code": "ECE 405D",
+          "title": "Superconducting Quantum Circuits",
+          "units": "0.50",
+          "href": "#/courses/view/68b6f8d320d1e605380202ee"
+        },
+        {
+          "course_id": "66e332b72a79d723c3bf2a7a",
+          "code": "ECE 409",
+          "title": "Cryptography and System Security",
+          "units": "0.50",
+          "href": "#/courses/view/66e332b72a79d723c3bf2a7a"
+        },
+        {
+          "course_id": "65b9c998e709ef8f1c62ff7b",
+          "code": "ECE 416",
+          "title": "Advanced Topics in Networking",
+          "units": "0.50",
+          "href": "#/courses/view/65b9c998e709ef8f1c62ff7b"
+        },
+        {
+          "course_id": "65b871d75a8cf73c068a5bf0",
+          "code": "ECE 417",
+          "title": "Image Processing",
+          "units": "0.50",
+          "href": "#/courses/view/65b871d75a8cf73c068a5bf0"
+        },
+        {
+          "course_id": "65b8720a5a8cf77ba28a5bf3",
+          "code": "ECE 423",
+          "title": "Embedded Computer Systems",
+          "units": "0.50",
+          "href": "#/courses/view/65b8720a5a8cf77ba28a5bf3"
+        },
+        {
+          "course_id": "65b872c07786303dba7ffa4a",
+          "code": "ECE 454",
+          "title": "Distributed Computing",
+          "units": "0.50",
+          "href": "#/courses/view/65b872c07786303dba7ffa4a"
+        },
+        {
+          "course_id": "65b87318fd7afe4c0e08728e",
+          "code": "ECE 455",
+          "title": "Embedded Software",
+          "units": "0.50",
+          "href": "#/courses/view/65b87318fd7afe4c0e08728e"
+        },
+        {
+          "course_id": "65ce3a9ed3ef75325eb08133",
+          "code": "ECE 457A",
+          "title": "Co-operative and Adaptive Algorithms",
+          "units": "0.50",
+          "href": "#/courses/view/65ce3a9ed3ef75325eb08133"
+        },
+        {
+          "course_id": "65ce3ad3b406407bb3dddfe7",
+          "code": "ECE 457B",
+          "title": "Fundamentals of Computational Intelligence",
+          "units": "0.50",
+          "href": "#/courses/view/65ce3ad3b406407bb3dddfe7"
+        },
+        {
+          "course_id": "65b876f998f04442dc1031f1",
+          "code": "ECE 457C",
+          "title": "Reinforcement Learning",
+          "units": "0.50",
+          "href": "#/courses/view/65b876f998f04442dc1031f1"
+        },
+        {
+          "course_id": "65b8733bf81cd853d81313a2",
+          "code": "ECE 458",
+          "title": "Computer Security",
+          "units": "0.50",
+          "href": "#/courses/view/65b8733bf81cd853d81313a2"
+        },
+        {
+          "course_id": "65b8736d98f044a5801031c9",
+          "code": "ECE 459",
+          "title": "Programming for Performance",
+          "units": "0.50",
+          "href": "#/courses/view/65b8736d98f044a5801031c9"
+        },
+        {
+          "course_id": "65b8752a6cd58998d9e901e4",
+          "code": "ECE 481",
+          "title": "Digital Control Systems",
+          "units": "0.50",
+          "href": "#/courses/view/65b8752a6cd58998d9e901e4"
+        },
+        {
+          "course_id": "65b875b798f04407171031e1",
+          "code": "ECE 486",
+          "title": "Robot Dynamics and Control",
+          "units": "0.50",
+          "href": "#/courses/view/65b875b798f04407171031e1"
+        },
+        {
+          "course_id": "65b8761b5c947972e1e56c07",
+          "code": "ECE 488",
+          "title": "Multivariable Control Systems",
+          "units": "0.50",
+          "href": "#/courses/view/65b8761b5c947972e1e56c07"
+        },
+        {
+          "course_id": "65b29140fd7afe2a15085257",
+          "code": "ECE 493",
+          "title": "Special Topics in Electrical and Computer Engineering",
+          "units": "0.50",
+          "href": "#/courses/view/65b29140fd7afe2a15085257"
+        },
+        {
+          "course_id": "65b876546cd589b6e2e901eb",
+          "code": "ECE 495",
+          "title": "Autonomous Vehicles",
+          "units": "0.50",
+          "href": "#/courses/view/65b876546cd589b6e2e901eb"
+        }
+      ]
+    },
+    "Complete 2 additional course from List 1, List 2, or List 3.": {
+      "list_name": "Complete 2 additional course from List 1, List 2, or List 3.",
+      "courses": [
+        {
+          "course_id": "65b13d56026ebae969bb2ed6",
+          "code": "BIOL 487",
+          "title": "Computational Neuroscience",
+          "units": "0.50",
+          "href": "#/courses/view/65b13d56026ebae969bb2ed6"
+        },
+        {
+          "course_id": "65b85de7edfead8a25340899",
+          "code": "CO 331",
+          "title": "Coding Theory",
+          "units": "0.50",
+          "href": "#/courses/view/65b85de7edfead8a25340899"
+        },
+        {
+          "course_id": "65b85e0e026ebae722bb5591",
+          "code": "CO 342",
+          "title": "Introduction to Graph Theory",
+          "units": "0.50",
+          "href": "#/courses/view/65b85e0e026ebae722bb5591"
+        },
+        {
+          "course_id": "660c4a45532380c4a1614698",
+          "code": "CO 351",
+          "title": "Network Flow Theory",
+          "units": "0.50",
+          "href": "#/courses/view/660c4a45532380c4a1614698"
+        },
+        {
+          "course_id": "64a5b9514973969af8a3153d",
+          "code": "CO 353",
+          "title": "Computational Discrete Optimization",
+          "units": "0.50",
+          "href": "#/courses/view/64a5b9514973969af8a3153d"
+        },
+        {
+          "course_id": "65b85e8e026eba7774bb5595",
+          "code": "CO 367",
+          "title": "Nonlinear Optimization",
+          "units": "0.50",
+          "href": "#/courses/view/65b85e8e026eba7774bb5595"
+        },
+        {
+          "course_id": "64a5b8be69e9ee551c2ae49d",
+          "code": "CO 456",
+          "title": "Introduction to Game Theory",
+          "units": "0.50",
+          "href": "#/courses/view/64a5b8be69e9ee551c2ae49d"
+        },
+        {
+          "course_id": "64a5bcd39e76cc133784920f",
+          "code": "CO 481",
+          "title": "Introduction to Quantum Information Processing",
+          "units": "0.50",
+          "href": "#/courses/view/64a5bcd39e76cc133784920f"
+        },
+        {
+          "course_id": "65cfadaaf34cd41e2c7a2bb7",
+          "code": "CO 485",
+          "title": "The Mathematics of Public-Key Cryptography",
+          "units": "0.50",
+          "href": "#/courses/view/65cfadaaf34cd41e2c7a2bb7"
+        },
+        {
+          "course_id": "65b860f023cba74d8c47badd",
+          "code": "CO 487",
+          "title": "Applied Cryptography",
+          "units": "0.50",
+          "href": "#/courses/view/65b860f023cba74d8c47badd"
+        },
+        {
+          "course_id": "64a5bcd3af75ce31a5abb0da",
+          "code": "CS 467",
+          "title": "Introduction to Quantum Information Processing",
+          "units": "0.50",
+          "href": "#/courses/view/64a5bcd3af75ce31a5abb0da"
+        },
+        {
+          "course_id": "65e0c0447a54051a2380d63c",
+          "code": "MSE 343",
+          "title": "Human-Computer Interaction",
+          "units": "0.50",
+          "href": "#/courses/view/65e0c0447a54051a2380d63c"
+        },
+        {
+          "course_id": "66b3951e43baec2023b9c20f",
+          "code": "MSE 446",
+          "title": "Introduction to Machine Learning",
+          "units": "0.50",
+          "href": "#/courses/view/66b3951e43baec2023b9c20f"
+        },
+        {
+          "course_id": "66f16557c0e2c891b7f0402d",
+          "code": "MSE 543",
+          "title": "Analytics and User Experience",
+          "units": "0.50",
+          "href": "#/courses/view/66f16557c0e2c891b7f0402d"
+        },
+        {
+          "course_id": "65b944e318ca2318600b6f4d",
+          "code": "MTE 544",
+          "title": "Autonomous Mobile Robots",
+          "units": "0.50",
+          "href": "#/courses/view/65b944e318ca2318600b6f4d"
+        },
+        {
+          "course_id": "65b9452fb44f43c12e69e9ab",
+          "code": "MTE 546",
+          "title": "Multi-Sensor Data Fusion",
+          "units": "0.50",
+          "href": "#/courses/view/65b9452fb44f43c12e69e9ab"
+        },
+        {
+          "course_id": "64a5bcd31731ad0c3b2cd01e",
+          "code": "PHYS 467",
+          "title": "Introduction to Quantum Information Processing",
+          "units": "0.50",
+          "href": "#/courses/view/64a5bcd31731ad0c3b2cd01e"
+        },
+        {
+          "course_id": "65b9b2ad6cd5892bd1e90997",
+          "code": "SE 498",
+          "title": "Advanced Topics in Software Engineering",
+          "units": "0.50",
+          "href": "#/courses/view/65b9b2ad6cd5892bd1e90997"
+        },
+        {
+          "course_id": "65b9ba17778630c8c0800233",
+          "code": "STAT 440",
+          "title": "Computational Inference",
+          "units": "0.50",
+          "href": "#/courses/view/65b9ba17778630c8c0800233"
+        },
+        {
+          "course_id": "65b9ba42b44f43018b69ec8d",
+          "code": "STAT 441",
+          "title": "Statistical Learning - Classification",
+          "units": "0.50",
+          "href": "#/courses/view/65b9ba42b44f43018b69ec8d"
+        },
+        {
+          "course_id": "65b9ba6af81cd873e8131c46",
+          "code": "STAT 442",
+          "title": "Data Visualization",
+          "units": "0.50",
+          "href": "#/courses/view/65b9ba6af81cd873e8131c46"
+        },
+        {
+          "course_id": "65b9bab698f0443584103928",
+          "code": "STAT 444",
+          "title": "Statistical Learning - Advanced Regression",
+          "units": "0.50",
+          "href": "#/courses/view/65b9bab698f0443584103928"
+        },
+        {
+          "course_id": "65b9c27a18ca2314920b72df",
+          "code": "SYDE 533",
+          "title": "Conflict Resolution",
+          "units": "0.50",
+          "href": "#/courses/view/65b9c27a18ca2314920b72df"
+        },
+        {
+          "course_id": "65b9c3196cd5898f3ae90a34",
+          "code": "SYDE 543",
+          "title": "Cognitive Ergonomics",
+          "units": "0.50",
+          "href": "#/courses/view/65b9c3196cd5898f3ae90a34"
+        },
+        {
+          "course_id": "65ce6ec67a5405025a805889",
+          "code": "SYDE 548",
+          "title": "User Centred Design Methods",
+          "units": "0.50",
+          "href": "#/courses/view/65ce6ec67a5405025a805889"
+        },
+        {
+          "course_id": "65b7beac6cd589936be8fc8c",
+          "code": "SYDE 552",
+          "title": "Computational Neuroscience",
+          "units": "0.50",
+          "href": "#/courses/view/65b7beac6cd589936be8fc8c"
+        },
+        {
+          "course_id": "65b9c3f723cba71ac647c3bc",
+          "code": "SYDE 556",
+          "title": "Simulating Neurobiological Systems",
+          "units": "0.50",
+          "href": "#/courses/view/65b9c3f723cba71ac647c3bc"
+        },
+        {
+          "course_id": "65b9c46c5d504324951742d2",
+          "code": "SYDE 575",
+          "title": "Image Processing",
+          "units": "0.50",
+          "href": "#/courses/view/65b9c46c5d504324951742d2"
+        }
+      ]
+    },
+    "Complete 1 sustainability-related course, from the following list. This course may also be counted towards another elective requirement (e.g., Natural Science elective, Complementary Studies elective) if part of that list.": {
+      "list_name": "Complete 1 sustainability-related course, from the following list. This course may also be counted towards another elective requirement (e.g., Natural Science elective, Complementary Studies elective) if part of that list.",
+      "courses": [
+        {
+          "course_id": "65b13dccfd7afe9237084ad8",
+          "code": "BIOL 489",
+          "title": "Arctic Ecology",
+          "units": "0.50",
+          "href": "#/courses/view/65b13dccfd7afe9237084ad8"
+        },
+        {
+          "course_id": "65b863e96cd5895d4fe9014e",
+          "code": "EARTH 270",
+          "title": "Disasters and Natural Hazards",
+          "units": "0.50",
+          "href": "#/courses/view/65b863e96cd5895d4fe9014e"
+        },
+        {
+          "course_id": "64a5b9409e76cce1d0848fbd",
+          "code": "ENBUS 102",
+          "title": "Introduction to Environment and Business",
+          "units": "0.50",
+          "href": "#/courses/view/64a5b9409e76cce1d0848fbd"
+        },
+        {
+          "course_id": "660ec5dc53238053d8615401",
+          "code": "ENBUS 211",
+          "title": "Principles of Marketing for Sustainability Professionals",
+          "units": "0.50",
+          "href": "#/courses/view/660ec5dc53238053d8615401"
+        },
+        {
+          "course_id": "64a5bd37ec4d1aeec36b554c",
+          "code": "ENGL 248",
+          "title": "Literature for an Ailing Planet",
+          "units": "0.50",
+          "href": "#/courses/view/64a5bd37ec4d1aeec36b554c"
+        },
+        {
+          "course_id": "662baedb3fe4b20f033472a8",
+          "code": "ENVS 105",
+          "title": "Environmental Sustainability and Ethics",
+          "units": "0.50",
+          "href": "#/courses/view/662baedb3fe4b20f033472a8"
+        },
+        {
+          "course_id": "65b2c15d6cd5895b71e8e25d",
+          "code": "ENVS 200",
+          "title": "Field Ecology",
+          "units": "0.50",
+          "href": "#/courses/view/65b2c15d6cd5895b71e8e25d"
+        },
+        {
+          "course_id": "65ac7153fd7afe5969083303",
+          "code": "ENVS 205",
+          "title": "Sustainability: The Future We Want",
+          "units": "0.50",
+          "href": "#/courses/view/65ac7153fd7afe5969083303"
+        },
+        {
+          "course_id": "66294debe513b36640f30cf8",
+          "code": "ENVS 220",
+          "title": "Ecological Economics",
+          "units": "0.50",
+          "href": "#/courses/view/66294debe513b36640f30cf8"
+        },
+        {
+          "course_id": "64a5b8d35d7577c13976c829",
+          "code": "ERS 215",
+          "title": "Environmental and Sustainability Assessment 1",
+          "units": "0.50",
+          "href": "#/courses/view/64a5b8d35d7577c13976c829"
+        },
+        {
+          "course_id": "660da1f80e65be29262bdc38",
+          "code": "ERS 225",
+          "title": "Gendering Environmental Politics",
+          "units": "0.50",
+          "href": "#/courses/view/660da1f80e65be29262bdc38"
+        },
+        {
+          "course_id": "64a5b8d33bbc4e321d3ef574",
+          "code": "ERS 253",
+          "title": "Communities and Sustainability",
+          "units": "0.50",
+          "href": "#/courses/view/64a5b8d33bbc4e321d3ef574"
+        },
+        {
+          "course_id": "65e62e10d3ef75288fb13bd8",
+          "code": "ERS 270",
+          "title": "Introduction to Sustainable Agroecosystems",
+          "units": "0.50",
+          "href": "#/courses/view/65e62e10d3ef75288fb13bd8"
+        },
+        {
+          "course_id": "673ba024598e108ec7885cf9",
+          "code": "ERS 294",
+          "title": "Spirituality, Religion, and Ecology",
+          "units": "0.50",
+          "href": "#/courses/view/673ba024598e108ec7885cf9"
+        },
+        {
+          "course_id": "66d85e85d0407f012f988fd5",
+          "code": "ERS 310",
+          "title": "Peace and the Environment",
+          "units": "0.50",
+          "href": "#/courses/view/66d85e85d0407f012f988fd5"
+        },
+        {
+          "course_id": "64a5b9540f5f4519e5430c68",
+          "code": "ERS 316",
+          "title": "Urban Water and Wastewater Systems: Integrated Planning and Management",
+          "units": "0.50",
+          "href": "#/courses/view/64a5b9540f5f4519e5430c68"
+        },
+        {
+          "course_id": "660da3920e65be11ff2bdc44",
+          "code": "ERS 320",
+          "title": "Economics and Sustainability",
+          "units": "0.50",
+          "href": "#/courses/view/660da3920e65be11ff2bdc44"
+        },
+        {
+          "course_id": "64a5b9f569e9eeee7f2ae7a4",
+          "code": "ERS 328",
+          "title": "Environmental Politics and System Change",
+          "units": "0.50",
+          "href": "#/courses/view/64a5b9f569e9eeee7f2ae7a4"
+        },
+        {
+          "course_id": "660da819bca6561e7f4b1448",
+          "code": "ERS 361",
+          "title": "Food Systems and Sustainability",
+          "units": "0.50",
+          "href": "#/courses/view/660da819bca6561e7f4b1448"
+        },
+        {
+          "course_id": "64a5b8d369e9ee23062ae4f4",
+          "code": "ERS 370",
+          "title": "Corporate Sustainability: Issues and Prospects",
+          "units": "0.50",
+          "href": "#/courses/view/64a5b8d369e9ee23062ae4f4"
+        },
+        {
+          "course_id": "65e8b002e98bac09673fbe2c",
+          "code": "ERS 372",
+          "title": "First Nations and the Environment",
+          "units": "0.50",
+          "href": "#/courses/view/65e8b002e98bac09673fbe2c"
+        },
+        {
+          "course_id": "64a5bc8fec4d1a605a6b54d2",
+          "code": "ERS 404",
+          "title": "Global Environmental Governance",
+          "units": "0.50",
+          "href": "#/courses/view/64a5bc8fec4d1a605a6b54d2"
+        },
+        {
+          "course_id": "64a5b94c84500d4621c8d0cd",
+          "code": "GEOG 203",
+          "title": "Environment and Development in a Global Perspective",
+          "units": "0.50",
+          "href": "#/courses/view/64a5b94c84500d4621c8d0cd"
+        },
+        {
+          "course_id": "660db00a3f0d40519a6d2a11",
+          "code": "GEOG 207",
+          "title": "Climate Change Fundamentals",
+          "units": "0.50",
+          "href": "#/courses/view/660db00a3f0d40519a6d2a11"
+        },
+        {
+          "course_id": "64a5b9fc3bbc4e331a3ef7e2",
+          "code": "GEOG 225",
+          "title": "Global Environment and Health",
+          "units": "0.50",
+          "href": "#/courses/view/64a5b9fc3bbc4e331a3ef7e2"
+        },
+        {
+          "course_id": "660dab7d532380080b614e86",
+          "code": "GEOG 361",
+          "title": "Food Systems and Sustainability",
+          "units": "0.50",
+          "href": "#/courses/view/660dab7d532380080b614e86"
+        },
+        {
+          "course_id": "64a5b8d9ec4d1a6d8a6b5175",
+          "code": "GEOG 459",
+          "title": "Energy and Sustainability",
+          "units": "1.00",
+          "href": "#/courses/view/64a5b8d9ec4d1a6d8a6b5175"
+        },
+        {
+          "course_id": "6696929a1c8b7d221b7c1d61",
+          "code": "PACS 310",
+          "title": "Peace and the Environment",
+          "units": "0.50",
+          "href": "#/courses/view/6696929a1c8b7d221b7c1d61"
+        },
+        {
+          "course_id": "64a5b8e73bbc4e4cf13ef5b7",
+          "code": "PHIL 224",
+          "title": "Environmental Ethics",
+          "units": "0.50",
+          "href": "#/courses/view/64a5b8e73bbc4e4cf13ef5b7"
+        },
+        {
+          "course_id": "65ac90b7edfead06d433cafb",
+          "code": "PLAN 451",
+          "title": "Environmental Planning in Rural and Regional Systems",
+          "units": "0.50",
+          "href": "#/courses/view/65ac90b7edfead06d433cafb"
+        },
+        {
+          "course_id": "64a5bc8f64e0fe323a173de7",
+          "code": "PSCI 432",
+          "title": "Global Environmental Governance",
+          "units": "0.50",
+          "href": "#/courses/view/64a5bc8f64e0fe323a173de7"
+        },
+        {
+          "course_id": "6640f25ef867c0a8dc7a5b8e",
+          "code": "RCS 285",
+          "title": "Spirituality, Religion, and Ecology",
+          "units": "0.50",
+          "href": "#/courses/view/6640f25ef867c0a8dc7a5b8e"
+        },
+        {
+          "course_id": "65b9aff22ce9d32c40ecb093",
+          "code": "SCI 200",
+          "title": "Energy - Its Development, Use, and Issues",
+          "units": "0.50",
+          "href": "#/courses/view/65b9aff22ce9d32c40ecb093"
+        },
+        {
+          "course_id": "65b9b01bec4e645d45e24a81",
+          "code": "SCI 201",
+          "title": "Global Warming and Climate Change",
+          "units": "0.50",
+          "href": "#/courses/view/65b9b01bec4e645d45e24a81"
+        },
+        {
+          "course_id": "659eb26aedfead46d9338801",
+          "code": "THPERF 374",
+          "title": "Sustainability in Design",
+          "units": "0.50",
+          "href": "#/courses/view/659eb26aedfead46d9338801"
+        }
+      ]
+    }
+  }
+}

@@ -86,7 +86,7 @@ class RequirementNode(BaseModel):
     constraints: Optional[List[str]] = None
     explanations: Optional[List[str]] = None
 
-RequirementNode.update_forward_refs()
+RequirementNode.model_rebuild()
 
 class ProgramShell(BaseModel):
     # Optional scaffold if a page clearly represents a specific plan

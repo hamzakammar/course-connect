@@ -1,27 +1,31 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Normalize arbitrary scraped catalog blobs (course page, course lists, "required_by_term", mixed)
-into a single JSON envelope aligned with your DB schema.
+Stream-normalize catalog JSONL into DB-ready envelopes.
+
+Each *input line* is any scraped blob (course page, list page, mixed sections).
+Each *output line* is an OutputEnvelope JSON ready for DB insertion.
+
+Usage:
+  python normalize_catalog_jsonl.py --in courses.jsonl --out envelopes.jsonl
+  python normalize_catalog_jsonl.py --in - --out - --model qwen2.5:14b-instruct
 
 Requires:
   pip install ollama pydantic
-
-Usage:
-  python normalize_catalog.py < my_scrape.json > out.json
-  # or pass a specific model (see recs below):
-  python normalize_catalog.py qwen2.5:14b-instruct < my_scrape.json > out.json
 """
 
 from __future__ import annotations
-from typing import List, Optional, Literal, Union, Dict, Any
+from typing import List, Optional, Literal, Union, Dict, Any, Iterable
 from pydantic import BaseModel, Field, constr, ValidationError
 from datetime import datetime
 import hashlib
+import argparse
 import json
 import os
 import re
 import sys
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import threading
 
 import ollama
 
@@ -46,7 +50,6 @@ class EnrollmentConstraint(BaseModel):
     message: Optional[str] = None
 
 class Course(BaseModel):
-    # courses table (no DB ids here—let your DB assign)
     code: str
     title: str
     credits: float
@@ -61,17 +64,15 @@ class Course(BaseModel):
     fetched_at: Optional[str] = None
     confidence: Optional[float] = Field(default=None, ge=0, le=1)
 
-    # joinables
     relations: List[CourseRelation] = Field(default_factory=list)
     enrollment_constraints: List[EnrollmentConstraint] = Field(default_factory=list)
 
     notes: Optional[List[str]] = None
 
 class CourseSet(BaseModel):
-    # mirrors course_sets + course_set_members (explicit mode)
-    id_hint: Optional[str] = None  # for stable naming; your DB will still assign UUID
+    id_hint: Optional[str] = None
     mode: Literal["explicit", "selector"] = "explicit"
-    title: Optional[str] = None    # human label e.g. list name or "Required 1A"
+    title: Optional[str] = None
     selector: Optional[Dict[str, Any]] = None
     courses: List[str] = Field(default_factory=list)  # by course code, e.g., "CS 137"
 
@@ -81,7 +82,7 @@ class RequirementNode(BaseModel):
     n: Optional[int] = None
     minCredits: Optional[float] = None
     children: Optional[List['RequirementNode']] = None
-    courseSet: Optional[str] = None           # refer by CourseSet id_hint/title
+    courseSet: Optional[str] = None
     filters: Optional[Dict[str, Any]] = None
     constraints: Optional[List[str]] = None
     explanations: Optional[List[str]] = None
@@ -89,7 +90,6 @@ class RequirementNode(BaseModel):
 RequirementNode.model_rebuild()
 
 class ProgramShell(BaseModel):
-    # Optional scaffold if a page clearly represents a specific plan
     kind: Optional[Literal["degree","major","minor","option","specialization"]] = None
     scope: Optional[Literal["institution_wide","faculty_scoped","program_scoped"]] = None
     title: Optional[str] = None
@@ -136,10 +136,15 @@ def _subject_level(code: Optional[str]) -> tuple[str,int]:
 
 def _float_units(u: Optional[Union[str,float,int]]) -> Optional[float]:
     if u is None: return None
-    try: return float(u)
-    except: 
-        try: return float(str(u).replace(",", "."))
-        except: return None
+    s = str(u).strip()
+    # normalize "0.50" / "0,50" / "0" / "0.00"
+    s = s.replace(",", ".")
+    try:
+        return float(s)
+    except:
+        # try to extract first float-like token
+        m = re.search(r"(\d+(?:\.\d+)?)", s)
+        return float(m.group(1)) if m else None
 
 def _stable_id_hint(parts: List[str]) -> str:
     base = "::".join([p for p in parts if p])
@@ -154,14 +159,14 @@ def _now_iso() -> str:
 # -------------------------
 
 SYSTEM_PROMPT = """You normalize university catalog content to a STRICT JSON envelope for database loading.
-You MUST obey the provided JSON Schema exactly.
+Obey the provided JSON Schema exactly.
 
 Guidelines:
-- If given a single course blob, fill one Course. Parse code ('CS 137') from title 'CS137 - ...' if needed.
-- Convert 'units' or 'credits' text to number (0.50 -> 0.5).
-- Derive subject & level from code (e.g., 1xx -> 100).
+- If given a single course blob, fill one Course. Parse code ('CS 343') from title 'CS343 - ...' if needed.
+- Convert 'units' or 'credits' to number (0.50 -> 0.5). '0.00' -> 0.0 is fine for seminars/zero-unit.
+- Derive subject & level from code (e.g., 3xx -> level 300).
 - Map textual prereq/coreq/antireq into CourseRelation using boolean mini-language:
-    ALL(...), ANY(...), NOT(...), with atoms like course:CS-136
+    ALL(...), ANY(...), NOT(...), with operands like course:CS-350 or course:SE-350.
 - If prereqs mention plan/faculty/term restrictions (e.g., "Enrolled in H-Software Engineering", "2A or above"),
   put them in enrollment_constraints with type program_in/faculty_in/term_at_least.
 - If 'course_lists' exist, produce a CourseSet per list (mode='explicit') with course codes.
@@ -179,11 +184,11 @@ def _build_user_prompt(scraped: Dict[str, Any]) -> str:
     )
 
 # -------------------------
-# Ollama call (structured)
+# Ollama structured call
 # -------------------------
 
-def _model_for_cli() -> str:
-    return sys.argv[1] if len(sys.argv) > 1 else os.environ.get("OLLAMA_MODEL", "qwen2.5:14b-instruct")
+def _ollama_model(default: str) -> str:
+    return os.environ.get("OLLAMA_MODEL", default)
 
 def _call_ollama(scraped: Dict[str, Any], model: str) -> OutputEnvelope:
     schema = OutputEnvelope.model_json_schema()
@@ -194,7 +199,7 @@ def _call_ollama(scraped: Dict[str, Any], model: str) -> OutputEnvelope:
             {"role": "user", "content": _build_user_prompt(scraped)}
         ],
         options={"temperature": 0},
-        format=schema,  # force structured output
+        format=schema,
     )
     content = resp["message"]["content"]
     return OutputEnvelope.model_validate_json(content)
@@ -211,17 +216,15 @@ def _normalize_courses(envelope: OutputEnvelope) -> None:
         if not c.level: c.level = lvl
         c.credits = _float_units(c.credits) or 0.0
         if not c.fetched_at: c.fetched_at = _now_iso()
-        # Scrub empty relations like ALL() if present
+        # Strip empty relations like ALL()
         c.relations = [r for r in c.relations if r.logic and r.logic.strip() not in ("ALL()", "ANY()")]
 
 def _ensure_course_sets(envelope: OutputEnvelope) -> None:
-    # Assign stable id_hints if missing
     for cs in envelope.course_sets:
         if not cs.id_hint:
             cs.id_hint = _stable_id_hint([cs.title or "", ",".join(cs.courses)])
 
 def _normalize_requirements(envelope: OutputEnvelope) -> None:
-    # Assign id_hints to requirement nodes (preorder traversal)
     def assign_ids(node: RequirementNode, prefix: str):
         if not node.id_hint:
             label = node.courseSet or node.type
@@ -233,11 +236,10 @@ def _normalize_requirements(envelope: OutputEnvelope) -> None:
         assign_ids(rn, f"req{i}")
 
 def _inject_sets_from_required_by_term(envelope: OutputEnvelope, scraped: Dict[str, Any]) -> None:
-    # If the model didn’t produce course sets for required_by_term, do it here.
     rbt = scraped.get("required_by_term") or {}
     if not rbt: return
-    # Build an ALL root with one child per term
-    term_keys = sorted(rbt.keys(), key=lambda t: ("1234".find(t[0]), t))
+    term_order = {"1A":10,"1B":11,"2A":20,"2B":21,"3A":30,"3B":31,"4A":40,"4B":41}
+    term_keys = sorted(rbt.keys(), key=lambda t: term_order.get(t, 99))
     children = []
     for term in term_keys:
         items = rbt[term] or []
@@ -263,7 +265,6 @@ def _inject_sets_from_required_by_term(envelope: OutputEnvelope, scraped: Dict[s
             children=children,
             explanations=["Complete all required courses by term."]
         )
-        # Only add if there isn't already a requirement in envelope
         if not envelope.requirements:
             envelope.requirements.append(root)
 
@@ -287,81 +288,176 @@ def _inject_sets_from_course_lists(envelope: OutputEnvelope, scraped: Dict[str, 
         envelope.course_sets.append(cs)
 
 def _ensure_provenance(envelope: OutputEnvelope, scraped: Dict[str, Any]) -> None:
-    # pick any available URL
     url = None
     if isinstance(scraped.get("course"), dict):
         url = scraped["course"].get("source_url")
-    if not url:
-        # try any nested hrefs
-        for section in ("course_lists","required_by_term"):
-            s = scraped.get(section) or {}
-            if isinstance(s, dict):
-                for v in s.values():
-                    if isinstance(v, dict):
-                        for it in v.get("courses") or []:
-                            if it.get("href"):
-                                url = url or it["href"]
+    url = url or scraped.get("source_url")
     envelope.provenance = {
         "source_url": url,
         "ingested_at": _now_iso(),
         "fingerprint": hashlib.sha1(json.dumps(scraped, sort_keys=True).encode("utf-8")).hexdigest()
     }
 
-def normalize(scraped: Dict[str, Any], model: str) -> OutputEnvelope:
-    # 1) try structured extraction
+def normalize_scraped(scraped: Dict[str, Any], model: str) -> OutputEnvelope:
+    # 1) Try structured extraction
     try:
         out = _call_ollama(scraped, model=model)
-    except ValidationError as ve:
-        # If model returned invalid JSON, fall back to a minimal envelope we fill heuristically
+    except ValidationError:
         out = OutputEnvelope()
 
-    # 2) safety nets (add sets from raw sections if model omitted them)
+    # 2) Safety nets for sections the model might skip
     _inject_sets_from_course_lists(out, scraped)
     _inject_sets_from_required_by_term(out, scraped)
 
-    # 3) normalize entities
+    # 3) Normalize entities
     _normalize_courses(out)
     _ensure_course_sets(out)
     _normalize_requirements(out)
     _ensure_provenance(out, scraped)
 
-    # 4) last-mile: if a single course blob was provided but model didn’t emit it
-    if not out.courses and isinstance(scraped.get("course"), dict):
-        c = scraped["course"]
-        code = _norm_code(c.get("code"), c.get("title"))
-        subj, lvl = _subject_level(code)
-        course = Course(
-            code=code or "",
-            title=(c.get("title") or "").replace(code or "", "").strip(" -") or (c.get("title") or ""),
-            credits=_float_units(c.get("units") or c.get("credits")) or 0.0,
-            level=lvl, subject=subj,
-            description=c.get("description"),
-            source_url=c.get("source_url"),
-            fetched_at=_now_iso(),
-            notes=["Fallback heuristic course parse."]
-        )
-        # Enrollment constraint heuristic: if 'prerequisites' mentions enrolled/plan
-        prereq = (c.get("prerequisites") or "").strip()
-        if prereq:
-            if re.search(r"enrolled in|enrol+ed in|plan|program|standing|term", prereq, re.I):
-                course.enrollment_constraints.append(EnrollmentConstraint(
-                    type="program_in", values=[prereq], message="Plan/faculty/standing restriction parsed verbatim"
-                ))
-            else:
-                course.relations.append(CourseRelation(kind="prereq", logic="ALL()", source_span=prereq))
-        out.courses.append(course)
+    # 4) If no courses emitted but a course-like dict present, create a minimal Course
+    if not out.courses:
+        # Accept either { "course": {...} } or a flat course dict on the line
+        c = scraped.get("course", scraped)
+        if isinstance(c, dict) and ("title" in c or "code" in c):
+            code = _norm_code(c.get("code"), c.get("title"))
+            subj, lvl = _subject_level(code)
+            credits = _float_units(c.get("units") or c.get("credits")) or 0.0
+            title = c.get("title") or ""
+            # If title included code prefix like "CS343 - ...", strip leading code part
+            if code and title.startswith(code.replace(" ", "")):
+                # e.g., "CS343 - Name" --> "Name"
+                title = re.sub(r"^[A-Z]{2,4}\s?-?\s?\d{2,3}[A-Z]?\s*-\s*", "", title)
+            elif code and title.startswith(code):
+                title = title[len(code):].lstrip(" -–—")
+            course = Course(
+                code=code or "",
+                title=title or c.get("title") or "",
+                credits=credits,
+                level=lvl, subject=subj,
+                description=c.get("description"),
+                source_url=c.get("source_url"),
+                fetched_at=_now_iso(),
+                notes=["Fallback heuristic course parse."]
+            )
+            prereq = (c.get("prerequisites") or "").strip()
+            if prereq:
+                # Quick heuristic: if it names plans/faculties/standing, treat as enrollment constraint
+                if re.search(r"enrolled in|enrol+ed in|plan|program|standing|term|honours|H-|JH-|BMath|BCS|BBA|SE|CS|CFM|Data Science", prereq, re.I):
+                    course.enrollment_constraints.append(EnrollmentConstraint(
+                        type="program_in", values=[prereq], message="Plan/faculty/standing restriction parsed verbatim"
+                    ))
+                else:
+                    course.relations.append(CourseRelation(kind="prereq", logic="ALL()", source_span=prereq))
+            # Coreqs/antireqs if present
+            for k, kind in (("corequisites","coreq"), ("antirequisites","exclusion")):
+                txt = (c.get(k) or "").strip()
+                if txt:
+                    course.relations.append(CourseRelation(kind=kind, logic="ALL()", source_span=txt))
+            out.courses.append(course)
 
     return out
+
+# -------------------------
+# Concurrent processing
+# -------------------------
+
+def process_single_entry(scraped: Dict[str, Any], model: str) -> Dict[str, Any]:
+    """Process a single scraped entry and return the normalized envelope as dict."""
+    if scraped.get("_malformed"):
+        env = OutputEnvelope(
+            provenance={
+                "ingested_at": _now_iso(),
+                "fingerprint": hashlib.sha1(scraped.get("raw","").encode("utf-8")).hexdigest(),
+                "error": f"JSON parse error on line {scraped.get('_line')}: {scraped.get('_error')}"
+            }
+        )
+    else:
+        env = normalize_scraped(scraped, model=model)
+    
+    return json.loads(env.model_dump_json())
+
+# -------------------------
+# I/O
+# -------------------------
+
+def read_jsonl(fp) -> Iterable[Dict[str, Any]]:
+    for i, line in enumerate(fp, 1):
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            yield json.loads(line)
+        except json.JSONDecodeError as e:
+            # Emit a warning envelope with the error captured in provenance
+            yield {"_malformed": True, "_line": i, "_error": str(e), "raw": line}
+
+def write_jsonl(fp, objs: Iterable[Dict[str, Any]]) -> None:
+    for obj in objs:
+        fp.write(json.dumps(obj, ensure_ascii=False) + "\n")
+        fp.flush()
 
 # -------------------------
 # CLI
 # -------------------------
 
+def parse_args():
+    ap = argparse.ArgumentParser(description="Normalize catalog JSONL with Ollama structured outputs.")
+    ap.add_argument("--in", dest="inp", required=True, help="Input JSONL path or '-' for stdin")
+    ap.add_argument("--out", dest="out", required=True, help="Output JSONL path or '-' for stdout")
+    ap.add_argument("--model", dest="model", default="qwen2.5:14b-instruct", help="Ollama model (default: qwen2.5:14b-instruct)")
+    ap.add_argument("--workers", dest="workers", type=int, default=3, help="Number of concurrent workers (default: 3)")
+    return ap.parse_args()
+
 def main():
-    scraped = json.load(sys.stdin)
-    model = _model_for_cli()
-    envelope = normalize(scraped, model)
-    print(envelope.model_dump_json(indent=2, ensure_ascii=False))
+    args = parse_args()
+    model = _ollama_model(args.model)
+    max_workers = args.workers
+
+    fin = sys.stdin if args.inp == "-" else open(args.inp, "r", encoding="utf-8")
+    fout = sys.stdout if args.out == "-" else open(args.out, "w", encoding="utf-8")
+
+    try:
+        # Thread-safe writing with a lock
+        write_lock = threading.Lock()
+        
+        # Read all entries first to enable concurrent processing
+        scraped_entries = list(read_jsonl(fin))
+        
+        # Process entries concurrently in batches
+        batch = []
+        batch_size = 5
+        
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            # Submit all tasks
+            future_to_entry = {
+                executor.submit(process_single_entry, scraped, model): scraped 
+                for scraped in scraped_entries
+            }
+            
+            # Process completed tasks as they finish
+            for future in as_completed(future_to_entry):
+                try:
+                    result = future.result()
+                    batch.append(result)
+                    
+                    # Write batch when it reaches the batch size
+                    if len(batch) >= batch_size:
+                        with write_lock:
+                            write_jsonl(fout, batch)
+                        batch = []  # Reset batch
+                        
+                except Exception as exc:
+                    print(f"Entry generated an exception: {exc}", file=sys.stderr)
+        
+        # Write any remaining entries in the final batch
+        if batch:
+            with write_lock:
+                write_jsonl(fout, batch)
+            
+    finally:
+        if fin is not sys.stdin: fin.close()
+        if fout is not sys.stdout: fout.close()
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,447 @@
+[
+  {
+    "target": "CS137",
+    "kind": "PROGRAM",
+    "expr": "H-Software Engineering"
+  },
+  {
+    "target": "MATH117",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed the following: 4U Calculus and Vectors Enrolled in H-Computer Engineering, H-Electrical Engineering, H-Nanotechnology Engineering, or H-Software Engineering"
+  },
+  {
+    "target": "ECE140",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Students must be in level 1B or higher Enrolled in H-Computer Engineering, H-Electrical Engineering, or H-Software Engineering"
+  },
+  {
+    "target": "ECE140",
+    "kind": "STANDING",
+    "expr": "level 1B"
+  },
+  {
+    "target": "MATH119",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 1 of the following: MATH116 - Calculus 1 for Engineering (0.50) MATH117 - Calculus 1 for Engineering (0.50) MATH127 - Calculus 1 for the Sciences (0.50) MATH137 - Calculus 1 for Honours Mathematics (0.50) MATH147 - Calculus 1 (Advanced Level) (0.50) Enrolled in H-Computer Engineering, H-Electrical Engineering, H-Nanotechnology Engineering, or H-Software Engineering"
+  },
+  {
+    "target": "SE102",
+    "kind": "PROGRAM",
+    "expr": "H-Software Engineering"
+  },
+  {
+    "target": "CS241",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Complete 1 of the following Must have completed the following: CS138 - Introduction to Data Abstraction and Implementation (0.50) Complete all of the following Must have completed the following: CS136L - Tools and Techniques for Software Development (0.25) Earned a minimum grade of 85% in at least 1 of the following: CS136 - Elementary Algorithm Design and Data Abstraction (0.50) CS146 - Elementary Algorithm Design and Data Abstraction (Advanced Level) (0.50) Complete all of the following Must have completed the following: CS136L - Tools and Techniques for Software Development (0.25) Must have completed at least 1 of the following: CS246 - Object-Oriented Software Development (0.50) CS246E - Object-Oriented Software Development (Enriched) (0.50) Enrolled in H-BBA & BCS Double Degree, H-Computer Science (BCS), H-Computer Science (BMath), JH-Computer Science (BCS), JH-Computer Science (BMath), H-Computing & Financial Management, H-Data Science (BCS), H-Data Science (BMath), or H-Software Engineering"
+  },
+  {
+    "target": "ECE222",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 1 of the following: BME393 - Digital Systems (0.50) ECE124 - Digital Circuits and Systems (0.50) MTE262 - Introduction to Digital Logic (0.50) SYDE192 - Digital Systems (0.50) Must have completed at least 1 of the following: BME121 - Digital Computation (0.50) CS115 - Introduction to Computer Science 1 (0.50) CS135 - Designing Functional Programs (0.50) CS137 - Programming Principles (0.50) CS145 - Designing Functional Programs (Advanced Level) (0.50) ECE150 - Fundamentals of Programming (0.50) MSE121 - Introduction to Computer Programming (0.50) MTE121 - Digital Computation (0.50) SYDE121 - Digital Computation (0.50) Students must be in level 2A or higher Complete 1 of the following Enrolled in CS-Digital Hardware Specialization, or H-Software Engineering Enrolled in a BASc program"
+  },
+  {
+    "target": "ECE222",
+    "kind": "STANDING",
+    "expr": "level 2A"
+  },
+  {
+    "target": "CS240",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 1 of the following: CS245 - Logic and Computation (0.50) CS245E - Logic and Computation (Enriched) (0.50) SE212 - Logic and Computation (0.50) Must have completed at least 1 of the following: CS241 - Foundations of Sequential Programs (0.50) CS241E - Foundations of Sequential Programs (Enriched) (0.50) CS246 - Object-Oriented Software Development (0.50) CS246E - Object-Oriented Software Development (Enriched) (0.50) CS247 - Software Engineering Principles (0.50) Must have completed at least 1 of the following: STAT206 - Statistics for Software Engineering (0.50) STAT230 - Probability (0.50) STAT240 - Probability (Advanced Level) (0.50) Enrolled in H-BBA & BCS Double Degree, H-Computer Science (BCS), H-Computer Science (BMath), JH-Computer Science (BCS), JH-Computer Science (BMath), H-Computing & Financial Management, H-Data Science (BCS), H-Data Science (BMath), or H-Software Engineering"
+  },
+  {
+    "target": "CS247",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 1 of the following: CS241 - Foundations of Sequential Programs (0.50) CS241E - Foundations of Sequential Programs (Enriched) (0.50) Enrolled in H-Software Engineering"
+  },
+  {
+    "target": "CS348",
+    "kind": "PROGRAM",
+    "expr": "Enrolled in H-BBA & BCS Double Degree, H-Computer Science (BCS), H-Computer Science (BMath), JH-Computer Science (BCS), JH-Computer Science (BMath), H-Computing & Financial Management, H-Data Science (BCS), H-Data Science (BMath), or H-Software Engineering"
+  },
+  {
+    "target": "MATH239",
+    "kind": "PROGRAM",
+    "expr": "Complete 1 of the following Complete all of the following Enrolled in an Honours Mathematics program Complete 1 of the following Earned a minimum grade of 70% in each of the following: MATH106 - Applied Linear Algebra 1 (0.50) Must have completed at least 1 of the following: MATH136 - Linear Algebra 1 for Honours Mathematics (0.50) MATH146 - Linear Algebra 1 (Advanced Level) (0.50) Complete 1 of the following Earned a minimum grade of 60% in each of the following: MATH135 - Algebra for Honours Mathematics (0.50) Must have completed the following: MATH145 - Algebra (Advanced Level) (0.50) Complete all of the following Students must be in level 2A or higher Enrolled in H-Software Engineering"
+  },
+  {
+    "target": "MATH239",
+    "kind": "STANDING",
+    "expr": "level 2A"
+  },
+  {
+    "target": "CS341",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 1 of the following: CS240 - Data Structures and Data Management (0.50) CS240E - Data Structures and Data Management (Enriched) (0.50) Must have completed at least 1 of the following: CS245 - Logic and Computation (0.50) CS245E - Logic and Computation (Enriched) (0.50) SE212 - Logic and Computation (0.50) Must have completed at least 1 of the following: MATH239 - Introduction to Combinatorics (0.50) MATH249 - Introduction to Combinatorics (Advanced Level) (0.50) Must have completed at least 1 of the following: STAT206 - Statistics for Software Engineering (0.50) STAT230 - Probability (0.50) STAT240 - Probability (Advanced Level) (0.50) Enrolled in H-BBA & BCS Double Degree, H-Computer Science (BCS), H-Computer Science (BMath), JH-Computer Science (BCS), JH-Computer Science (BMath), H-Computing & Financial Management, H-Data Science (BCS), H-Data Science (BMath), or H-Software Engineering"
+  },
+  {
+    "target": "MATH213",
+    "kind": "PROGRAM",
+    "expr": "Must have completed at least 1 of the following: MATH118 - Calculus 2 for Engineering (0.50) MATH119 - Calculus 2 for Engineering (0.50) MATH128 - Calculus 2 for the Sciences (0.50) MATH138 - Calculus 2 for Honours Mathematics (0.50)"
+  },
+  {
+    "target": "SE350",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed the following: ECE222 - Digital Computers (0.50) Must have completed at least 1 of the following: CS240 - Data Structures and Data Management (0.50) CS240E - Data Structures and Data Management (Enriched) (0.50) Must have completed at least 1 of the following: CS246 - Object-Oriented Software Development (0.50) CS246E - Object-Oriented Software Development (Enriched) (0.50) CS247 - Software Engineering Principles (0.50) Enrolled in H-Software Engineering"
+  },
+  {
+    "target": "CS343",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 1 of the following: CS350 - Operating Systems (0.50) SE350 - Operating Systems (0.50) Enrolled in H-BBA & BCS Double Degree, H-Computer Science (BCS), H-Computer Science (BMath), JH-Computer Science (BCS), JH-Computer Science (BMath), H-Computing & Financial Management, H-Data Science (BCS), or H-Software Engineering"
+  },
+  {
+    "target": "SE463",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Complete 1 of the following Must have completed at least 1 of the following: CS246 - Object-Oriented Software Development (0.50) CS246E - Object-Oriented Software Development (Enriched) (0.50) CS247 - Software Engineering Principles (0.50) ECE250 - Algorithms and Data Structures (0.50) MSE342 - Principles of Software Engineering (0.50) SYDE322 - Software Design (0.50) Must have completed the following: MSCI342 Enrolled in Computer Engineering Option, Computing Option, H-Software Engineering, or Software Engineering Option"
+  },
+  {
+    "target": "CS349",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 1 of the following: CS241 - Foundations of Sequential Programs (0.50) CS241E - Foundations of Sequential Programs (Enriched) (0.50) Must have completed at least 1 of the following: MATH115 - Linear Algebra for Engineering (0.50) MATH136 - Linear Algebra 1 for Honours Mathematics (0.50) MATH146 - Linear Algebra 1 (Advanced Level) (0.50) Enrolled in H-BBA & BCS Double Degree, H-Computer Science (BCS), H-Computer Science (BMath), JH-Computer Science (BCS), JH-Computer Science (BMath), H-Computing & Financial Management, H-Data Science (BCS), or H-Software Engineering"
+  },
+  {
+    "target": "CS449",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 1 of the following: CS240 - Data Structures and Data Management (0.50) CS240E - Data Structures and Data Management (Enriched) (0.50) Must have completed at least 1 of the following: CS241 - Foundations of Sequential Programs (0.50) CS241E - Foundations of Sequential Programs (Enriched) (0.50) Students must be in level 3B or higher Enrolled in H-BBA & BCS Double Degree, H-Computer Science (BCS), H-Computer Science (BMath), JH-Computer Science (BCS), JH-Computer Science (BMath), H-Computing & Financial Management, H-Data Science (BCS), or H-Software Engineering"
+  },
+  {
+    "target": "CS449",
+    "kind": "STANDING",
+    "expr": "level 3B"
+  },
+  {
+    "target": "MSE343",
+    "kind": "PROGRAM",
+    "expr": "Complete 1 of the following Complete all of the following Must have completed at least 1 of the following: BME121 - Digital Computation (0.50) CS137 - Programming Principles (0.50) ECE150 - Fundamentals of Programming (0.50) MTE121 - Digital Computation (0.50) SYDE121 - Digital Computation (0.50) Students must be in level 3A or higher Complete 1 of the following Enrolled in H-Software Engineering Enrolled in a BASc program Complete all of the following Students must be in level 3B or higher Enrolled in H-Management Engineering"
+  },
+  {
+    "target": "MSE343",
+    "kind": "STANDING",
+    "expr": "level 3A"
+  },
+  {
+    "target": "SE401",
+    "kind": "PROGRAM",
+    "expr": "H-Software Engineering"
+  },
+  {
+    "target": "GENE404",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed the following: GENE403 - Interdisciplinary Design Project 1 (0.50) Students must be in level 4A or higher Complete 1 of the following Enrolled in H-Software Engineering Enrolled in a BASc program"
+  },
+  {
+    "target": "GENE404",
+    "kind": "STANDING",
+    "expr": "level 4A"
+  },
+  {
+    "target": "AMATH382",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 1 of the following: MATH118 - Calculus 2 for Engineering (0.50) MATH119 - Calculus 2 for Engineering (0.50) MATH128 - Calculus 2 for the Sciences (0.50) MATH138 - Calculus 2 for Honours Mathematics (0.50) MATH148 - Calculus 2 (Advanced Level) (0.50) SYDE112 - Calculus 2 (0.50) Students must be in level 3A or higher Enrolled in an Honours program"
+  },
+  {
+    "target": "AMATH382",
+    "kind": "STANDING",
+    "expr": "level 3A"
+  },
+  {
+    "target": "BIOL365",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed the following: BIOL239 - Genetics (0.50) Must have completed at least 1 of the following: BIOL266 - Introduction to Computational Biology (0.50) CHEM140 - Introduction to Scientific Calculations (0.50) CS116 - Introduction to Computer Science 2 (0.50) CS136 - Elementary Algorithm Design and Data Abstraction (0.50)"
+  },
+  {
+    "target": "BIOL382",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 1 of the following: MATH118 - Calculus 2 for Engineering (0.50) MATH119 - Calculus 2 for Engineering (0.50) MATH128 - Calculus 2 for the Sciences (0.50) MATH138 - Calculus 2 for Honours Mathematics (0.50) MATH148 - Calculus 2 (Advanced Level) (0.50) SYDE112 - Calculus 2 (0.50) Students must be in level 3A or higher Enrolled in an Honours program"
+  },
+  {
+    "target": "BIOL382",
+    "kind": "STANDING",
+    "expr": "level 3A"
+  },
+  {
+    "target": "ECE106",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed the following: ECE105 - Classical Mechanics (0.50) Students must be in level 1B or higher Enrolled in H-Computer Engineering, H-Electrical Engineering, or H-Software Engineering"
+  },
+  {
+    "target": "ECE106",
+    "kind": "STANDING",
+    "expr": "level 1B"
+  },
+  {
+    "target": "ECE404",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Complete 1 of the following Must have completed at least 1 of the following: ECE105 - Classical Mechanics (0.50) ECE106 - Electricity and Magnetism (0.50) Must have completed at least 1 of the following: PHYS112 - Physics 2 (0.50) PHYS122 - Waves, Electricity and Magnetism (0.50) Complete 1 of the following Must have completed at least 1 of the following: MATH119 - Calculus 2 for Engineering (0.50) MATH128 - Calculus 2 for the Sciences (0.50) MATH138 - Calculus 2 for Honours Mathematics (0.50) MATH148 - Calculus 2 (Advanced Level) (0.50) Must have completed: MATH108"
+  },
+  {
+    "target": "PHYS175",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 1 of the following: MATH116 - Calculus 1 for Engineering (0.50) MATH117 - Calculus 1 for Engineering (0.50) MATH127 - Calculus 1 for the Sciences (0.50) MATH137 - Calculus 1 for Honours Mathematics (0.50) MATH147 - Calculus 1 (Advanced Level) (0.50) Must have completed at least 1 of the following: PHYS111 - Physics 1 (0.50) PHYS115 - Mechanics (0.50) PHYS121 - Mechanics (0.50)"
+  },
+  {
+    "target": "PHYS233",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Complete 1 of the following Must have completed at least 1 of the following: ECE106 - Electricity and Magnetism (0.50) PHYS112 - Physics 2 (0.50) PHYS122 - Waves, Electricity and Magnetism (0.50) Must have completed the following: PHYS125 Must have completed at least 1 of the following: MATH118 - Calculus 2 for Engineering (0.50) MATH119 - Calculus 2 for Engineering (0.50) MATH128 - Calculus 2 for the Sciences (0.50) MATH138 - Calculus 2 for Honours Mathematics (0.50) MATH148 - Calculus 2 (Advanced Level) (0.50)"
+  },
+  {
+    "target": "PHYS234",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed the following: PHYS122 - Waves, Electricity and Magnetism (0.50) Must have completed at least 1 of the following: MATH114 - Linear Algebra for Science (0.50) MATH136 - Linear Algebra 1 for Honours Mathematics (0.50) PHYS249 - Linear Algebra for Physics and Astronomy (0.50) Must have completed at least 1 of the following: MATH128 - Calculus 2 for the Sciences (0.50) MATH138 - Calculus 2 for Honours Mathematics (0.50) MATH148 - Calculus 2 (Advanced Level) (0.50)"
+  },
+  {
+    "target": "PHYS263",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed the following: PHYS122 - Waves, Electricity and Magnetism (0.50) Must have completed at least 1 of the following: AMATH250 - Introduction to Differential Equations (0.50) AMATH251 - Introduction to Differential Equations (Advanced Level) (0.50) MATH228 - Differential Equations for Physics and Chemistry (0.50) Complete 1 of the following Must have completed at least 1 of the following: MATH128 - Calculus 2 for the Sciences (0.50) MATH138 - Calculus 2 for Honours Mathematics (0.50) MATH148 - Calculus 2 (Advanced Level) (0.50) Must have completed the following: MATH108"
+  },
+  {
+    "target": "PHYS334",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 1 of the following: AMATH250 - Introduction to Differential Equations (0.50) AMATH251 - Introduction to Differential Equations (Advanced Level) (0.50) MATH228 - Differential Equations for Physics and Chemistry (0.50) Must have completed at least 1 of the following: CHEM356 - Introductory Quantum Mechanics (0.50) PHYS234 - Quantum Physics 1 (0.50) Must have completed at least 1 of the following: MATH227 - Calculus 3 for Honours Physics (0.50) MATH237 - Calculus 3 for Honours Mathematics (0.50) MATH247 - Calculus 3 (Advanced Level) (0.50)"
+  },
+  {
+    "target": "PHYS335",
+    "kind": "STANDING",
+    "expr": "level 3A"
+  },
+  {
+    "target": "PHYS375",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 2 of the following: AMATH271 - Introduction to Theoretical Mechanics (0.50) PHYS234 - Quantum Physics 1 (0.50) PHYS242 - Electricity and Magnetism 1 (0.50) PHYS256 - Geometrical and Physical Optics (0.50) PHYS275 - Planets (0.50) PHYS358 - Thermal Physics (0.50) Complete 1 of the following Must have completed at least 1 of the following: CS114 - Principles of Computing for Science (0.50) CS116 - Introduction to Computer Science 2 (0.50) CS136 - Elementary Algorithm Design and Data Abstraction (0.50) CS146 - Elementary Algorithm Design and Data Abstraction (Advanced Level) (0.50) Must have completed: PHYS236 Must have completed at least 1 of the following: PHYS112 - Physics 2 (0.50) PHYS122 - Waves, Electricity and Magnetism (0.50)"
+  },
+  {
+    "target": "CS444",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 1 of the following: CS350 - Operating Systems (0.50) SE350 - Operating Systems (0.50) Enrolled in H-BBA & BCS Double Degree, H-Computer Science (BCS), H-Computer Science (BMath), JH-Computer Science (BCS), JH-Computer Science (BMath), H-Computing & Financial Management, H-Data Science (BCS), or H-Software Engineering"
+  },
+  {
+    "target": "CS450",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 1 of the following: CS245 - Logic and Computation (0.50) CS245E - Logic and Computation (Enriched) (0.50) SE212 - Logic and Computation (0.50) Must have completed at least 1 of the following: CS350 - Operating Systems (0.50) SE350 - Operating Systems (0.50) Enrolled in H-BBA & BCS Double Degree, H-Computer Science (BCS), H-Computer Science (BMath), JH-Computer Science (BCS), H-Computer Science (BMath), H-Computing & Financial Management, H-Data Science (BCS), or H-Software Engineering"
+  },
+  {
+    "target": "CS451",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed the following: CS341 - Algorithms (0.50) CS348 - Introduction to Database Management (0.50) Must have completed at least 1 of the following: CS350 - Operating Systems (0.50) SE350 - Operating Systems (0.50) Enrolled in H-BBA & BCS Double Degree, H-Computer Science (BCS), H-Computer Science (BMath), JH-Computer Science (BCS), JH-Computer Science (BMath), H-Computing & Financial Management, H-Data Science (BCS), H-Data Science (BMath), or H-Software Engineering"
+  },
+  {
+    "target": "CS453",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 1 of the following: CS350 - Operating Systems (0.50) SE350 - Operating Systems (0.50) Enrolled in H-BBA & BCS Double Degree, H-Computer Science (BCS), H-Computer Science (BMath), JH-Computer Science (BCS), JH-Computer Science (BMath), H-Computing & Financial Management, H-Data Science (BCS), or H-Software Engineering"
+  },
+  {
+    "target": "CS454",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 1 of the following: CS350 - Operating Systems (0.50) SE350 - Operating Systems (0.50) Enrolled in H-BBA & BCS Double Degree, H-Computer Science (BCS), H-Computer Science (BMath), JH-Computer Science (BCS), JH-Computer Science (BMath), H-Computing & Financial Management, H-Data Science (BCS), or H-Software Engineering"
+  },
+  {
+    "target": "CS457",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 1 of the following: CS246 - Object-Oriented Software Development (0.50) CS246E - Object-Oriented Software Development (Enriched) (0.50) CS247 - Software Engineering Principles (0.50) Must have completed at least 1 of the following: STAT206 - Statistics for Software Engineering (0.50) STAT231 - Statistics (0.50) STAT241 - Statistics (Advanced Level) (0.50) Enrolled in H-BBA & BCS Double Degree, H-Computer Science (BCS), H-Computer Science (BMath), JH-Computer Science (BCS), JH-Computer Science (BMath), H-Computing & Financial Management, H-Data Science (BCS), or H-Software Engineering"
+  },
+  {
+    "target": "CS459",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 1 of the following: CS350 - Operating Systems (0.50) SE350 - Operating Systems (0.50) Must have completed at least 1 of the following: MATH135 - Algebra for Honours Mathematics (0.50) MATH145 - Algebra (Advanced Level) (0.50) Enrolled in H-BBA & BCS Double Degree, H-Computer Science (BCS), H-Computer Science (BMath), JH-Computer Science (BCS), JH-Computer Science (BMath), H-Computing & Financial Management, H-Data Science (BCS), or H-Software Engineering"
+  },
+  {
+    "target": "CS462",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 1 of the following: CS360 - Introduction to the Theory of Computing (0.50) CS365 - Models of Computation (0.50) Enrolled in H-BBA & BCS Double Degree, H-Computer Science (BCS), H-Computer Science (BMath), JH-Computer Science (BCS), JH-Computer Science (BMath), H-Computing & Financial Management, H-Data Science (BCS), or H-Software Engineering"
+  },
+  {
+    "target": "CS480",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed the following: CS341 - Algorithms (0.50) Must have completed at least 1 of the following: STAT206 - Statistics for Software Engineering (0.50) STAT231 - Statistics (0.50) STAT241 - Statistics (Advanced Level) (0.50) Enrolled in H-BBA & BCS Double Degree, H-Computer Science (BCS), H-Computer Science (BMath), JH-Computer Science (BCS), JH-Computer Science (BMath), H-Computing & Financial Management, H-Data Science (BCS), H-Data Science (BMath), or H-Software Engineering"
+  },
+  {
+    "target": "CS484",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 1 of the following: AMATH242 - Introduction to Computational Mathematics (0.50) CS370 - Numerical Computation (0.50) CS371 - Introduction to Computational Mathematics (0.50) MATH235 - Linear Algebra 2 for Honours Mathematics (0.50) MATH245 - Linear Algebra 2 (Advanced Level) (0.50) Must have completed at least 1 of the following: STAT206 - Statistics for Software Engineering (0.50) STAT230 - Probability (0.50) STAT240 - Probability (Advanced Level) (0.50) Enrolled in H-BBA & BCS Double Degree, H-Computer Science (BCS), H-Computer Science (BMath), JH-Computer Science (BCS), JH-Computer Science (BMath), H-Computing & Financial Management, H-Data Science (BCS), H-Data Science (BMath), or H-Software Engineering"
+  },
+  {
+    "target": "CS485",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed the following: CS341 - Algorithms (0.50) Must have completed at least 1 of the following: STAT206 - Statistics for Software Engineering (0.50) STAT230 - Probability (0.50) STAT240 - Probability (Advanced Level) (0.50) Enrolled in H-BBA & BCS Double Degree, H-Computer Science (BCS), H-Computer Science (BMath), JH-Computer Science (BCS), JH-Computer Science (BMath), H-Computing & Financial Management, H-Data Science (BCS), H-Data Science (BMath), or H-Software Engineering"
+  },
+  {
+    "target": "CS488",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed the following: CS341 - Algorithms (0.50) Must have completed at least 1 of the following: CS350 - Operating Systems (0.50) SE350 - Operating Systems (0.50) Must have completed at least 1 of the following: CS370 - Numerical Computation (0.50) CS371 - Introduction to Computational Mathematics (0.50) Enrolled in H-BBA & BCS Double Degree, H-Computer Science (BCS), H-Computer Science (BMath), JH-Computer Science (BCS), JH-Computer Science (BMath), H-Computing & Financial Management, H-Data Science (BCS), or H-Software Engineering"
+  },
+  {
+    "target": "ECE313",
+    "kind": "PROGRAM",
+    "expr": "Complete 1 of the following Complete all of the following Students must be in level 3B or higher Enrolled in H-Computer Engineering, or H-Electrical Engineering Complete all of the following Must have completed the following: MATH213 - Signals, Systems, and Differential Equations (0.50) STAT206 - Statistics for Software Engineering (0.50) Students must be in level 3B or higher Enrolled in H-Software Engineering"
+  },
+  {
+    "target": "ECE313",
+    "kind": "STANDING",
+    "expr": "level 3B"
+  },
+  {
+    "target": "ECE313",
+    "kind": "PROGRAM",
+    "expr": "Complete 1 of the following Complete all of the following Students must be in level 3B or higher Enrolled in H-Computer Engineering, or H-Electrical Engineering Complete all of the following Must have completed the following: MATH213 - Signals, Systems, and Differential Equations (0.50) STAT206 - Statistics for Software Engineering (0.50) Students must be in level 3B or higher Enrolled in H-Software Engineering"
+  },
+  {
+    "target": "ECE313",
+    "kind": "STANDING",
+    "expr": "level 3B"
+  },
+  {
+    "target": "ECE423",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 1 of the following: CS350 - Operating Systems (0.50) ECE252 - Systems Programming and Concurrency (0.50) MTE241 - Introduction to Computer Structures and Real-Time Systems (0.50) SE350 - Operating Systems (0.50) Must have completed at least 1 of the following: ECE224 - Embedded Microprocessor Systems (0.50) MTE325 - Microprocessor Systems and Interfacing for Mechatronics Engineering (0.50) Students must be in level 4A or higher Complete 1 of the following Enrolled in H-Software Engineering Enrolled in a BASc program"
+  },
+  {
+    "target": "ECE423",
+    "kind": "STANDING",
+    "expr": "level 4A"
+  },
+  {
+    "target": "ECE423",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 1 of the following: CS350 - Operating Systems (0.50) ECE252 - Systems Programming and Concurrency (0.50) MTE241 - Introduction to Computer Structures and Real-Time Systems (0.50) SE350 - Operating Systems (0.50) Must have completed at least 1 of the following: ECE224 - Embedded Microprocessor Systems (0.50) MTE325 - Microprocessor Systems and Interfacing for Mechatronics Engineering (0.50) Students must be in level 4A or higher Complete 1 of the following Enrolled in H-Software Engineering Enrolled in a BASc program"
+  },
+  {
+    "target": "ECE423",
+    "kind": "STANDING",
+    "expr": "level 4A"
+  },
+  {
+    "target": "ECE423",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 1 of the following: CS350 - Operating Systems (0.50) ECE252 - Systems Programming and Concurrency (0.50) MTE241 - Introduction to Computer Structures and Real-Time Systems (0.50) SE350 - Operating Systems (0.50) Must have completed at least 1 of the following: ECE224 - Embedded Microprocessor Systems (0.50) MTE325 - Microprocessor Systems and Interfacing for Mechatronics Engineering (0.50) Students must be in level 4A or higher Complete 1 of the following Enrolled in H-Software Engineering Enrolled in a BASc program"
+  },
+  {
+    "target": "ECE423",
+    "kind": "STANDING",
+    "expr": "level 4A"
+  },
+  {
+    "target": "ECE423",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 1 of the following: CS350 - Operating Systems (0.50) ECE252 - Systems Programming and Concurrency (0.50) MTE241 - Introduction to Computer Structures and Real-Time Systems (0.50) SE350 - Operating Systems (0.50) Must have completed at least 1 of the following: ECE224 - Embedded Microprocessor Systems (0.50) MTE325 - Microprocessor Systems and Interfacing for Mechatronics Engineering (0.50) Students must be in level 4A or higher Complete 1 of the following Enrolled in H-Software Engineering Enrolled in a BASc program"
+  },
+  {
+    "target": "ECE423",
+    "kind": "STANDING",
+    "expr": "level 4A"
+  },
+  {
+    "target": "ECE423",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 1 of the following: CS350 - Operating Systems (0.50) ECE252 - Systems Programming and Concurrency (0.50) MTE241 - Introduction to Computer Structures and Real-Time Systems (0.50) SE350 - Operating Systems (0.50) Must have completed at least 1 of the following: ECE224 - Embedded Microprocessor Systems (0.50) MTE325 - Microprocessor Systems and Interfacing for Mechatronics Engineering (0.50) Students must be in level 4A or higher Complete 1 of the following Enrolled in H-Software Engineering Enrolled in a BASc program"
+  },
+  {
+    "target": "ECE423",
+    "kind": "STANDING",
+    "expr": "level 4A"
+  },
+  {
+    "target": "ECE481",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Students must be in level 4A or higher Complete 1 of the following Complete all of the following Must have completed at least 1 of the following: ECE380 - Analog Control Systems (0.50) MTE360 - Automatic Control Systems (0.50) SYDE352 - Introduction to Control Systems (0.50) Enrolled in H-Computer Engineering, H-Electrical Engineering, or H-Systems Design Engineering Complete all of the following Must have completed the following: ECE207 - Signals and Systems (0.50) SE380 - Introduction to Feedback Control (0.50) Enrolled in H-Software Engineering"
+  },
+  {
+    "target": "ECE481",
+    "kind": "STANDING",
+    "expr": "level 4A"
+  },
+  {
+    "target": "ECE488",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Students must be in level 4A or higher Complete 1 of the following Complete all of the following Must have completed the following: ECE380 - Analog Control Systems (0.50) Enrolled in H-Computer Engineering, or H-Electrical Engineering Complete all of the following Must have completed the following: ME360 - Introduction to Control Systems (0.50) Enrolled in H-Mechanical Engineering, or Mechatronics Option Complete all of the following Must have completed the following: MTE360 - Automatic Control Systems (0.50) Enrolled in H-Mechatronics Engineering Complete all of the following Must have completed the following: SE380 - Introduction to Feedback Control (0.50) Enrolled in H-Software Engineering Complete all of the following Must have completed the following: SYDE352 - Introduction to Control Systems (0.50) Enrolled in H-Systems Design Engineering"
+  },
+  {
+    "target": "ECE488",
+    "kind": "STANDING",
+    "expr": "level 4A"
+  },
+  {
+    "target": "ECE488",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Students must be in level 4A or higher Complete 1 of the following Complete all of the following Must have completed the following: ECE380 - Analog Control Systems (0.50) Enrolled in H-Computer Engineering, or H-Electrical Engineering Complete all of the following Must have completed the following: ME360 - Introduction to Control Systems (0.50) Enrolled in H-Mechanical Engineering, or Mechatronics Option Complete all of the following Must have completed the following: MTE360 - Automatic Control Systems (0.50) Enrolled in H-Mechatronics Engineering Complete all of the following Must have completed the following: SE380 - Introduction to Feedback Control (0.50) Enrolled in H-Software Engineering Complete all of the following Must have completed the following: SYDE352 - Introduction to Control Systems (0.50) Enrolled in H-Systems Design Engineering"
+  },
+  {
+    "target": "ECE488",
+    "kind": "STANDING",
+    "expr": "level 4A"
+  },
+  {
+    "target": "ECE488",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Students must be in level 4A or higher Complete 1 of the following Complete all of the following Must have completed the following: ECE380 - Analog Control Systems (0.50) Enrolled in H-Computer Engineering, or H-Electrical Engineering Complete all of the following Must have completed the following: ME360 - Introduction to Control Systems (0.50) Enrolled in H-Mechanical Engineering, or Mechatronics Option Complete all of the following Must have completed the following: MTE360 - Automatic Control Systems (0.50) Enrolled in H-Mechatronics Engineering Complete all of the following Must have completed the following: SE380 - Introduction to Feedback Control (0.50) Enrolled in H-Software Engineering Complete all of the following Must have completed the following: SYDE352 - Introduction to Control Systems (0.50) Enrolled in H-Systems Design Engineering"
+  },
+  {
+    "target": "ECE488",
+    "kind": "STANDING",
+    "expr": "level 4A"
+  },
+  {
+    "target": "ECE488",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Students must be in level 4A or higher Complete 1 of the following Complete all of the following Must have completed the following: ECE380 - Analog Control Systems (0.50) Enrolled in H-Computer Engineering, or H-Electrical Engineering Complete all of the following Must have completed the following: ME360 - Introduction to Control Systems (0.50) Enrolled in H-Mechanical Engineering, or Mechatronics Option Complete all of the following Must have completed the following: MTE360 - Automatic Control Systems (0.50) Enrolled in H-Mechatronics Engineering Complete all of the following Must have completed the following: SE380 - Introduction to Feedback Control (0.50) Enrolled in H-Software Engineering Complete all of the following Must have completed the following: SYDE352 - Introduction to Control Systems (0.50) Enrolled in H-Systems Design Engineering"
+  },
+  {
+    "target": "ECE488",
+    "kind": "STANDING",
+    "expr": "level 4A"
+  },
+  {
+    "target": "ECE488",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Students must be in level 4A or higher Complete 1 of the following Complete all of the following Must have completed the following: ECE380 - Analog Control Systems (0.50) Enrolled in H-Computer Engineering, or H-Electrical Engineering Complete all of the following Must have completed the following: ME360 - Introduction to Control Systems (0.50) Enrolled in H-Mechanical Engineering, or Mechatronics Option Complete all of the following Must have completed the following: MTE360 - Automatic Control Systems (0.50) Enrolled in H-Mechatronics Engineering Complete all of the following Must have completed the following: SE380 - Introduction to Feedback Control (0.50) Enrolled in H-Software Engineering Complete all of the following Must have completed the following: SYDE352 - Introduction to Control Systems (0.50) Enrolled in H-Systems Design Engineering"
+  },
+  {
+    "target": "ECE488",
+    "kind": "STANDING",
+    "expr": "level 4A"
+  },
+  {
+    "target": "CO367",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Complete 1 of the following Must have completed at least 1 of the following: CO250 - Introduction to Optimization (0.50) CO255 - Introduction to Optimization (Advanced Level) (0.50) Must have completed the following: CO352 Complete 1 of the following Must have completed at least 1 of the following: MATH138 - Calculus 2 for Honours Mathematics (0.50) MATH148 - Calculus 2 (Advanced Level) (0.50) Earned a minimum grade of 70% in each of the following: MATH128 - Calculus 2 for the Sciences (0.50)"
+  },
+  {
+    "target": "CO487",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 1 of the following: CS116 - Introduction to Computer Science 2 (0.50) CS136 - Elementary Algorithm Design and Data Abstraction (0.50) CS138 - Introduction to Data Abstraction and Implementation (0.50) CS146 - Elementary Algorithm Design and Data Abstraction (Advanced Level) (0.50) Must have completed at least 1 of the following: MATH135 - Algebra for Honours Mathematics (0.50) MATH145 - Algebra (Advanced Level) (0.50) Must have completed at least 1 of the following: STAT206 - Statistics for Software Engineering (0.50) STAT220 - Probability (Non-Specialist Level) (0.50) STAT230 - Probability (0.50) STAT240 - Probability (Advanced Level) (0.50) Students must be in level 3A or higher"
+  },
+  {
+    "target": "CO487",
+    "kind": "STANDING",
+    "expr": "level 3A"
+  },
+  {
+    "target": "MSE446",
+    "kind": "STANDING",
+    "expr": "level 3A"
+  },
+  {
+    "target": "PHYS467",
+    "kind": "PROGRAM",
+    "expr": "Complete all of the following Must have completed at least 1 of the following: MATH114 - Linear Algebra for Science (0.50) MATH115 - Linear Algebra for Engineering (0.50) MATH235 - Linear Algebra 2 for Honours Mathematics (0.50) MATH245 - Linear Algebra 2 (Advanced Level) (0.50) PHYS334 - Quantum Physics 2 (0.50) Students must be in level 3A or higher"
+  },
+  {
+    "target": "PHYS467",
+    "kind": "STANDING",
+    "expr": "level 3A"
+  },
+  {
+    "target": "SYDE548",
+    "kind": "STANDING",
+    "expr": "level 3A"
+  },
+  {
+    "target": "SYDE552",
+    "kind": "STANDING",
+    "expr": "level 3A"
+  },
+  {
+    "target": "SYDE575",
+    "kind": "STANDING",
+    "expr": "level 3A"
+  }
+]

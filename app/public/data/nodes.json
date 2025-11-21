@@ -1,2970 +1,1883 @@
 [
   {
-    "id": "CHE102",
-    "title": "CHE102 - Chemistry for Engineers",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "CHEM",
-    "source_url": null
-  },
-  {
     "id": "CS137",
+    "code": "CS137",
     "title": "CS137 - Programming Principles",
     "credits": 0.5,
-    "level": 100,
+    "description": null,
     "subject": "CS",
-    "source_url": null
-  },
-  {
-    "id": "MATH135",
-    "title": "MATH135 - Algebra for Honours Mathematics",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "MATH",
-    "source_url": null
-  },
-  {
-    "id": "MATH117",
-    "title": "Calculus 1 for Engineering",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "MATH",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65b906f75c94795825e56ec8"
-  },
-  {
-    "id": "MATH115",
-    "title": "MATH115 - Linear Algebra for Engineering",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "MATH",
-    "source_url": null
-  },
-  {
-    "id": "SE101",
-    "title": "SE101 - Introduction to Methods of Software Engineering",
-    "credits": 0.25,
-    "level": 100,
-    "subject": "SE",
-    "source_url": null
-  },
-  {
-    "id": "CS138",
-    "title": "CS138 - Introduction to Data Abstraction and Implementation",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "CS",
-    "source_url": null
-  },
-  {
-    "id": "ECE124",
-    "title": "ECE124 - Digital Circuits and Systems",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "ECE",
-    "source_url": null
-  },
-  {
-    "id": "ECE140",
-    "title": "Linear Circuits",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "ECE",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/66d9e38c6a6e2eaccb63ae51"
-  },
-  {
-    "id": "ECE192",
-    "title": "ECE192 - Engineering Economics and Impact on Society",
-    "credits": 0.25,
-    "level": 100,
-    "subject": "Engineering",
-    "source_url": null
-  },
-  {
-    "id": "MATH119",
-    "title": "Calculus 2 for Engineering",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "MATH",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65b9082c23cba710ea47be65"
-  },
-  {
-    "id": "SE102",
-    "title": "SE102 - Seminar",
-    "credits": 0.0,
-    "level": 100,
-    "subject": "SE",
-    "source_url": null
-  },
-  {
-    "id": "CS241",
-    "title": "Foundations of Sequential Programs",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "CS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/6627d8a1466ac1cf38cb4d61"
-  },
-  {
-    "id": "ECE222",
-    "title": "Digital Computers",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "ECE",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/68923b16f8a6877efe974332"
-  },
-  {
-    "id": "SE201",
-    "title": "SE201 - Seminar",
-    "credits": 0.0,
-    "level": 100,
-    "subject": "SE",
-    "source_url": null
-  },
-  {
-    "id": "SE212",
-    "title": "SE212 - Logic and Computation",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "SE",
-    "source_url": null
-  },
-  {
-    "id": "CS273",
-    "title": "STAT206 - Statistics for Software Engineering",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "STAT",
-    "source_url": null
-  },
-  {
-    "id": "ECE105",
-    "title": "ECE105 - Classical Mechanics",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "Engineering",
-    "source_url": null
-  },
-  {
-    "id": "PHYS115",
-    "title": "PHYS115 - Mechanics",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "PHYS",
-    "source_url": null
-  },
-  {
-    "id": "PHYS121",
-    "title": "Mechanics",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "PHYS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/66db3e18f999f25eebc2eaf6"
-  },
-  {
-    "id": "CS240",
-    "title": "Data Structures and Data Management",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "CS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/660daaddbca6567fc24b145c"
-  },
-  {
-    "id": "CS247",
-    "title": "Software Engineering Principles",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "CS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/6626b654b4dce0ae892ac57c"
-  },
-  {
-    "id": "CS348",
-    "title": "Introduction to Database Management",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "CS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/6627d1d87be622222eefb8ba"
-  },
-  {
-    "id": "MATH239",
-    "title": "Introduction to Combinatorics",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "MATH",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65b91bf318ca23d8820b6dba"
-  },
-  {
-    "id": "SE202",
-    "title": "SE202 - Seminar",
-    "credits": 0.0,
-    "level": 100,
-    "subject": "SE",
-    "source_url": null
-  },
-  {
-    "id": "CS341",
-    "title": "Algorithms",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "CS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/6627d327126715c17eef80fc"
-  },
-  {
-    "id": "MATH213",
-    "title": "Signals, Systems, and Differential Equations",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "MATH",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/64a5b95a64e0fe83a2173c79"
-  },
-  {
-    "id": "SE301",
-    "title": "SE301 - Seminar",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "SE",
-    "source_url": null
-  },
-  {
-    "id": "SE350",
-    "title": "Operating Systems",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "SE",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/664cbaf92ed76b55b1d8dab8"
-  },
-  {
-    "id": "SE464",
-    "title": "SE464 - Software Design and Architectures",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "SE",
-    "source_url": null
-  },
-  {
-    "id": "SE465",
-    "title": "SE465 - Software Testing and Quality Assurance",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "SE",
-    "source_url": null
+    "level": 100
   },
   {
     "id": "CS343",
-    "title": "Concurrent and Parallel Programming",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "CS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/6627d2f5f9d2cd224833988e"
-  },
-  {
-    "id": "ECE358",
-    "title": "Computer Networks",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "ECE",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65b86f3fedfead35ae34093a"
-  },
-  {
-    "id": "SE302",
-    "title": "SE302 - Seminar",
+    "code": "CS343",
+    "title": "CS343 - Concurrent and Parallel Programming",
     "credits": 0.0,
-    "level": 300,
-    "subject": "SE",
-    "source_url": null
-  },
-  {
-    "id": "SE380",
-    "title": "SE380 - Introduction to Feedback Control",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "SE",
-    "source_url": null
-  },
-  {
-    "id": "SE463",
-    "title": "Software Project Management, Requirements, and Analysis",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "SE",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/66624b64314dfa91c33efa7c"
-  },
-  {
-    "id": "CS349",
-    "title": "User Interfaces",
-    "credits": 0.5,
-    "level": 300,
+    "description": null,
     "subject": "CS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/6627d19cb4dce059152acac9"
-  },
-  {
-    "id": "CS449",
-    "title": "Human-Computer Interaction",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "CS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/6627bf7c466ac1c9e1cb4ce5"
-  },
-  {
-    "id": "MSE343",
-    "title": "Human-Computer Interaction",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "MSE",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65e0c0447a54051a2380d63c"
-  },
-  {
-    "id": "SE401",
-    "title": "SE401 - Seminar",
-    "credits": 0.0,
-    "level": 100,
-    "subject": "SE",
-    "source_url": null
-  },
-  {
-    "id": "GENE403",
-    "title": "GENE403 - Interdisciplinary Design Project 1",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "ENGINEERING",
-    "source_url": null
-  },
-  {
-    "id": "SE490",
-    "title": "SE490 - Design Project 1",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "SE",
-    "source_url": null
-  },
-  {
-    "id": "SE402",
-    "title": "SE402 - Seminar",
-    "credits": 0.0,
-    "level": 300,
-    "subject": "SE",
-    "source_url": null
-  },
-  {
-    "id": "GENE404",
-    "title": "Interdisciplinary Design Project 2",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "GENE",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65eb7aca8b15d81cd8217003"
-  },
-  {
-    "id": "SE491",
-    "title": "SE491 - Design Project 2",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "SE",
-    "source_url": null
-  },
-  {
-    "id": "COMMST100",
-    "title": "COMMST100 - Interpersonal Communication",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "COMM",
-    "source_url": null
-  },
-  {
-    "id": "COMMST223",
-    "title": "COMMST223 - Public Speaking",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "COMM",
-    "source_url": null
-  },
-  {
-    "id": "EMLS101R",
-    "title": "Oral Communications for Academic Purposes",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "EMLS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65b2ad1c3f91c769ff68e4a4"
-  },
-  {
-    "id": "EMLS102R",
-    "title": "EMLS102R - Clear Communication in English Writing",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "COMM",
-    "source_url": null
-  },
-  {
-    "id": "EMLS129R",
-    "title": "EMLS129R - Written Academic English",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "COMM",
-    "source_url": null
-  },
-  {
-    "id": "ENGL109",
-    "title": "ENGL109 - Introduction to Academic Writing",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "English",
-    "source_url": null
-  },
-  {
-    "id": "ENGL119",
-    "title": "ENGL119 - Communications in Mathematics and Computer Science",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "ENGL",
-    "source_url": null
-  },
-  {
-    "id": "ENGL129R",
-    "title": "ENGL129R - Written Academic English",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "ENGL",
-    "source_url": null
-  },
-  {
-    "id": "ENGL209",
-    "title": "ENGL209 - Advanced Academic Writing",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "ENGL",
-    "source_url": null
-  },
-  {
-    "id": "ENGL210E",
-    "title": "Genres of Technical Communication",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "ENGL",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/64a5b8cdec4d1ac5bb6b513f"
-  },
-  {
-    "id": "AMATH382",
-    "title": "Computational Modelling of Cellular Systems",
-    "credits": 0.5,
-    "level": 0,
-    "subject": "",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65fd8f1f92fd7fc9f00dc4a9"
-  },
-  {
-    "id": "BIOL110",
-    "title": "BIOL110 - Biodiversity, Biomes, and Evolution",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "BIOL",
-    "source_url": null
-  },
-  {
-    "id": "BIOL130",
-    "title": "BIOL130 - Introductory Cell Biology",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "BIOLOGY",
-    "source_url": null
-  },
-  {
-    "id": "BIOL130L",
-    "title": "BIOL130L - Cell Biology Laboratory",
-    "credits": 0.25,
-    "level": 100,
-    "subject": "BIOL",
-    "source_url": null
-  },
-  {
-    "id": "BIOL150",
-    "title": "Organismal and Evolutionary Ecology",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "BIOL",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65b7ed31026eba8657bb5259"
-  },
-  {
-    "id": "BIOL165",
-    "title": "BIOL165 - Diversity of Life",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "BIOLOGY",
-    "source_url": null
-  },
-  {
-    "id": "BIOL211",
-    "title": "BIOL211 - Introductory Vertebrate Zoology",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "BIOL",
-    "source_url": null
-  },
-  {
-    "id": "BIOL220",
-    "title": "BIOL220 - Introduction to Plant Structure and Function",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "BIOL",
-    "source_url": null
-  },
-  {
-    "id": "BIOL239",
-    "title": "BIOL239 - Genetics",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "BIOL",
-    "source_url": null
-  },
-  {
-    "id": "BIOL240",
-    "title": "BIOL240 - Fundamentals of Microbiology",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "BIOL",
-    "source_url": null
-  },
-  {
-    "id": "BIOL240L",
-    "title": "BIOL240L - Microbiology Laboratory",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "BIOL",
-    "source_url": null
-  },
-  {
-    "id": "BIOL241",
-    "title": "BIOL241 - Introduction to Applied Microbiology",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "BIOL",
-    "source_url": null
-  },
-  {
-    "id": "BIOL273",
-    "title": "BIOL273 - Principles of Human Physiology 1",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "BIOL",
-    "source_url": null
-  },
-  {
-    "id": "BIOL280",
-    "title": "BIOL280 - Introduction to Biophysics",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "BIOL",
-    "source_url": null
-  },
-  {
-    "id": "BIOL365",
-    "title": "Methods in Bioinformatics",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "BIOL",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65d604f1187f5e0dce9187aa"
-  },
-  {
-    "id": "BIOL373",
-    "title": "BIOL373 - Principles of Human Physiology 2",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "BIOL",
-    "source_url": null
-  },
-  {
-    "id": "BIOL373L",
-    "title": "BIOL373L - Human Physiology Laboratory",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "BIOL",
-    "source_url": null
-  },
-  {
-    "id": "BIOL273L",
-    "title": "BIOL273L - Human Physiology Laboratory",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "BIOL",
-    "source_url": null
+    "level": 300
   },
   {
     "id": "BIOL376",
+    "code": "BIOL376",
     "title": "BIOL376 - Cellular Neurophysiology",
     "credits": 0.5,
-    "level": 300,
+    "description": null,
     "subject": "BIOL",
-    "source_url": null
+    "level": 300
   },
   {
-    "id": "BIOL382",
-    "title": "Computational Modelling of Cellular Systems",
+    "id": "SE212",
+    "code": "SE212",
+    "title": "SE212 - Logic and Computation",
     "credits": 0.5,
-    "level": 300,
-    "subject": "BIOL",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/6656482bfa8dc61f5398c1ca"
+    "description": null,
+    "subject": "SE",
+    "level": 200
   },
   {
-    "id": "BIOL469",
-    "title": "BIOL469 - Genomics",
+    "id": "EMLS102R",
+    "code": "EMLS102R",
+    "title": "EMLS102R - Clear Communication in English Writing",
     "credits": 0.5,
-    "level": 400,
-    "subject": "BIOL",
-    "source_url": null
+    "description": null,
+    "subject": "EMLS",
+    "level": 100
   },
   {
-    "id": "BIOL476",
-    "title": "Systems Neuroscience: From Neurons to Behaviour",
+    "id": "GENE404",
+    "code": "GENE404",
+    "title": "GENE404 - Interdisciplinary Design Project 2",
     "credits": 0.5,
-    "level": 400,
-    "subject": "BIOL",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65b13bc56cd58985b0e8d9af"
-  },
-  {
-    "id": "BIOL489",
-    "title": "BIOL489 - Arctic Ecology",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "BIOL",
-    "source_url": null
-  },
-  {
-    "id": "CHE161",
-    "title": "CHE161 - Engineering Biology",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "CHEM",
-    "source_url": null
-  },
-  {
-    "id": "CHEM123",
-    "title": "CHEM123 - General Chemistry 2",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "CHEM",
-    "source_url": null
-  },
-  {
-    "id": "CHEM123L",
-    "title": "General Chemistry Laboratory 2",
-    "credits": 0.25,
-    "level": 100,
-    "subject": "CHEM",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65b1c03a23cba765c347977c"
-  },
-  {
-    "id": "CHEM209",
-    "title": "CHEM209 - Introductory Spectroscopy and Structure",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "CHEM",
-    "source_url": null
-  },
-  {
-    "id": "CHEM237",
-    "title": "CHEM237 - Introductory Biochemistry",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "CHEM",
-    "source_url": null
-  },
-  {
-    "id": "CHEM237L",
-    "title": "CHEM237L - Introductory Biochemistry Laboratory",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "CHEM",
-    "source_url": null
-  },
-  {
-    "id": "CHEM254",
-    "title": "CHEM254 - Introductory Chemical Thermodynamics",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "CHEM",
-    "source_url": null
-  },
-  {
-    "id": "CHEM262",
-    "title": "Organic Chemistry for Engineering",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "CHEM",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/661e8acef9d2cd72c8335502"
-  },
-  {
-    "id": "CHEM262L",
-    "title": "CHEM262L - Organic Chemistry Laboratory for Engineering Students",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "CHEM",
-    "source_url": null
-  },
-  {
-    "id": "CHEM266",
-    "title": "CHEM266 - Basic Organic Chemistry 1",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "CHEM",
-    "source_url": null
-  },
-  {
-    "id": "CHEM356",
-    "title": "CHEM356 - Introductory Quantum Mechanics",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "CHEM",
-    "source_url": null
-  },
-  {
-    "id": "CS482",
-    "title": "Computational Techniques in Biological Sequence Analysis",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "CS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/64a5b8c79e76ccd6a6848f09"
-  },
-  {
-    "id": "EARTH121",
-    "title": "EARTH121 - Introductory Earth Sciences",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "EARTH",
-    "source_url": null
-  },
-  {
-    "id": "EARTH122",
-    "title": "EARTH122 - Introductory Environmental Sciences",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "EARTH",
-    "source_url": null
-  },
-  {
-    "id": "ENVS195",
-    "title": "ENVS195 - Introduction to Environmental Studies",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "ENVS",
-    "source_url": null
-  },
-  {
-    "id": "EARTH123",
-    "title": "EARTH123 - Introductory Hydrology",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "EARTH",
-    "source_url": null
-  },
-  {
-    "id": "EARTH221",
-    "title": "EARTH221 - Introductory Geochemistry",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "EARTH",
-    "source_url": null
-  },
-  {
-    "id": "EARTH270",
-    "title": "EARTH270 - Disasters and Natural Hazards",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "EARTH",
-    "source_url": null
-  },
-  {
-    "id": "EARTH281",
-    "title": "EARTH281 - Geological Impacts on Human Health",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "EARTH",
-    "source_url": null
-  },
-  {
-    "id": "ECE106",
-    "title": "Electricity and Magnetism",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "ECE",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/66d9e2d62669d079df417540"
-  },
-  {
-    "id": "ECE231",
-    "title": "ECE231 - Semiconductor Physics and Devices",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "ECE",
-    "source_url": null
-  },
-  {
-    "id": "ECE305",
-    "title": "Introduction to Quantum Mechanics",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "ECE",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65d807facaf2ebda8f3dc5ce"
-  },
-  {
-    "id": "ECE403",
-    "title": "ECE403 - Thermal Physics",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "ECE",
-    "source_url": null
-  },
-  {
-    "id": "ECE404",
-    "title": "Geometrical and Physical Optics",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "ECE",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65b8712323cba748a947bb49"
-  },
-  {
-    "id": "ENVE275",
-    "title": "ENVE275 - Aquatic Chemistry",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "ENVE",
-    "source_url": null
-  },
-  {
-    "id": "ENVS200",
-    "title": "ENVS200 - Field Ecology",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "ENVS",
-    "source_url": null
-  },
-  {
-    "id": "NE222",
-    "title": "NE222 - Organic Chemistry for Nanotechnology Engineers",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "CHEM",
-    "source_url": null
-  },
-  {
-    "id": "PHYS122",
-    "title": "Waves, Electricity and Magnetism",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "PHYS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/67a0e7cd339747a1167ebd94"
-  },
-  {
-    "id": "PHYS124",
-    "title": "Modern Physics",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "PHYS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/6787c79ec80049e7ba26bb10"
-  },
-  {
-    "id": "PHYS175",
-    "title": "Introduction to the Universe",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "PHYS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65f4659a3c734ae0ba7ad726"
-  },
-  {
-    "id": "PHYS233",
-    "title": "Introduction to Quantum Mechanics",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "PHYS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/6787cadb1a6d98ce93edae8a"
-  },
-  {
-    "id": "PHYS234",
-    "title": "Quantum Physics 1",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "PHYS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/678540c386e8f3b452c183b6"
-  },
-  {
-    "id": "PHYS263",
-    "title": "Classical Mechanics and Special Relativity",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "PHYS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65b9a0f7ec4e64c2f5e24a0c"
-  },
-  {
-    "id": "PHYS275",
-    "title": "PHYS275 - Planets",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "PHYS",
-    "source_url": null
-  },
-  {
-    "id": "PHYS280",
-    "title": "PHYS280 - Introduction to Biophysics",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "PHYSICS",
-    "source_url": null
-  },
-  {
-    "id": "PHYS334",
-    "title": "Quantum Physics 2",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "PHYS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65b9a1f3b44f43f10469ebef"
-  },
-  {
-    "id": "PHYS335",
-    "title": "Condensed Matter Physics",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "PHYS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/6660770b68be9e27e4f7b5af"
-  },
-  {
-    "id": "PHYS375",
-    "title": "Stars",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "PHYS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65b9a3fef81cd8a118131b8b"
-  },
-  {
-    "id": "PHYS380",
-    "title": "PHYS380 - Molecular and Cellular Biophysics",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "PHYS",
-    "source_url": null
+    "description": null,
+    "subject": "GENE",
+    "level": 400
   },
   {
     "id": "PHYS468",
+    "code": "PHYS468",
     "title": "PHYS468 - Introduction to the Implementation of Quantum Information Processing",
     "credits": 0.5,
-    "level": 400,
+    "description": null,
     "subject": "PHYS",
-    "source_url": null
-  },
-  {
-    "id": "PSYCH207",
-    "title": "Cognitive Processes",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "PSY",
-    "source_url": null
-  },
-  {
-    "id": "PSYCH261",
-    "title": "Physiological Psychology",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "PSY",
-    "source_url": null
-  },
-  {
-    "id": "PSYCH306",
-    "title": "Perception",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "PSYCH",
-    "source_url": null
-  },
-  {
-    "id": "SCI200",
-    "title": "SCI200 - Energy - Its Development, Use, and Issues",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "SCI",
-    "source_url": null
-  },
-  {
-    "id": "SCI238",
-    "title": "SCI238 - Introductory Astronomy",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "SCI",
-    "source_url": null
-  },
-  {
-    "id": "CS444",
-    "title": "Compiler Construction",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "CS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/6627c48ea48ab9064d2233b7"
-  },
-  {
-    "id": "CS450",
-    "title": "Computer Architecture",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "CS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/6627bec73fe4b24821343820"
-  },
-  {
-    "id": "CS451",
-    "title": "Data-Intensive Distributed Computing",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "CS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/66269c91046a8d1a8288e2b4"
-  },
-  {
-    "id": "CS452",
-    "title": "CS452 - Real-Time Programming",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "CS",
-    "source_url": null
+    "level": 400
   },
   {
     "id": "CS453",
-    "title": "Software and Systems Security",
+    "code": "CS453",
+    "title": "CS453 - Software and Systems Security",
     "credits": 0.5,
-    "level": 400,
+    "description": null,
     "subject": "CS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/6669bfe9d7e38da0ff4aee96"
+    "level": 400
   },
   {
-    "id": "CS454",
-    "title": "Distributed Systems",
+    "id": "CS240",
+    "code": "CS240",
+    "title": "CS240 - Data Structures and Data Management",
     "credits": 0.5,
-    "level": 400,
+    "description": null,
     "subject": "CS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/66269b7f466ac136a3cb4735"
+    "level": 200
   },
   {
-    "id": "CS457",
-    "title": "System Performance Evaluation",
+    "id": "SE490",
+    "code": "SE490",
+    "title": "SE490 - Design Project 1",
     "credits": 0.5,
-    "level": 400,
+    "description": null,
+    "subject": "SE",
+    "level": 400
+  },
+  {
+    "id": "EMLS101R",
+    "code": "EMLS101R",
+    "title": "EMLS101R - Oral Communications for Academic Purposes",
+    "credits": 0.5,
+    "description": null,
+    "subject": "EMLS",
+    "level": 100
+  },
+  {
+    "id": "BIOL150",
+    "code": "BIOL150",
+    "title": "BIOL150 - Organismal and Evolutionary Ecology",
+    "credits": 0.5,
+    "description": null,
+    "subject": "BIOL",
+    "level": 100
+  },
+  {
+    "id": "BIOL273",
+    "code": "BIOL273",
+    "title": "BIOL273 - Principles of Human Physiology 1",
+    "credits": 0.5,
+    "description": null,
+    "subject": "BIOL",
+    "level": 200
+  },
+  {
+    "id": "CS449",
+    "code": "CS449",
+    "title": "CS449 - Human-Computer Interaction",
+    "credits": 0.5,
+    "description": null,
     "subject": "CS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/6627bd13466ac1b781cb4cd6"
+    "level": 400
   },
   {
-    "id": "CS459",
-    "title": "Privacy, Cryptography, Network and Data Security",
+    "id": "BIOL489",
+    "code": "BIOL489",
+    "title": "BIOL489 - Arctic Ecology",
     "credits": 0.5,
-    "level": 400,
-    "subject": "CS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/6669c0d5aee3363925c7f125"
+    "description": null,
+    "subject": "BIOL",
+    "level": 400
   },
   {
-    "id": "CS462",
-    "title": "Formal Languages and Parsing",
+    "id": "PHYS280",
+    "code": "PHYS280",
+    "title": "PHYS280 - Introduction to Biophysics",
     "credits": 0.5,
-    "level": 400,
-    "subject": "CS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/662699d9046a8d7dce88e281"
+    "description": null,
+    "subject": "PHYS",
+    "level": 200
   },
   {
-    "id": "CS466",
-    "title": "CS466 - Algorithm Design and Analysis",
+    "id": "ECE358",
+    "code": "ECE358",
+    "title": "ECE358 - Computer Networks",
     "credits": 0.5,
-    "level": 400,
-    "subject": "Computer Science",
-    "source_url": null
-  },
-  {
-    "id": "CS479",
-    "title": "Neural Networks",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "CS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/66f18bcf88e1c8753b9107d3"
-  },
-  {
-    "id": "CS480",
-    "title": "Introduction to Machine Learning",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "CS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/666858ff9c2178648769fe6a"
-  },
-  {
-    "id": "CS484",
-    "title": "Computational Vision",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "CS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/6627bb297e8d73a067710019"
-  },
-  {
-    "id": "CS485",
-    "title": "Statistical and Computational Foundations of Machine Learning",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "CS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/6627ba77b4dce02a752aca55"
-  },
-  {
-    "id": "CS486",
-    "title": "CS486 - Introduction to Artificial Intelligence",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "CS",
-    "source_url": null
-  },
-  {
-    "id": "CS487",
-    "title": "CS487 - Introduction to Symbolic Computation",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "CS",
-    "source_url": null
-  },
-  {
-    "id": "CS488",
-    "title": "Introduction to Computer Graphics",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "CS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/6627b7c9b4dce04d272aca44"
-  },
-  {
-    "id": "CS489",
-    "title": "CS489 - Advanced Topics in Computer Science",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "CS",
-    "source_url": null
-  },
-  {
-    "id": "ECE313",
-    "title": "ECE313 - Digital Signal Processing",
-    "credits": 0.5,
-    "level": 300,
+    "description": null,
     "subject": "ECE",
-    "source_url": null
+    "level": 300
   },
   {
-    "id": "ECE405B",
-    "title": "ECE405B - Fundamentals of Experimental Quantum Information",
+    "id": "BIOL476",
+    "code": "BIOL476",
+    "title": "BIOL476 - Systems Neuroscience: From Neurons to Behaviour",
     "credits": 0.5,
-    "level": 400,
-    "subject": "ECE",
-    "source_url": null
+    "description": null,
+    "subject": "BIOL",
+    "level": 400
   },
   {
-    "id": "ECE417",
-    "title": "ECE417 - Image Processing",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "ECE",
-    "source_url": null
+    "id": "ENVS200",
+    "code": "ENVS200",
+    "title": "ENVS200 - Field Ecology",
+    "credits": 0.25,
+    "description": null,
+    "subject": "ENVS",
+    "level": 200
   },
   {
-    "id": "ECE423",
-    "title": "Embedded Computer Systems",
+    "id": "SE380",
+    "code": "SE380",
+    "title": "SE380 - Introduction to Feedback Control",
     "credits": 0.5,
-    "level": 400,
-    "subject": "ECE",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65b8720a5a8cf77ba28a5bf3"
+    "description": null,
+    "subject": "SE",
+    "level": 300
   },
   {
-    "id": "ECE457C",
-    "title": "Reinforcement Learning",
+    "id": "ECE222",
+    "code": "ECE222",
+    "title": "ECE222 - Digital Computers",
     "credits": 0.5,
-    "level": 400,
+    "description": null,
     "subject": "ECE",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65b876f998f04442dc1031f1"
+    "level": 200
   },
   {
-    "id": "ECE458",
-    "title": "ECE458 - Computer Security",
+    "id": "ECE404",
+    "code": "ECE404",
+    "title": "ECE404 - Geometrical and Physical Optics",
     "credits": 0.5,
-    "level": 400,
+    "description": null,
     "subject": "ECE",
-    "source_url": null
+    "level": 400
   },
   {
     "id": "ECE459",
+    "code": "ECE459",
     "title": "ECE459 - Programming for Performance",
     "credits": 0.5,
-    "level": 400,
+    "description": null,
     "subject": "ECE",
-    "source_url": null
+    "level": 400
   },
   {
-    "id": "ECE481",
-    "title": "ECE481 - Digital Control Systems",
+    "id": "CS466",
+    "code": "CS466",
+    "title": "CS466 - Algorithm Design and Analysis",
     "credits": 0.5,
-    "level": 400,
-    "subject": "ECE",
-    "source_url": null
-  },
-  {
-    "id": "ECE488",
-    "title": "Multivariable Control Systems",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "ECE",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65b8761b5c947972e1e56c07"
-  },
-  {
-    "id": "CO342",
-    "title": "CO342 - Introduction to Graph Theory",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "CO",
-    "source_url": null
-  },
-  {
-    "id": "CO351",
-    "title": "CO351 - Network Flow Theory",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "COMP",
-    "source_url": null
-  },
-  {
-    "id": "CO353",
-    "title": "CO353 - Computational Discrete Optimization",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "COMP",
-    "source_url": null
-  },
-  {
-    "id": "CO367",
-    "title": "Nonlinear Optimization",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "CO",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65b85e8e026eba7774bb5595"
-  },
-  {
-    "id": "CO456",
-    "title": "Introduction to Game Theory",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "CO",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/64a5b8be69e9ee551c2ae49d"
-  },
-  {
-    "id": "CS481",
-    "title": "CO481 - Introduction to Quantum Information Processing",
-    "credits": 0.5,
-    "level": 400,
+    "description": null,
     "subject": "CS",
-    "source_url": null
+    "level": 400
   },
   {
-    "id": "CO485",
-    "title": "CO485 - The Mathematics of Public-Key Cryptography",
+    "id": "CS451",
+    "code": "CS451",
+    "title": "CS451 - Data-Intensive Distributed Computing",
     "credits": 0.5,
-    "level": 400,
-    "subject": "CO",
-    "source_url": null
-  },
-  {
-    "id": "CO487",
-    "title": "Applied Cryptography",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "CO",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65b860f023cba74d8c47badd"
-  },
-  {
-    "id": "CS467",
-    "title": "CS467 - Introduction to Quantum Information Processing",
-    "credits": 0.5,
-    "level": 400,
+    "description": null,
     "subject": "CS",
-    "source_url": null
-  },
-  {
-    "id": "MSE446",
-    "title": "Introduction to Machine Learning",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "MSE",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/66b3951e43baec2023b9c20f"
-  },
-  {
-    "id": "MSE543",
-    "title": "Analytics and User Experience",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "MSE",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/66f16557c0e2c891b7f0402d"
-  },
-  {
-    "id": "MTE544",
-    "title": "MTE544 - Autonomous Mobile Robots",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "MTE",
-    "source_url": null
-  },
-  {
-    "id": "MTE546",
-    "title": "MTE546 - Multi-Sensor Data Fusion",
-    "credits": 0.5,
-    "level": 500,
-    "subject": "MTE",
-    "source_url": null
-  },
-  {
-    "id": "PHYS467",
-    "title": "Introduction to Quantum Information Processing",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "PHYS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/64a5bcd31731ad0c3b2cd01e"
-  },
-  {
-    "id": "SE498",
-    "title": "SE498 - Advanced Topics in Software Engineering",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "SE",
-    "source_url": null
-  },
-  {
-    "id": "STAT440",
-    "title": "STAT440 - Computational Inference",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "STAT",
-    "source_url": null
-  },
-  {
-    "id": "STAT441",
-    "title": "STAT441 - Statistical Learning - Classification",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "STAT",
-    "source_url": null
-  },
-  {
-    "id": "STAT442",
-    "title": "STAT442 - Data Visualization",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "STAT",
-    "source_url": null
-  },
-  {
-    "id": "STAT444",
-    "title": "Statistical Learning - Advanced Regression",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "STAT",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65b9bab698f0443584103928"
-  },
-  {
-    "id": "SYDE533",
-    "title": "SYDE533 - Conflict Resolution",
-    "credits": 0.5,
-    "level": 500,
-    "subject": "SYDE",
-    "source_url": null
-  },
-  {
-    "id": "SYDE543",
-    "title": "SYDE543 - Cognitive Ergonomics",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "SYDE",
-    "source_url": null
-  },
-  {
-    "id": "SYDE548",
-    "title": "User Centred Design Methods",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "SYDE",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65ce6ec67a5405025a805889"
-  },
-  {
-    "id": "SYDE552",
-    "title": "Computational Neuroscience",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "SYDE",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65b7beac6cd589936be8fc8c"
-  },
-  {
-    "id": "SYDE556",
-    "title": "SYDE556 - Simulating Neurobiological Systems",
-    "credits": 0.5,
-    "level": 500,
-    "subject": "SYDE",
-    "source_url": null
-  },
-  {
-    "id": "SYDE575",
-    "title": "Image Processing",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "SYDE",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65b9c46c5d504324951742d2"
-  },
-  {
-    "id": "ENBUS102",
-    "title": "ENBUS102 - Introduction to Environment and Business",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "ENB",
-    "source_url": null
-  },
-  {
-    "id": "ENBUS211",
-    "title": "ENBUS211 - Principles of Marketing for Sustainability Professionals",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "ENBUS",
-    "source_url": null
-  },
-  {
-    "id": "ARBUS302",
-    "title": "ARBUS302 - Principles of Marketing (0.50)",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "ARBUS",
-    "source_url": null
-  },
-  {
-    "id": "MGMT244",
-    "title": "MGMT244 - Principles of Marketing (0.50)",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "MGMT",
-    "source_url": null
-  },
-  {
-    "id": "BUS252W",
-    "title": "BUS252W",
-    "credits": 0.0,
-    "level": 200,
-    "subject": "BUS",
-    "source_url": null
-  },
-  {
-    "id": "BUS352W",
-    "title": "BUS352W",
-    "credits": 0.0,
-    "level": 300,
-    "subject": "BUS",
-    "source_url": null
-  },
-  {
-    "id": "ENGL248",
-    "title": "ENGL248 - Literature for an Ailing Planet",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "ENGL",
-    "source_url": null
-  },
-  {
-    "id": "ENVS105",
-    "title": "ENVS105 - Environmental Sustainability and Ethics",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "ENVS",
-    "source_url": null
-  },
-  {
-    "id": "ENVS205",
-    "title": "Sustainability: The Future We Want",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "ENVS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65ac7153fd7afe5969083303"
-  },
-  {
-    "id": "ENVS220",
-    "title": "ENVS220 - Ecological Economics",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "ENVS",
-    "source_url": null
-  },
-  {
-    "id": "ERS215",
-    "title": "ERS215 - Environmental and Sustainability Assessment 1",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "Environmental Studies",
-    "source_url": null
-  },
-  {
-    "id": "ERS225",
-    "title": "ERS225 - Gendering Environmental Politics",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "ERS",
-    "source_url": null
-  },
-  {
-    "id": "ERS253",
-    "title": "Communities and Sustainability",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "ERS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/64a5b8d33bbc4e321d3ef574"
-  },
-  {
-    "id": "ERS270",
-    "title": "ERS270 - Introduction to Sustainable Agroecosystems",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "ERS",
-    "source_url": null
-  },
-  {
-    "id": "ERS294",
-    "title": "Spirituality, Religion, and Ecology",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "ERS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/673ba024598e108ec7885cf9"
-  },
-  {
-    "id": "ERS310",
-    "title": "ERS310 - Peace and the Environment",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "ERS",
-    "source_url": null
-  },
-  {
-    "id": "ERS316",
-    "title": "ERS316 - Urban Water and Wastewater Systems: Integrated Planning and Management",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "ERS",
-    "source_url": null
-  },
-  {
-    "id": "ERS320",
-    "title": "ERS320 - Economics and Sustainability",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "ERS",
-    "source_url": null
-  },
-  {
-    "id": "ERS328",
-    "title": "Environmental Politics and System Change",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "ERS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/64a5b9f569e9eeee7f2ae7a4"
-  },
-  {
-    "id": "ERS361",
-    "title": "ERS361 - Food Systems and Sustainability",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "ERS",
-    "source_url": null
-  },
-  {
-    "id": "ERS370",
-    "title": "ERS370 - Corporate Sustainability: Issues and Prospects",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "ERS",
-    "source_url": null
-  },
-  {
-    "id": "ERS372",
-    "title": "First Nations and the Environment",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "ERS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/65e8b002e98bac09673fbe2c"
-  },
-  {
-    "id": "ERS404",
-    "title": "ERS404 - Global Environmental Governance",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "ERS",
-    "source_url": null
-  },
-  {
-    "id": "GEOG203",
-    "title": "GEOG203 - Environment and Development in a Global Perspective",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "GEOG",
-    "source_url": null
-  },
-  {
-    "id": "GEOG207",
-    "title": "GEOG207 - Climate Change Fundamentals",
-    "credits": 0.5,
-    "level": 100,
-    "subject": "GEOG",
-    "source_url": null
-  },
-  {
-    "id": "GEOG225",
-    "title": "GEOG225 - Global Environment and Health",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "GEOG",
-    "source_url": null
-  },
-  {
-    "id": "GEOG361",
-    "title": "GEOG361 - Food Systems and Sustainability",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "GEOG",
-    "source_url": null
-  },
-  {
-    "id": "GEOG459",
-    "title": "GEOG459 - Energy and Sustainability",
-    "credits": 1.0,
-    "level": 400,
-    "subject": "GEOG",
-    "source_url": null
-  },
-  {
-    "id": "PACS310",
-    "title": "PACS310 - Peace and the Environment",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "PACS",
-    "source_url": null
-  },
-  {
-    "id": "PHIL224",
-    "title": "PHIL224 - Environmental Ethics",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "PHIL",
-    "source_url": null
-  },
-  {
-    "id": "PLAN451",
-    "title": "PLAN451 - Environmental Planning in Rural and Regional Systems",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "PLAN",
-    "source_url": null
-  },
-  {
-    "id": "PSCI432",
-    "title": "PSCI432 - Global Environmental Governance",
-    "credits": 0.5,
-    "level": 400,
-    "subject": "PSCI",
-    "source_url": null
-  },
-  {
-    "id": "RCS285",
-    "title": "Spirituality, Religion, and Ecology",
-    "credits": 0.5,
-    "level": 200,
-    "subject": "RCS",
-    "source_url": "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses/view/6640f25ef867c0a8dc7a5b8e"
-  },
-  {
-    "id": "THPERF374",
-    "title": "THPERF374 - Sustainability in Design",
-    "credits": 0.5,
-    "level": 300,
-    "subject": "THPERF",
-    "source_url": null
-  },
-  {
-    "id": "MATH116",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MATH124",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MATH127",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MATH137",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MATH147",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "AE123",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CIVE123",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "ENVE123",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "GEOE123",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "GENE123",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "ME123",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MTE120",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "NE140",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MATH118",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MATH128",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MATH138",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MATH148",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CS230",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CS241E",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "ECE351",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CS246",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CS246E",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "BME393",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MTE262",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "SYDE192",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "BME121",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CS115",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CS135",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CS145",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "ECE150",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MSE121",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MTE121",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "SYDE121",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MATH104",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "PHYS111",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "BME122",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CS234",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CS240E",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "ECE250",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MTE140",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "SYDE223",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CS245",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CS245E",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "STAT206",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "STAT230",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "STAT240",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MSE342",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "SYDE322",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MSCI342",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CS338",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "ECE356",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "ECE456",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MSCI346",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MATH229",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MATH249",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CO220",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MATH136",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MATH146",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CS231",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "ECE406",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "AMATH250",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "AMATH251",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "ECE205",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MATH211",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MATH218",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MATH228",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CS350",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MTE241",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "ECE254",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "ECE354",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "BME213",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "ECE203",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MTE201",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "NE215",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "SYDE212",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CS445",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "ECE451",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "SYDE348",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "SYDE112",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "BIOL251",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "BIOL266",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CHEM140",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CS116",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CS136",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "BIOL377",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CHEM125L",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CHEM233",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CHEM239",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "NE224",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CHEM264",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "BME186",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "NE121",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "NE241",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "PHYS112",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "PHYS112L",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "AMATH373",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "NE332",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "ECE405",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "PHYS256",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "PHYS226",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "PHYS246",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "PHYS125",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "NE232",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MATH114",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "PHYS249",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "AMATH271",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "AMATH261",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MATH227",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MATH237",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MATH247",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "AMATH231",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "PHYS364",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CS114",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CS146",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "ECE320",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "ECE429",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "ECE454",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "STAT231",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "STAT241",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CS456",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "MATH145",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CS360",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "level": 400
   },
   {
     "id": "CS365",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "code": "CS365",
+    "title": "CS365 - Models of Computation",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 300
+  },
+  {
+    "id": "ECE106",
+    "code": "ECE106",
+    "title": "ECE106 - Electricity and Magnetism",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 100
+  },
+  {
+    "id": "PHYS263",
+    "code": "PHYS263",
+    "title": "PHYS263 - Classical Mechanics and Special Relativity",
+    "credits": 0.5,
+    "description": null,
+    "subject": "PHYS",
+    "level": 200
+  },
+  {
+    "id": "BIOL365",
+    "code": "BIOL365",
+    "title": "BIOL365 - Methods in Bioinformatics",
+    "credits": 0.5,
+    "description": null,
+    "subject": "BIOL",
+    "level": 300
+  },
+  {
+    "id": "NE222",
+    "code": "NE222",
+    "title": "NE222 - Organic Chemistry for Nanotechnology Engineers",
+    "credits": 0.5,
+    "description": null,
+    "subject": "NE",
+    "level": 200
+  },
+  {
+    "id": "CS454",
+    "code": "CS454",
+    "title": "CS454 - Distributed Systems",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 400
+  },
+  {
+    "id": "BIOL469",
+    "code": "BIOL469",
+    "title": "BIOL469 - Genomics",
+    "credits": 0.5,
+    "description": null,
+    "subject": "BIOL",
+    "level": 400
+  },
+  {
+    "id": "BIOL211",
+    "code": "BIOL211",
+    "title": "BIOL211 - Introductory Vertebrate Zoology",
+    "credits": 0.5,
+    "description": null,
+    "subject": "BIOL",
+    "level": 200
+  },
+  {
+    "id": "EARTH281",
+    "code": "EARTH281",
+    "title": "EARTH281 - Geological Impacts on Human Health",
+    "credits": 0.5,
+    "description": null,
+    "subject": "EARTH",
+    "level": 200
+  },
+  {
+    "id": "SCI250",
+    "code": "SCI250",
+    "title": "SCI250 - Environmental Geology",
+    "credits": 0.5,
+    "description": null,
+    "subject": "SCI",
+    "level": 200
+  },
+  {
+    "id": "SE201",
+    "code": "SE201",
+    "title": "SE201 - Seminar",
+    "credits": 0.0,
+    "description": null,
+    "subject": "SE",
+    "level": 200
+  },
+  {
+    "id": "CS452",
+    "code": "CS452",
+    "title": "CS452 - Real-Time Programming",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 400
+  },
+  {
+    "id": "CHEM262",
+    "code": "CHEM262",
+    "title": "CHEM262 - Organic Chemistry for Engineering",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CHEM",
+    "level": 200
+  },
+  {
+    "id": "CS341",
+    "code": "CS341",
+    "title": "CS341 - Algorithms",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 300
+  },
+  {
+    "id": "MATH115",
+    "code": "MATH115",
+    "title": "MATH115 - Linear Algebra for Engineering",
+    "credits": 0.5,
+    "description": null,
+    "subject": "MATH",
+    "level": 100
+  },
+  {
+    "id": "SE202",
+    "code": "SE202",
+    "title": "SE202 - Seminar",
+    "credits": 0.0,
+    "description": null,
+    "subject": "SE",
+    "level": 200
+  },
+  {
+    "id": "CHEM356",
+    "code": "CHEM356",
+    "title": "CHEM356 - Introductory Quantum Mechanics",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CHEM",
+    "level": 300
+  },
+  {
+    "id": "EARTH122",
+    "code": "EARTH122",
+    "title": "EARTH122 - Introductory Environmental Sciences",
+    "credits": 0.5,
+    "description": null,
+    "subject": "EARTH",
+    "level": 100
+  },
+  {
+    "id": "ENGL129R",
+    "code": "ENGL129R",
+    "title": "ENGL129R - Written Academic English",
+    "credits": 0.0,
+    "description": null,
+    "subject": "ENGL",
+    "level": 100
+  },
+  {
+    "id": "EARTH123",
+    "code": "EARTH123",
+    "title": "EARTH123 - Introductory Hydrology",
+    "credits": 0.5,
+    "description": null,
+    "subject": "EARTH",
+    "level": 100
+  },
+  {
+    "id": "ECE454",
+    "code": "ECE454",
+    "title": "ECE454 - Distributed Computing",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 400
+  },
+  {
+    "id": "PHYS467",
+    "code": "PHYS467",
+    "title": "PHYS467 - Introduction to Quantum Information Processing",
+    "credits": 0.5,
+    "description": null,
+    "subject": "PHYS",
+    "level": 400
+  },
+  {
+    "id": "MSE343",
+    "code": "MSE343",
+    "title": "MSE343 - Human-Computer Interaction",
+    "credits": 0.5,
+    "description": null,
+    "subject": "MSE",
+    "level": 300
   },
   {
     "id": "AMATH242",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "code": "AMATH242",
+    "title": "AMATH242 - Introduction to Computational Mathematics",
+    "credits": 0.5,
+    "description": null,
+    "subject": "AMATH",
+    "level": 200
   },
   {
-    "id": "CS335",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "MATH213",
+    "code": "MATH213",
+    "title": "MATH213 - Signals, Systems, and Differential Equations",
+    "credits": 0.5,
+    "description": null,
+    "subject": "MATH",
+    "level": 200
   },
   {
-    "id": "CS370",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "CHEM266",
+    "code": "CHEM266",
+    "title": "CHEM266 - Basic Organic Chemistry 1",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CHEM",
+    "level": 200
   },
   {
-    "id": "CS371",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "PSYCH307",
+    "code": "PSYCH307",
+    "title": "PSYCH307 - Human Neuropsychology",
+    "credits": 0.5,
+    "description": null,
+    "subject": "PSYCH",
+    "level": 300
   },
   {
-    "id": "MSCI446",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "ECE455",
+    "code": "ECE455",
+    "title": "ECE455 - Embedded Software",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 400
   },
   {
-    "id": "MATH235",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "MATH239",
+    "code": "MATH239",
+    "title": "MATH239 - Introduction to Combinatorics",
+    "credits": 0.5,
+    "description": null,
+    "subject": "MATH",
+    "level": 200
   },
   {
-    "id": "MATH245",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "SE401",
+    "code": "SE401",
+    "title": "SE401 - Seminar",
+    "credits": 0.25,
+    "description": null,
+    "subject": "SE",
+    "level": 400
   },
   {
-    "id": "ECE413",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "PHYS380",
+    "code": "PHYS380",
+    "title": "PHYS380 - Molecular and Cellular Biophysics",
+    "credits": 0.5,
+    "description": null,
+    "subject": "PHYS",
+    "level": 300
   },
   {
-    "id": "SYDE524",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "EARTH270",
+    "code": "EARTH270",
+    "title": "EARTH270 - Disasters and Natural Hazards",
+    "credits": 0.5,
+    "description": null,
+    "subject": "EARTH",
+    "level": 200
   },
   {
-    "id": "ECE252",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "SE102",
+    "code": "SE102",
+    "title": "SE102 - Seminar",
+    "credits": 0.0,
+    "description": null,
+    "subject": "SE",
+    "level": 100
   },
   {
-    "id": "ECE224",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "PHYS115",
+    "code": "PHYS115",
+    "title": "PHYS115 - Mechanics",
+    "credits": 0.5,
+    "description": null,
+    "subject": "PHYS",
+    "level": 100
   },
   {
-    "id": "MTE325",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "SE463",
+    "code": "SE463",
+    "title": "SE463 - Software Project Management, Requirements, and Analysis",
+    "credits": 0.5,
+    "description": null,
+    "subject": "SE",
+    "level": 400
+  },
+  {
+    "id": "ECE481",
+    "code": "ECE481",
+    "title": "ECE481 - Digital Control Systems",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 400
+  },
+  {
+    "id": "STAT206",
+    "code": "STAT206",
+    "title": "STAT206 - Statistics for Software Engineering",
+    "credits": 0.0,
+    "description": null,
+    "subject": "STAT",
+    "level": 200
+  },
+  {
+    "id": "BIOL373",
+    "code": "BIOL373",
+    "title": "BIOL373 - Principles of Human Physiology 2",
+    "credits": 0.5,
+    "description": null,
+    "subject": "BIOL",
+    "level": 300
+  },
+  {
+    "id": "MATH119",
+    "code": "MATH119",
+    "title": "MATH119 - Calculus 2 for Engineering",
+    "credits": 0.5,
+    "description": null,
+    "subject": "MATH",
+    "level": 100
+  },
+  {
+    "id": "CHEM237",
+    "code": "CHEM237",
+    "title": "CHEM237 - Introductory Biochemistry",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CHEM",
+    "level": 200
+  },
+  {
+    "id": "SCI238",
+    "code": "SCI238",
+    "title": "SCI238 - Introductory Astronomy",
+    "credits": 0.5,
+    "description": null,
+    "subject": "SCI",
+    "level": 200
+  },
+  {
+    "id": "ECE105",
+    "code": "ECE105",
+    "title": "ECE105 - Classical Mechanics",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 100
+  },
+  {
+    "id": "ENVE275",
+    "code": "ENVE275",
+    "title": "ENVE275 - Aquatic Chemistry",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ENVE",
+    "level": 200
+  },
+  {
+    "id": "SE464",
+    "code": "SE464",
+    "title": "SE464 - Software Design and Architectures",
+    "credits": 0.5,
+    "description": null,
+    "subject": "SE",
+    "level": 400
+  },
+  {
+    "id": "ECE409",
+    "code": "ECE409",
+    "title": "ECE409 - Cryptography and System Security",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 400
+  },
+  {
+    "id": "CO342",
+    "code": "CO342",
+    "title": "CO342 - Introduction to Graph Theory",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CO",
+    "level": 300
+  },
+  {
+    "id": "CS241",
+    "code": "CS241",
+    "title": "CS241 - Foundations of Sequential Programs",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 200
+  },
+  {
+    "id": "CS247",
+    "code": "CS247",
+    "title": "CS247 - Software Engineering Principles",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 200
+  },
+  {
+    "id": "BIOL240L",
+    "code": "BIOL240L",
+    "title": "BIOL240L - Microbiology Laboratory",
+    "credits": 0.5,
+    "description": null,
+    "subject": "BIOL",
+    "level": 200
+  },
+  {
+    "id": "BIOL220",
+    "code": "BIOL220",
+    "title": "BIOL220 - Introduction to Plant Structure and Function",
+    "credits": 0.5,
+    "description": null,
+    "subject": "BIOL",
+    "level": 200
+  },
+  {
+    "id": "ECE457A",
+    "code": "ECE457A",
+    "title": "ECE457A - Co-operative and Adaptive Algorithms",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 400
+  },
+  {
+    "id": "CS138",
+    "code": "CS138",
+    "title": "CS138 - Introduction to Data Abstraction and Implementation",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 100
+  },
+  {
+    "id": "ECE192",
+    "code": "ECE192",
+    "title": "ECE192 - Engineering Economics and Impact on Society",
+    "credits": 0.25,
+    "description": null,
+    "subject": "ECE",
+    "level": 100
+  },
+  {
+    "id": "PSYCH306",
+    "code": "PSYCH306",
+    "title": "PSYCH306 - Perception",
+    "credits": 0.5,
+    "description": null,
+    "subject": "PSYCH",
+    "level": 300
+  },
+  {
+    "id": "CS457",
+    "code": "CS457",
+    "title": "CS457 - System Performance Evaluation",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 400
+  },
+  {
+    "id": "CHEM262L",
+    "code": "CHEM262L",
+    "title": "CHEM262L - Organic Chemistry Laboratory for Engineering Students",
+    "credits": 0.25,
+    "description": null,
+    "subject": "CHEM",
+    "level": 200
+  },
+  {
+    "id": "CHEM209",
+    "code": "CHEM209",
+    "title": "CHEM209 - Introductory Spectroscopy and Structure",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CHEM",
+    "level": 200
+  },
+  {
+    "id": "PHYS233",
+    "code": "PHYS233",
+    "title": "PHYS233 - Introduction to Quantum Mechanics",
+    "credits": 0.5,
+    "description": null,
+    "subject": "PHYS",
+    "level": 200
+  },
+  {
+    "id": "ECE124",
+    "code": "ECE124",
+    "title": "ECE124 - Digital Circuits and Systems",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 100
+  },
+  {
+    "id": "BIOL130L",
+    "code": "BIOL130L",
+    "title": "BIOL130L - Cell Biology Laboratory",
+    "credits": 0.25,
+    "description": null,
+    "subject": "BIOL",
+    "level": 100
+  },
+  {
+    "id": "PSYCH261",
+    "code": "PSYCH261",
+    "title": "PSYCH261 - Physiological Psychology",
+    "credits": 0.5,
+    "description": null,
+    "subject": "PSYCH",
+    "level": 200
+  },
+  {
+    "id": "SE101",
+    "code": "SE101",
+    "title": "SE101 - Introduction to Methods of Software Engineering",
+    "credits": 0.5,
+    "description": null,
+    "subject": "SE",
+    "level": 100
+  },
+  {
+    "id": "ECE313",
+    "code": "ECE313",
+    "title": "ECE313 - Digital Signal Processing",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 300
+  },
+  {
+    "id": "PHYS124",
+    "code": "PHYS124",
+    "title": "PHYS124 - Modern Physics",
+    "credits": 0.5,
+    "description": null,
+    "subject": "PHYS",
+    "level": 100
+  },
+  {
+    "id": "PHYS121",
+    "code": "PHYS121",
+    "title": "PHYS121 - Mechanics",
+    "credits": 0.5,
+    "description": null,
+    "subject": "PHYS",
+    "level": 100
+  },
+  {
+    "id": "CHEM237L",
+    "code": "CHEM237L",
+    "title": "CHEM237L - Introductory Biochemistry Laboratory",
+    "credits": 0.25,
+    "description": null,
+    "subject": "CHEM",
+    "level": 200
+  },
+  {
+    "id": "ECE305",
+    "code": "ECE305",
+    "title": "ECE305 - Introduction to Quantum Mechanics",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 300
+  },
+  {
+    "id": "CS349",
+    "code": "CS349",
+    "title": "CS349 - User Interfaces",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 300
+  },
+  {
+    "id": "BIOL373L",
+    "code": "BIOL373L",
+    "title": "BIOL373L - Human Physiology Laboratory",
+    "credits": 0.25,
+    "description": null,
+    "subject": "BIOL",
+    "level": 300
+  },
+  {
+    "id": "CS484",
+    "code": "CS484",
+    "title": "CS484 - Computational Vision",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 400
+  },
+  {
+    "id": "ECE140",
+    "code": "ECE140",
+    "title": "ECE140 - Linear Circuits",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 100
+  },
+  {
+    "id": "BIOL130",
+    "code": "BIOL130",
+    "title": "BIOL130 - Introductory Cell Biology",
+    "credits": 0.5,
+    "description": null,
+    "subject": "BIOL",
+    "level": 100
+  },
+  {
+    "id": "CHE102",
+    "code": "CHE102",
+    "title": "CHE102 - Chemistry for Engineers",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CHE",
+    "level": 100
+  },
+  {
+    "id": "SE301",
+    "code": "SE301",
+    "title": "SE301 - Seminar",
+    "credits": 0.0,
+    "description": null,
+    "subject": "SE",
+    "level": 300
+  },
+  {
+    "id": "BIOL110",
+    "code": "BIOL110",
+    "title": "BIOL110 - Biodiversity, Biomes, and Evolution",
+    "credits": 0.5,
+    "description": null,
+    "subject": "BIOL",
+    "level": 100
+  },
+  {
+    "id": "SE465",
+    "code": "SE465",
+    "title": "SE465 - Software Testing and Quality Assurance",
+    "credits": 0.5,
+    "description": null,
+    "subject": "SE",
+    "level": 400
+  },
+  {
+    "id": "ENGL119",
+    "code": "ENGL119",
+    "title": "ENGL119 - Communications in Mathematics and Computer Science",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ENGL",
+    "level": 100
+  },
+  {
+    "id": "BIOL241",
+    "code": "BIOL241",
+    "title": "BIOL241 - Introduction to Applied Microbiology",
+    "credits": 0.5,
+    "description": null,
+    "subject": "BIOL",
+    "level": 200
+  },
+  {
+    "id": "PHYS175",
+    "code": "PHYS175",
+    "title": "PHYS175 - Introduction to the Universe",
+    "credits": 0.5,
+    "description": null,
+    "subject": "PHYS",
+    "level": 100
+  },
+  {
+    "id": "SYDE548",
+    "code": "SYDE548",
+    "title": "SYDE548 - User Centred Design Methods",
+    "credits": 0.5,
+    "description": null,
+    "subject": "SYDE",
+    "level": 400
+  },
+  {
+    "id": "EMLS129R",
+    "code": "EMLS129R",
+    "title": "EMLS129R - Written Academic English",
+    "credits": 0.5,
+    "description": null,
+    "subject": "EMLS",
+    "level": 100
+  },
+  {
+    "id": "CHE161",
+    "code": "CHE161",
+    "title": "CHE161 - Engineering Biology",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CHE",
+    "level": 100
+  },
+  {
+    "id": "PHYS334",
+    "code": "PHYS334",
+    "title": "PHYS334 - Quantum Physics 2",
+    "credits": 0.5,
+    "description": null,
+    "subject": "PHYS",
+    "level": 300
+  },
+  {
+    "id": "SE402",
+    "code": "SE402",
+    "title": "SE402 - Seminar",
+    "credits": 0.5,
+    "description": null,
+    "subject": "SE",
+    "level": 400
+  },
+  {
+    "id": "STAT440",
+    "code": "STAT440",
+    "title": "STAT440 - Computational Inference",
+    "credits": 0.5,
+    "description": null,
+    "subject": "STAT",
+    "level": 400
+  },
+  {
+    "id": "CS444",
+    "code": "CS444",
+    "title": "CS444 - Compiler Construction",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 400
+  },
+  {
+    "id": "AMATH449",
+    "code": "AMATH449",
+    "title": "AMATH449 - Neural Networks",
+    "credits": 0.5,
+    "description": null,
+    "subject": "AMATH",
+    "level": 400
+  },
+  {
+    "id": "ECE405C",
+    "code": "ECE405C",
+    "title": "ECE405C - Programming of Quantum Computing Algorithms",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 400
+  },
+  {
+    "id": "PHYS375",
+    "code": "PHYS375",
+    "title": "PHYS375 - Stars",
+    "credits": 0.5,
+    "description": null,
+    "subject": "PHYS",
+    "level": 300
+  },
+  {
+    "id": "CHEM123L",
+    "code": "CHEM123L",
+    "title": "CHEM123L - General Chemistry Laboratory 2",
+    "credits": 0.25,
+    "description": null,
+    "subject": "CHEM",
+    "level": 100
+  },
+  {
+    "id": "BIOL240",
+    "code": "BIOL240",
+    "title": "BIOL240 - Fundamentals of Microbiology",
+    "credits": 0.5,
+    "description": null,
+    "subject": "BIOL",
+    "level": 200
+  },
+  {
+    "id": "PHYS122",
+    "code": "PHYS122",
+    "title": "PHYS122 - Waves, Electricity and Magnetism",
+    "credits": 0.5,
+    "description": null,
+    "subject": "PHYS",
+    "level": 100
+  },
+  {
+    "id": "CS485",
+    "code": "CS485",
+    "title": "CS485 - Statistical and Computational Foundations of Machine Learning",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 400
+  },
+  {
+    "id": "SE491",
+    "code": "SE491",
+    "title": "SE491 - Design Project 2",
+    "credits": 0.5,
+    "description": null,
+    "subject": "SE",
+    "level": 400
+  },
+  {
+    "id": "MATH135",
+    "code": "MATH135",
+    "title": "MATH135 - Algebra for Honours Mathematics",
+    "credits": 0.5,
+    "description": null,
+    "subject": "MATH",
+    "level": 100
+  },
+  {
+    "id": "CHEM123",
+    "code": "CHEM123",
+    "title": "CHEM123 - General Chemistry 2",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CHEM",
+    "level": 100
+  },
+  {
+    "id": "ENGL210E",
+    "code": "ENGL210E",
+    "title": "ENGL210E - Genres of Technical Communication",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ENGL",
+    "level": 200
+  },
+  {
+    "id": "PHYS335",
+    "code": "PHYS335",
+    "title": "PHYS335 - Condensed Matter Physics",
+    "credits": 0.5,
+    "description": null,
+    "subject": "PHYS",
+    "level": 300
+  },
+  {
+    "id": "EARTH121",
+    "code": "EARTH121",
+    "title": "EARTH121 - Introductory Earth Sciences",
+    "credits": 0.5,
+    "description": null,
+    "subject": "EARTH",
+    "level": 100
+  },
+  {
+    "id": "PHYS275",
+    "code": "PHYS275",
+    "title": "PHYS275 - Planets",
+    "credits": 0.5,
+    "description": null,
+    "subject": "PHYS",
+    "level": 200
+  },
+  {
+    "id": "AMATH382",
+    "code": "AMATH382",
+    "title": "AMATH382 - Computational Modelling of Cellular Systems",
+    "credits": 0.5,
+    "description": null,
+    "subject": "AMATH",
+    "level": 300
+  },
+  {
+    "id": "CO331",
+    "code": "CO331",
+    "title": "CO331 - Coding Theory",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CO",
+    "level": 300
+  },
+  {
+    "id": "CHEM254",
+    "code": "CHEM254",
+    "title": "CHEM254 - Introductory Chemical Thermodynamics",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CHEM",
+    "level": 200
+  },
+  {
+    "id": "ENGL109",
+    "code": "ENGL109",
+    "title": "ENGL109 - Introduction to Academic Writing",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ENGL",
+    "level": 100
+  },
+  {
+    "id": "SCI200",
+    "code": "SCI200",
+    "title": "SCI200 - Energy - Its Development, Use, and Issues",
+    "credits": 0.5,
+    "description": null,
+    "subject": "SCI",
+    "level": 200
+  },
+  {
+    "id": "ECE495",
+    "code": "ECE495",
+    "title": "ECE495 - Autonomous Vehicles",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 400
+  },
+  {
+    "id": "GENE403",
+    "code": "GENE403",
+    "title": "GENE403 - Interdisciplinary Design Project 1",
+    "credits": 0.5,
+    "description": null,
+    "subject": "GENE",
+    "level": 400
+  },
+  {
+    "id": "EARTH221",
+    "code": "EARTH221",
+    "title": "EARTH221 - Introductory Geochemistry",
+    "credits": 0.5,
+    "description": null,
+    "subject": "EARTH",
+    "level": 200
+  },
+  {
+    "id": "BIOL280",
+    "code": "BIOL280",
+    "title": "BIOL280 - Introduction to Biophysics",
+    "credits": 0.5,
+    "description": null,
+    "subject": "BIOL",
+    "level": 200
   },
   {
     "id": "ECE493",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "code": "ECE493",
+    "title": "ECE493 - Special Topics in Electrical and Computer Engineering",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 400
   },
   {
-    "id": "ECE484",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "BIOL239",
+    "code": "BIOL239",
+    "title": "BIOL239 - Genetics",
+    "credits": 0.5,
+    "description": null,
+    "subject": "BIOL",
+    "level": 200
   },
   {
-    "id": "ECE380",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "SE350",
+    "code": "SE350",
+    "title": "SE350 - Operating Systems",
+    "credits": 0.5,
+    "description": null,
+    "subject": "SE",
+    "level": 300
   },
   {
-    "id": "MTE360",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "CS360",
+    "code": "CS360",
+    "title": "CS360 - Introduction to the Theory of Computing",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 300
   },
   {
-    "id": "SYDE352",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "MATH117",
+    "code": "MATH117",
+    "title": "MATH117 - Calculus 1 for Engineering",
+    "credits": 0.5,
+    "description": null,
+    "subject": "MATH",
+    "level": 100
   },
   {
-    "id": "CO250",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CO255",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "CO227",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
-  },
-  {
-    "id": "STAT220",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "SE302",
+    "code": "SE302",
+    "title": "SE302 - Seminar",
+    "credits": 0.0,
+    "description": null,
+    "subject": "SE",
+    "level": 300
   },
   {
     "id": "ECE457B",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "code": "ECE457B",
+    "title": "ECE457B - Fundamentals of Computational Intelligence",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 400
   },
   {
-    "id": "SYDE522",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "CS450",
+    "code": "CS450",
+    "title": "CS450 - Computer Architecture",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 400
   },
   {
-    "id": "MSE240",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "CS370",
+    "code": "CS370",
+    "title": "CS370 - Numerical Computation",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 300
   },
   {
-    "id": "MSCI240",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "ERS253",
+    "code": "ERS253",
+    "title": "ERS253 - Communities and Sustainability",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ERS",
+    "level": 200
   },
   {
-    "id": "AE224",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "CS348",
+    "code": "CS348",
+    "title": "CS348 - Introduction to Database Management",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 300
   },
   {
-    "id": "CHE220",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "ECE340",
+    "code": "ECE340",
+    "title": "ECE340 - Electronic Circuits 2",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 300
   },
   {
-    "id": "CIVE224",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "BIOL382",
+    "code": "BIOL382",
+    "title": "BIOL382 - Computational Modelling of Cellular Systems",
+    "credits": 0.5,
+    "description": null,
+    "subject": "BIOL",
+    "level": 300
   },
   {
-    "id": "ECE307",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "PHYS234",
+    "code": "PHYS234",
+    "title": "PHYS234 - Quantum Physics 1",
+    "credits": 0.5,
+    "description": null,
+    "subject": "PHYS",
+    "level": 200
   },
   {
-    "id": "ENVE224",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "MTE544",
+    "code": "MTE544",
+    "title": "MTE544 - Autonomous Mobile Robots",
+    "credits": 0.5,
+    "description": null,
+    "subject": "MTE",
+    "level": 400
   },
   {
-    "id": "ME202",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "CS448",
+    "code": "CS448",
+    "title": "CS448 - Database Systems Implementation",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 400
   },
   {
-    "id": "MSE253",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "ECE231",
+    "code": "ECE231",
+    "title": "ECE231 - Semiconductor Physics and Devices",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 200
   },
   {
-    "id": "MSCI252",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "SCI201",
+    "code": "SCI201",
+    "title": "SCI201 - Global Warming and Climate Change",
+    "credits": 0.5,
+    "description": null,
+    "subject": "SCI",
+    "level": 200
   },
   {
-    "id": "MSCI253",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "ECE405B",
+    "code": "ECE405B",
+    "title": "ECE405B - Fundamentals of Experimental Quantum Information",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 400
   },
   {
-    "id": "MSCI343",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "PSYCH207",
+    "code": "PSYCH207",
+    "title": "PSYCH207 - Cognitive Processes",
+    "credits": 0.5,
+    "description": null,
+    "subject": "PSYCH",
+    "level": 200
   },
   {
-    "id": "STAT331",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "ECE405A",
+    "code": "ECE405A",
+    "title": "ECE405A - Quantum Information Processing Devices",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 400
   },
   {
-    "id": "STAT371",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "CS371",
+    "code": "CS371",
+    "title": "CS371 - Introduction to Computational Mathematics",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 300
   },
   {
-    "id": "BME252",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "ENGL209",
+    "code": "ENGL209",
+    "title": "ENGL209 - Advanced Academic Writing",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ENGL",
+    "level": 200
   },
   {
-    "id": "SYDE252",
-    "title": null,
-    "credits": null,
-    "level": null,
-    "subject": null,
-    "source_url": null
+    "id": "CS482",
+    "code": "CS482",
+    "title": "CS482 - Computational Techniques in Biological Sequence Analysis",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 400
+  },
+  {
+    "id": "SYDE556",
+    "code": "SYDE556",
+    "title": "SYDE556 - Simulating Neurobiological Systems",
+    "credits": 0.5,
+    "description": null,
+    "subject": "SYDE",
+    "level": 400
+  },
+  {
+    "id": "MTE546",
+    "code": "MTE546",
+    "title": "MTE546 - Multi-Sensor Data Fusion",
+    "credits": 0.5,
+    "description": null,
+    "subject": "MTE",
+    "level": 400
+  },
+  {
+    "id": "ECE327",
+    "code": "ECE327",
+    "title": "ECE327 - Digital Hardware Systems",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 300
+  },
+  {
+    "id": "CO487",
+    "code": "CO487",
+    "title": "CO487 - Applied Cryptography",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CO",
+    "level": 400
+  },
+  {
+    "id": "BIOL165",
+    "code": "BIOL165",
+    "title": "BIOL165 - Diversity of Life",
+    "credits": 0.5,
+    "description": null,
+    "subject": "BIOL",
+    "level": 100
+  },
+  {
+    "id": "SYDE533",
+    "code": "SYDE533",
+    "title": "SYDE533 - Conflict Resolution",
+    "credits": 0.5,
+    "description": null,
+    "subject": "SYDE",
+    "level": 400
+  },
+  {
+    "id": "ECE458",
+    "code": "ECE458",
+    "title": "ECE458 - Computer Security",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 400
+  },
+  {
+    "id": "ECE320",
+    "code": "ECE320",
+    "title": "ECE320 - Computer Architecture",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 300
+  },
+  {
+    "id": "CS488",
+    "code": "CS488",
+    "title": "CS488 - Introduction to Computer Graphics",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 400
+  },
+  {
+    "id": "CS487",
+    "code": "CS487",
+    "title": "CS487 - Introduction to Symbolic Computation",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 400
+  },
+  {
+    "id": "CS486",
+    "code": "CS486",
+    "title": "CS486 - Introduction to Artificial Intelligence",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 400
+  },
+  {
+    "id": "ECE403",
+    "code": "ECE403",
+    "title": "ECE403 - Thermal Physics",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 400
+  },
+  {
+    "id": "ECE417",
+    "code": "ECE417",
+    "title": "ECE417 - Image Processing",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 400
+  },
+  {
+    "id": "ECE457C",
+    "code": "ECE457C",
+    "title": "ECE457C - Reinforcement Learning",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 400
+  },
+  {
+    "id": "ECE416",
+    "code": "ECE416",
+    "title": "ECE416 - Advanced Topics in Networking",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 400
+  },
+  {
+    "id": "CO456",
+    "code": "CO456",
+    "title": "CO456 - Introduction to Game Theory",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CO",
+    "level": 400
+  },
+  {
+    "id": "CS462",
+    "code": "CS462",
+    "title": "CS462 - Formal Languages and Parsing",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 400
+  },
+  {
+    "id": "ERS225",
+    "code": "ERS225",
+    "title": "ERS225 - Gendering Environmental Politics",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ERS",
+    "level": 200
+  },
+  {
+    "id": "ERS294",
+    "code": "ERS294",
+    "title": "ERS294 - Spirituality, Religion, and Ecology",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ERS",
+    "level": 200
+  },
+  {
+    "id": "ERS310",
+    "code": "ERS310",
+    "title": "ERS310 - Peace and the Environment",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ERS",
+    "level": 300
+  },
+  {
+    "id": "ENVS105",
+    "code": "ENVS105",
+    "title": "ENVS105 - Environmental Sustainability and Ethics",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ENVS",
+    "level": 100
+  },
+  {
+    "id": "CS459",
+    "code": "CS459",
+    "title": "CS459 - Privacy, Cryptography, Network and Data Security",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 400
+  },
+  {
+    "id": "CS489",
+    "code": "CS489",
+    "title": "CS489 - Advanced Topics in Computer Science",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 400
+  },
+  {
+    "id": "CS479",
+    "code": "CS479",
+    "title": "CS479 - Neural Networks",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 400
+  },
+  {
+    "id": "CO351",
+    "code": "CO351",
+    "title": "CO351 - Network Flow Theory",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CO",
+    "level": 300
+  },
+  {
+    "id": "CS480",
+    "code": "CS480",
+    "title": "CS480 - Introduction to Machine Learning",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 400
+  },
+  {
+    "id": "STAT442",
+    "code": "STAT442",
+    "title": "STAT442 - Data Visualization",
+    "credits": 0.5,
+    "description": null,
+    "subject": "STAT",
+    "level": 400
+  },
+  {
+    "id": "CS442",
+    "code": "CS442",
+    "title": "CS442 - Principles of Programming Languages",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 400
+  },
+  {
+    "id": "MSE446",
+    "code": "MSE446",
+    "title": "MSE446 - Introduction to Machine Learning",
+    "credits": 0.5,
+    "description": null,
+    "subject": "MSE",
+    "level": 400
+  },
+  {
+    "id": "ECE488",
+    "code": "ECE488",
+    "title": "ECE488 - Multivariable Control Systems",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 400
+  },
+  {
+    "id": "BIOL487",
+    "code": "BIOL487",
+    "title": "BIOL487 - Computational Neuroscience",
+    "credits": 0.5,
+    "description": null,
+    "subject": "BIOL",
+    "level": 400
+  },
+  {
+    "id": "ECE405D",
+    "code": "ECE405D",
+    "title": "ECE405D - Superconducting Quantum Circuits",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 400
+  },
+  {
+    "id": "CO353",
+    "code": "CO353",
+    "title": "CO353 - Computational Discrete Optimization",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CO",
+    "level": 300
+  },
+  {
+    "id": "MSE543",
+    "code": "MSE543",
+    "title": "MSE543 - Analytics and User Experience",
+    "credits": 0.5,
+    "description": null,
+    "subject": "MSE",
+    "level": 400
+  },
+  {
+    "id": "STAT444",
+    "code": "STAT444",
+    "title": "STAT444 - Statistical Learning - Advanced Regression",
+    "credits": 0.5,
+    "description": null,
+    "subject": "STAT",
+    "level": 400
+  },
+  {
+    "id": "ECE486",
+    "code": "ECE486",
+    "title": "ECE486 - Robot Dynamics and Control",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 400
+  },
+  {
+    "id": "ENVS205",
+    "code": "ENVS205",
+    "title": "ENVS205 - Sustainability: The Future We Want",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ENVS",
+    "level": 200
+  },
+  {
+    "id": "CS467",
+    "code": "CS467",
+    "title": "CS467 - Introduction to Quantum Information Processing",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 400
+  },
+  {
+    "id": "STAT441",
+    "code": "STAT441",
+    "title": "STAT441 - Statistical Learning - Classification",
+    "credits": 0.5,
+    "description": null,
+    "subject": "STAT",
+    "level": 400
+  },
+  {
+    "id": "SYDE543",
+    "code": "SYDE543",
+    "title": "SYDE543 - Cognitive Ergonomics",
+    "credits": 0.5,
+    "description": null,
+    "subject": "SYDE",
+    "level": 400
+  },
+  {
+    "id": "ENBUS211",
+    "code": "ENBUS211",
+    "title": "ENBUS211 - Principles of Marketing for Sustainability Professionals",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ENBUS",
+    "level": 200
+  },
+  {
+    "id": "ERS215",
+    "code": "ERS215",
+    "title": "ERS215 - Environmental and Sustainability Assessment 1",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ERS",
+    "level": 200
+  },
+  {
+    "id": "ENBUS102",
+    "code": "ENBUS102",
+    "title": "ENBUS102 - Introduction to Environment and Business",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ENBUS",
+    "level": 100
+  },
+  {
+    "id": "ENGL248",
+    "code": "ENGL248",
+    "title": "ENGL248 - Literature for an Ailing Planet",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ENGL",
+    "level": 200
+  },
+  {
+    "id": "CO367",
+    "code": "CO367",
+    "title": "CO367 - Nonlinear Optimization",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CO",
+    "level": 300
+  },
+  {
+    "id": "CO481",
+    "code": "CO481",
+    "title": "CO481 - Introduction to Quantum Information Processing",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CO",
+    "level": 400
+  },
+  {
+    "id": "ECE423",
+    "code": "ECE423",
+    "title": "ECE423 - Embedded Computer Systems",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 400
+  },
+  {
+    "id": "SE498",
+    "code": "SE498",
+    "title": "SE498 - Advanced Topics in Software Engineering",
+    "credits": 0.5,
+    "description": null,
+    "subject": "SE",
+    "level": 400
+  },
+  {
+    "id": "SYDE575",
+    "code": "SYDE575",
+    "title": "SYDE575 - Image Processing",
+    "credits": 0.5,
+    "description": null,
+    "subject": "SYDE",
+    "level": 400
+  },
+  {
+    "id": "SYDE552",
+    "code": "SYDE552",
+    "title": "SYDE552 - Computational Neuroscience",
+    "credits": 0.5,
+    "description": null,
+    "subject": "SYDE",
+    "level": 400
+  },
+  {
+    "id": "CO485",
+    "code": "CO485",
+    "title": "CO485 - The Mathematics of Public-Key Cryptography",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CO",
+    "level": 400
   }
 ]

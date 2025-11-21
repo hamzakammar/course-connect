@@ -1,0 +1,209 @@
+import json
+import argparse
+import sys
+from typing import Dict, Any, List, Optional
+import re # Added missing import for regex
+import os # Added missing import for os
+
+# Assuming OutputEnvelope, Course, CourseRelation, RequirementNode, CourseSet are defined in normalize_catalog.py
+# For this script, we'll redefine simplified versions or just work with dicts
+# to avoid complex imports if not strictly necessary, or import them directly if available.
+
+# --- Simplified Data Structures for Frontend ---
+# These largely mirror the OutputEnvelope structure but are flattened/optimized for graph/display
+
+class FrontendCourseNode:
+    def __init__(self, course_code: str, title: str, credits: float, description: str, subject: str, level: int):
+        self.id = course_code # Using course code as unique ID for simplicity
+        self.code = course_code
+        self.title = title
+        self.credits = credits
+        self.description = description
+        self.subject = subject
+        self.level = level
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "code": self.code,
+            "title": self.title,
+            "credits": self.credits,
+            "description": self.description,
+            "subject": self.subject,
+            "level": self.level,
+        }
+
+class FrontendCourseEdge:
+    def __init__(self, source_course_id: str, target_course_id: str, relation_type: str, logic: str = ""):
+        self.source = source_course_id
+        self.target = target_course_id
+        self.type = relation_type # e.g., "prereq", "coreq", "exclusion"
+        self.logic = logic # Boolean logic for complex relations
+
+    def to_dict(self):
+        return {
+            "source": self.source,
+            "target": self.target,
+            "type": self.type,
+            "logic": self.logic,
+        }
+
+class ProgramRequirement:
+    def __init__(self, id: str, type: str, content: Any, explanations: List[str] = None):
+        self.id = id
+        self.type = type # e.g., "ALL", "ANY", "N_OF", "CREDITS_AT_LEAST", "courseSet"
+        self.content = content # Can be a list of child requirements, a courseSet ID, or a credit count
+        self.explanations = explanations if explanations is not None else []
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "type": self.type,
+            "content": self.content,
+            "explanations": self.explanations,
+        }
+
+def generate_frontend_data(input_jsonl_path: str, output_dir: str):
+    nodes: Dict[str, FrontendCourseNode] = {}
+    edges: List[FrontendCourseEdge] = []
+    all_program_requirements: Dict[str, ProgramRequirement] = {}
+    all_course_sets: Dict[str, Any] = {}
+    
+    program_plan_output_program: Dict[str, Any] = {
+        "title": "",
+        "required_by_term": {},
+        "course_lists": {}
+    }
+    
+    with open(input_jsonl_path, 'r', encoding='utf-8') as f:
+        for line in f:
+            envelope_data = json.loads(line)
+            
+            # Accumulate Courses
+            for course_data in envelope_data.get("courses", []):
+                code = course_data.get("code")
+                if code:
+                    # Only add if not already present (to handle potential duplicates across envelopes)
+                    if code not in nodes:
+                        nodes[code] = FrontendCourseNode(
+                            course_code=code,
+                            title=course_data.get("title", ""),
+                            credits=course_data.get("credits", 0.0),
+                            description=course_data.get("description", ""),
+                            subject=course_data.get("subject", ""),
+                            level=course_data.get("level", 0)
+                        )
+                
+                # Accumulate Course Relations (edges)
+                for relation in course_data.get("relations", []):
+                    kind = relation.get("kind")
+                    logic = relation.get("logic")
+                    
+                    related_courses = re.findall(r"course:([A-Z]{2,4}[-\s]?\d{2,3}[A-Z]?)", logic)
+                    for related_code in related_courses:
+                        edges.append(FrontendCourseEdge(
+                            source_course_id=code,
+                            target_course_id=related_code.replace("-", " "),
+                            relation_type=kind,
+                            logic=logic
+                        ))
+
+            # Capture ProgramShell if present and assign directly
+            if envelope_data.get("program"):
+                print(f"DEBUG: Found program data in envelope: {envelope_data.get("program")}")
+                program_plan_output_program = envelope_data.get("program")
+                print(f"DEBUG: program_plan_output_program after assignment: {program_plan_output_program}")
+                
+                # Process required_by_term from program_plan_output_program
+                for term_name, courses_in_term in program_plan_output_program.get("required_by_term", {}).items():
+                    term_course_set_id_hint = f"req_term_{term_name.lower().replace(' ', '')}"
+                    if term_course_set_id_hint not in all_course_sets: # Deduplicate course sets
+                        all_course_sets[term_course_set_id_hint] = {
+                            "id_hint": term_course_set_id_hint,
+                            "mode": "explicit",
+                            "title": f"Required {term_name}",
+                            "courses": [c["code"] for c in courses_in_term]
+                        }
+                    req_id = f"term_req_{term_name.replace(' ', '')}"
+                    if req_id not in all_program_requirements: # Deduplicate requirements
+                        all_program_requirements[req_id] = ProgramRequirement(
+                            id=req_id,
+                            type="ALL",
+                            content=term_course_set_id_hint, # Reference the CourseSet ID
+                            explanations=[f"Required courses in term {term_name}."]
+                        ).to_dict()
+
+                # Process general course_lists from program_plan_output_program
+                for list_name, courses_in_list in program_plan_output_program.get("course_lists", {}).items():
+                    list_course_set_id_hint = f"course_list_{re.sub(r'[^a-zA-Z0-9_]', '', list_name).lower()}"
+                    if list_course_set_id_hint not in all_course_sets: # Deduplicate course sets
+                        all_course_sets[list_course_set_id_hint] = {
+                            "id_hint": list_course_set_id_hint,
+                            "mode": "explicit",
+                            "title": list_name,
+                            "courses": [c["code"] for c in courses_in_list]
+                        }
+                    req_id = f"list_req_{re.sub(r'[^a-zA-Z0-9_]', '', list_name)}"
+                    if req_id not in all_program_requirements: # Deduplicate requirements
+                        all_program_requirements[req_id] = ProgramRequirement(
+                            id=req_id,
+                            type="ANY", # Assuming these are typically 'any from list'
+                            content=list_course_set_id_hint,
+                            explanations=[f"Complete courses from {list_name}."]
+                        ).to_dict()
+
+            # Accumulate Course Sets (from top-level envelope.course_sets if any, though program-level overrides)
+            for cs_data in envelope_data.get("course_sets", []):
+                cs_id = cs_data.get("id_hint")
+                if cs_id and cs_id not in all_course_sets: # Add only if not already processed from program_shell_data
+                    all_course_sets[cs_id] = cs_data
+
+            # Accumulate requirements (from top-level envelope.requirements if any, though program-level overrides)
+            for req_data in envelope_data.get("requirements", []):
+                req_id = req_data.get("id") # Use 'id' from the envelope data
+                if req_id and req_id not in all_program_requirements:
+                    def convert_req_node_to_dict(node_data: Dict[str, Any]) -> Dict[str, Any]:
+                        converted = {
+                            "id": node_data.get("id", ""), # Use 'id' consistently
+                            "type": node_data.get("type", ""),
+                            "content": node_data.get("content"), # Use 'content' directly
+                            "explanations": node_data.get("explanations", []),
+                        }
+                        if node_data.get("children"):
+                            converted["children"] = [convert_req_node_to_dict(child) for child in node_data["children"]]
+                        return converted
+
+                    converted_req = convert_req_node_to_dict(req_data)
+                    all_program_requirements[req_id] = converted_req
+
+    # Write output files
+    os.makedirs(output_dir, exist_ok=True)
+
+    with open(os.path.join(output_dir, "nodes.json"), "w", encoding="utf-8") as f:
+        json.dump([node.to_dict() for node in nodes.values()], f, indent=2, ensure_ascii=False)
+
+    with open(os.path.join(output_dir, "edges.json"), "w", encoding="utf-8") as f:
+        json.dump([edge.to_dict() for edge in edges], f, indent=2, ensure_ascii=False)
+
+    # Output aggregated program plan requirements
+    program_plan_output = {
+        "program": program_plan_output_program,
+        "requirements": list(all_program_requirements.values())
+    }
+    with open(os.path.join(output_dir, "program_plan.json"), "w", encoding="utf-8") as f:
+        json.dump(program_plan_output, f, indent=2, ensure_ascii=False)
+
+    # Output aggregated course_sets.json
+    with open(os.path.join(output_dir, "course_sets.json"), "w", encoding="utf-8") as f:
+        json.dump(list(all_course_sets.values()), f, indent=2, ensure_ascii=False)
+
+    with open(os.path.join(output_dir, "constraints.json"), "w", encoding="utf-8") as f:
+        json.dump([], f, indent=2, ensure_ascii=False)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Generate frontend data from normalized catalog JSONL.")
+    parser.add_argument("--in", dest="input_jsonl", required=True, help="Input normalized JSONL path")
+    parser.add_argument("--out_dir", dest="output_dir", default="app/public/data", help="Output directory for JSON files")
+    args = parser.parse_args()
+
+    generate_frontend_data(args.input_jsonl, args.output_dir)

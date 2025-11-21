@@ -15,7 +15,7 @@ Requires:
 """
 
 from __future__ import annotations
-from typing import List, Optional, Literal, Union, Dict, Any, Iterable
+from typing import List, Optional, Literal, Union, Dict, Any, Iterable, Tuple
 from pydantic import BaseModel, Field, constr, ValidationError
 from datetime import datetime, timezone
 import hashlib
@@ -26,8 +26,821 @@ import re
 import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import threading
+import uuid
 
+# Although not directly used for the hardcoded HTML, keep ollama import for potential future use
 import ollama
+from bs4 import BeautifulSoup
+
+# -------------------------
+# Constants for HTML parsing
+# -------------------------
+SOFTWARE_ENGINEERING_PROGRAM_URL = "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/programs/H1zle10Cs3?searchTerm=software%20engineering&bc=true&bcCurrent=Software%20Engineering%20(Bachelor%20of%20Software%20Engineering%20-%20Honours)&bcItemType=programs"
+
+SOFTWARE_ENGINEERING_PROGRAM_HTML = """
+<section class=\"uw-academic-calendar__program-requirements\" id=\"program-requirements\">
+
+  <h2>Software Engineering (Bachelor of Software Engineering - Honours)</h2>
+
+
+
+  <section class=\"uw-academic-calendar__requirements-summary\" id=\"requirements-summary\">
+
+    <h3>Graduation Requirements</h3>
+
+    <ul>
+
+      <li>Complete a total of 21.50 units (excluding COOP, PD):
+
+        <ul>
+
+          <li>Complete all the required courses listed below.</li>
+
+          <li>Complete 12 approved electives:
+
+            <ul>
+
+              <li>Complete two Complementary Studies Electives (CSEs) from the Complementary Studies Course Lists for Engineering:
+
+                <ul>
+
+                  <li>One course from List A.</li>
+
+                  <li>One course from List C.</li>
+
+                </ul>
+
+              </li>
+
+              <li>Complete three courses from the Natural Science list.</li>
+
+              <li>Complete four courses from the Technical Electives (TEs) lists.</li>
+
+              <li>Complete the Undergraduate Communication Requirement.</li>
+
+              <li>Complete two electives chosen from any 0.5-unit courses.</li>
+
+            </ul>
+
+          </li>
+
+        </ul>
+
+      </li>
+
+      <li>Complete all co-operative education program requirements listed below.</li>
+
+    </ul>
+
+
+
+    <h4>Undergraduate Communication Requirement</h4>
+
+    <p>See below for the list of courses that can be used towards this requirement. The course must be completed with a minimum grade of 60.0% prior to enrolling in the 3A term.</p>
+
+
+
+    <h3>Co-operative Education Program Requirements</h3>
+
+    <ul>
+
+      <li>Complete a total of five PD courses: PD10, PD11, PD19, PD20, and one additional PD course.</li>
+
+      <li>Complete a total of five credited work terms.</li>
+
+    </ul>
+
+
+
+    <details class=\"uw-sequence-legend\">
+
+      <summary>Legend for Study/Work Sequences Chart</summary>
+
+      <table>
+
+        <thead><tr><th>Key</th><th>Description</th></tr></thead>
+
+        <tbody>
+
+          <tr><td>F,W,S</td><td>Terms: F=September-December; W=January-April; S=May-August</td></tr>
+
+          <tr><td>1,2,3,4 plus A or B</td><td>Denotes academic year and term.</td></tr>
+
+          <tr><td>WT</td><td>Work term.</td></tr>
+
+        </tbody>
+
+      </table>
+
+    </details>
+
+
+
+    <div class=\"uw-sequence-chart\">
+
+      <h4>Study/Work Sequences Chart</h4>
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>Sequence</th><th>F</th><th>W</th><th>S</th><th>F</th><th>W</th><th>S</th><th>F</th><th>W</th><th>S</th><th>F</th><th>W</th><th>S</th><th>F</th><th>W</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr><td>Stream 8X</td><td>1A</td><td>1B</td><td>WT</td><td>2A</td><td>WT</td><td>2B</td><td>WT</td><td>3A</td><td>WT</td><td>3B</td><td>WT</td><td>WT</td><td>4A</td><td>4B</td></tr>
+
+          <tr><td>Stream 8Y</td><td>1A</td><td>1B</td><td>WT</td><td>2A</td><td>WT</td><td>2B</td><td>WT</td><td>3A</td><td>WT</td><td>3B</td><td>4A</td><td>WT</td><td>WT</td><td>4B</td></tr>
+
+        </tbody>
+
+      </table>
+
+      <ol class=\"uw-sequence-notes\">
+
+        <li>Stream 8X is the primary stream. Students may choose to switch to stream 8Y after the 3B term, with advisor approval.</li>
+
+      </ol>
+
+    </div>
+
+  </section>
+
+
+
+  <section class=\"uw-academic-calendar__required-courses\" id=\"required-courses-by-term\">
+
+    <h3>Course Requirements</h3>
+
+
+
+    <article class=\"uw-term uw-term--1a\" id=\"term-1a\">
+
+      <h4>1A Term</h4>
+
+      <ul>
+
+        <li>CS137 - Programming Principles (0.50)</li>
+
+        <li>CHE102 - Chemistry for Engineers (0.50)</li>
+
+        <li>MATH115 - Linear Algebra for Engineering (0.50)</li>
+
+        <li>MATH117 - Calculus 1 for Engineering (0.50)</li>
+
+        <li>MATH135 - Algebra for Honours Mathematics (0.50)</li>
+
+        <li>SE101 - Introduction to Methods of Software Engineering (0.25)</li>
+
+      </ul>
+
+    </article>
+
+
+
+    <article class=\"uw-term uw-term--1b\" id=\"term-1b\">
+
+      <h4>1B Term</h4>
+
+      <ul>
+
+        <li>CS138 - Introduction to Data Abstraction and Implementation (0.50)</li>
+
+        <li>ECE124 - Digital Circuits and Systems (0.50)</li>
+
+        <li>ECE140 - Linear Circuits (0.50)</li>
+
+        <li>ECE192 - Engineering Economics and Impact on Society (0.25)</li>
+
+        <li>MATH119 - Calculus 2 for Engineering (0.50)</li>
+
+        <li>SE102 - Seminar (0.00)</li>
+
+      </ul>
+
+      <p>Complete 1 approved elective</p>
+
+    </article>
+
+
+
+    <article class=\"uw-term uw-term--2a\" id=\"term-2a\">
+
+      <h4>2A Term</h4>
+
+      <ul>
+
+        <li>CS241 - Foundations of Sequential Programs (0.50)</li>
+
+        <li>ECE222 - Digital Computers (0.50)</li>
+
+        <li>SE201 - Seminar (0.00)</li>
+
+        <li>SE212 - Logic and Computation (0.50)</li>
+
+        <li>STAT206 - Statistics for Software Engineering (0.50)</li>
+
+      </ul>
+
+      <p>Complete 1 of the following: ECE105, PHYS115, PHYS121 (each 0.50)</p>
+
+    </article>
+
+
+
+    <article class=\"uw-term uw-term--2b\" id=\"term-2b\">
+
+      <h4>2B Term</h4>
+
+      <ul>
+
+        <li>CS240 - Data Structures and Data Management (0.50)</li>
+
+        <li>CS247 - Software Engineering Principles (0.50)</li>
+
+        <li>CS348 - Introduction to Database Management (0.50)</li>
+
+        <li>MATH239 - Introduction to Combinatorics (0.50)</li>
+
+        <li>SE202 - Seminar (0.00)</li>
+
+      </ul>
+
+      <p>Complete 1 approved elective</p>
+
+    </article>
+
+
+
+    <article class=\"uw-term uw-term--3a\" id=\"term-3a\">
+
+      <h4>3A Term</h4>
+
+      <ul>
+
+        <li>CS341 - Algorithms (0.50)</li>
+
+        <li>MATH213 - Signals, Systems, and Differential Equations (0.50)</li>
+
+        <li>SE301 - Seminar (0.00)</li>
+
+        <li>SE350 - Operating Systems (0.50)</li>
+
+        <li>SE464 - Software Design and Architectures (0.50)</li>
+
+        <li>SE465 - Software Testing and Quality Assurance (0.50)</li>
+
+      </ul>
+
+      <p>Complete 1 approved elective</p>
+
+    </article>
+
+
+
+    <article class=\"uw-term uw-term--3b\" id=\"term-3b\">
+
+      <h4>3B Term</h4>
+
+      <ul>
+
+        <li>CS343 - Concurrent and Parallel Programming (0.50)</li>
+
+        <li>ECE358 - Computer Networks (0.50)</li>
+
+        <li>SE302 - Seminar (0.00)</li>
+
+        <li>SE380 - Introduction to Feedback Control (0.50)</li>
+
+        <li>SE463 - Software Project Management, Requirements, and Analysis (0.50)</li>
+
+      </ul>
+
+      <p>Complete 1 of the following: CS349, CS449, MSE343 (each 0.50)</p>
+
+      <p>Complete 1 approved elective</p>
+
+    </article>
+
+
+
+    <article class=\"uw-term uw-term--4a\" id=\"term-4a\">
+
+      <h4>4A Term</h4>
+
+      <ul>
+
+        <li>SE401 - Seminar (0.00)</li>
+
+      </ul>
+
+      <p>Complete 1 of the following: GENE403 or SE490 (0.50)</p>
+
+      <p>Complete 4 approved electives</p>
+
+    </article>
+
+
+
+    <article class=\"uw-term uw-term--4b\" id=\"term-4b\">
+
+      <h4>4B Term</h4>
+
+      <ul>
+
+        <li>SE402 - Seminar (0.00)</li>
+
+      </ul>
+
+      <p>Complete 1 of the following: GENE404 or SE491 (0.50)</p>
+
+      <p>Complete 4 approved electives</p>
+
+    </article>
+
+  </section>
+
+
+
+  <section class=\"uw-academic-calendar__electives\" id=\"electives\">
+
+    <h3>Course Lists</h3>
+
+
+
+    <article class=\"uw-ucr\" id=\"undergraduate-communication-requirement\">
+
+      <h4>Undergraduate Communication Requirement</h4>
+
+      <p>Complete 1 of the following:</p>
+
+      <ul>
+
+        <li>COMMST100 - Interpersonal Communication (0.50)</li>
+
+        <li>COMMST223 - Public Speaking (0.50)</li>
+
+        <li>EMLS101R - Oral Communications for Academic Purposes (0.50)</li>
+
+        <li>EMLS102R - Clear Communication in English Writing (0.50)</li>
+
+        <li>EMLS129R - Written Academic English (0.50)</li>
+
+        <li>ENGL109 - Introduction to Academic Writing (0.50)</li>
+
+        <li>ENGL119 - Communications in Mathematics and Computer Science (0.50)</li>
+
+        <li>ENGL129R - Written Academic English (0.50)</li>
+
+        <li>ENGL209 - Advanced Academic Writing (0.50)</li>
+
+        <li>ENGL210E - Genres of Technical Communication (0.50)</li>
+
+      </ul>
+
+    </article>
+
+
+
+    <article class=\"uw-natural-science\" id=\"natural-science-list\">
+
+      <h4>Natural Science List</h4>
+
+      <p>Complete a total of 3 lecture courses (see Additional Constraints).</p>
+
+      <ul class=\"uw-course-list\">
+
+        <li>AMATH382 - Computational Modelling of Cellular Systems (0.50)</li>
+
+        <li>BIOL110 - Biodiversity, Biomes, and Evolution (0.50)</li>
+
+        <li>BIOL130 - Introductory Cell Biology (0.50)</li>
+
+        <li>BIOL130L - Cell Biology Laboratory (0.25)</li>
+
+        <li>BIOL150 - Organismal and Evolutionary Ecology (0.50)</li>
+
+        <li>BIOL165 - Diversity of Life (0.50)</li>
+
+        <li>BIOL211 - Introductory Vertebrate Zoology (0.50)</li>
+
+        <li>BIOL220 - Introduction to Plant Structure and Function (0.50)</li>
+
+        <li>BIOL239 - Genetics (0.50)</li>
+
+        <li>BIOL240 - Fundamentals of Microbiology (0.50)</li>
+
+        <li>BIOL240L - Microbiology Laboratory (0.25)</li>
+
+        <li>BIOL241 - Introduction to Applied Microbiology (0.50)</li>
+
+        <li>BIOL273 - Principles of Human Physiology 1 (0.50)</li>
+
+        <li>BIOL280 - Introduction to Biophysics (0.50)</li>
+
+        <li>BIOL365 - Methods in Bioinformatics (0.50)</li>
+
+        <li>BIOL373 - Principles of Human Physiology 2 (0.50)</li>
+
+        <li>BIOL373L - Human Physiology Laboratory (0.25)</li>
+
+        <li>BIOL376 - Cellular Neurophysiology (0.50)</li>
+
+        <li>BIOL382 - Computational Modelling of Cellular Systems (0.50)</li>
+
+        <li>BIOL469 - Genomics (0.50)</li>
+
+        <li>BIOL476 - Systems Neuroscience: From Neurons to Behaviour (0.50)</li>
+
+        <li>BIOL489 - Arctic Ecology (0.50)</li>
+
+        <li>CHE161 - Engineering Biology (0.50)</li>
+
+        <li>CHEM123 - General Chemistry 2 (0.50)</li>
+
+        <li>CHEM123L - General Chemistry Laboratory 2 (0.25)</li>
+
+        <li>CHEM209 - Introductory Spectroscopy and Structure (0.50)</li>
+
+        <li>CHEM237 - Introductory Biochemistry (0.50)</li>
+
+        <li>CHEM237L - Introductory Biochemistry Laboratory (0.25)</li>
+
+        <li>CHEM254 - Introductory Chemical Thermodynamics (0.50)</li>
+
+        <li>CHEM262 - Organic Chemistry for Engineering (0.50)</li>
+
+        <li>CHEM262L - Organic Chemistry Laboratory for Engineering Students (0.25)</li>
+
+        <li>CHEM266 - Basic Organic Chemistry 1 (0.50)</li>
+
+        <li>CHEM356 - Introductory Quantum Mechanics (0.50)</li>
+
+        <li>CS482 - Computational Techniques in Biological Sequence Analysis (0.50)</li>
+
+        <li>EARTH121 - Introductory Earth Sciences (0.50)</li>
+
+        <li>EARTH122 - Introductory Environmental Sciences (0.50)</li>
+
+        <li>EARTH123 - Introductory Hydrology (0.50)</li>
+
+        <li>EARTH221 - Introductory Geochemistry (0.50)</li>
+
+        <li>EARTH270 - Disasters and Natural Hazards (0.50)</li>
+
+        <li>EARTH281 - Geological Impacts on Human Health (0.50)</li>
+
+        <li>ECE106 - Electricity and Magnetism (0.50)</li>
+
+        <li>ECE231 - Semiconductor Physics and Devices (0.50)</li>
+
+        <li>ECE305 - Introduction to Quantum Mechanics (0.50)</li>
+
+        <li>ECE403 - Thermal Physics (0.50)</li>
+
+        <li>ECE404 - Geometrical and Physical Optics (0.50)</li>
+
+        <li>ENVE275 - Aquatic Chemistry (0.50)</li>
+
+        <li>ENVS200 - Field Ecology (0.50)</li>
+
+        <li>NE222 - Organic Chemistry for Nanotechnology Engineers (0.50)</li>
+
+        <li>PHYS122 - Waves, Electricity and Magnetism (0.50)</li>
+
+        <li>PHYS124 - Modern Physics (0.50)</li>
+
+        <li>PHYS175 - Introduction to the Universe (0.50)</li>
+
+        <li>PHYS233 - Introduction to Quantum Mechanics (0.50)</li>
+
+        <li>PHYS234 - Quantum Physics 1 (0.50)</li>
+
+        <li>PHYS263 - Classical Mechanics and Special Relativity (0.50)</li>
+
+        <li>PHYS275 - Planets (0.50)</li>
+
+        <li>PHYS280 - Introduction to Biophysics (0.50)</li>
+
+        <li>PHYS334 - Quantum Physics 2 (0.50)</li>
+
+        <li>PHYS335 - Condensed Matter Physics (0.50)</li>
+
+        <li>PHYS375 - Stars (0.50)</li>
+
+        <li>PHYS380 - Molecular and Cellular Biophysics (0.50)</li>
+
+        <li>PHYS468 - Introduction to the Implementation of Quantum Information Processing (0.50)</li>
+
+        <li>PSYCH207 - Cognitive Processes (0.50)</li>
+
+        <li>PSYCH261 - Physiological Psychology (0.50)</li>
+
+        <li>PSYCH306 - Perception (0.50)</li>
+
+        <li>PSYCH307 - Human Neuropsychology (0.50)</li>
+
+        <li>SCI200 - Energy - Its Development, Use, and Issues (0.50)</li>
+
+        <li>SCI201 - Global Warming and Climate Change (0.50)</li>
+
+        <li>SCI238 - Introductory Astronomy (0.50)</li>
+
+        <li>SCI250 - Environmental Geology (0.50)</li>
+
+      </ul>
+
+      <p class=\"uw-additional-constraint\">For the Natural Science requirement, if a 0.25-laboratory course accompanies a lecture course, the laboratory course must also be taken and the pair together count as one course towards the three-course requirement (e.g., BIOL130 with BIOL130L).</p>
+
+    </article>
+
+
+
+    <article class=\"uw-technical-electives\" id=\"technical-electives\">
+
+      <h4>Technical Electives List</h4>
+
+      <p>Complete a minimum of 4 Technical Electives.</p>
+
+
+
+      <section class=\"uw-te-list uw-te-list--1\" id=\"te-list-1\">
+
+        <h5>List 1</h5>
+
+        <ul>
+
+          <li>AMATH242 - Introduction to Computational Mathematics (0.50)</li>
+
+          <li>AMATH449 - Neural Networks (0.50)</li>
+
+          <li>CS360 - Introduction to the Theory of Computing (0.50)</li>
+
+          <li>CS365 - Models of Computation (0.50)</li>
+
+          <li>CS370 - Numerical Computation (0.50)</li>
+
+          <li>CS371 - Introduction to Computational Mathematics (0.50)</li>
+
+          <li>CS442 - Principles of Programming Languages (0.50)</li>
+
+          <li>CS444 - Compiler Construction (0.50)</li>
+
+          <li>CS448 - Database Systems Implementation (0.50)</li>
+
+          <li>CS450 - Computer Architecture (0.50)</li>
+
+          <li>CS451 - Data-Intensive Distributed Computing (0.50)</li>
+
+          <li>CS452 - Real-Time Programming (0.50)</li>
+
+          <li>CS453 - Software and Systems Security (0.50)</li>
+
+          <li>CS454 - Distributed Systems (0.50)</li>
+
+          <li>CS457 - System Performance Evaluation (0.50)</li>
+
+          <li>CS459 - Privacy, Cryptography, Network and Data Security (0.50)</li>
+
+          <li>CS462 - Formal Languages and Parsing (0.50)</li>
+
+          <li>CS466 - Algorithm Design and Analysis (0.50)</li>
+
+          <li>CS479 - Neural Networks (0.50)</li>
+
+          <li>CS480 - Introduction to Machine Learning (0.50)</li>
+
+          <li>CS484 - Computational Vision (0.50)</li>
+
+          <li>CS485 - Statistical and Computational Foundations of Machine Learning (0.50)</li>
+
+          <li>CS486 - Introduction to Artificial Intelligence (0.50)</li>
+
+          <li>CS487 - Introduction to Symbolic Computation (0.50)</li>
+
+          <li>CS488 - Introduction to Computer Graphics (0.50)</li>
+
+          <li>CS489 - Advanced Topics in Computer Science (0.50)</li>
+
+        </ul>
+
+      </section>
+
+
+
+      <section class=\"uw-te-list uw-te-list--2\" id=\"te-list-2\">
+
+        <h5>List 2</h5>
+
+        <ul>
+
+          <li>ECE313 - Digital Signal Processing (0.50)</li>
+
+          <li>ECE320 - Computer Architecture (0.50)</li>
+
+          <li>ECE327 - Digital Hardware Systems (0.50)</li>
+
+          <li>ECE340 - Electronic Circuits 2 (0.50)</li>
+
+          <li>ECE405A - Quantum Information Processing Devices (0.50)</li>
+
+          <li>ECE405B - Fundamentals of Experimental Quantum Information (0.50)</li>
+
+          <li>ECE405C - Programming of Quantum Computing Algorithms (0.50)</li>
+
+          <li>ECE405D - Superconducting Quantum Circuits (0.50)</li>
+
+          <li>ECE409 - Cryptography and System Security (0.50)</li>
+
+          <li>ECE416 - Advanced Topics in Networking (0.50)</li>
+
+          <li>ECE417 - Image Processing (0.50)</li>
+
+          <li>ECE423 - Embedded Computer Systems (0.50)</li>
+
+          <li>ECE454 - Distributed Computing (0.50)</li>
+
+          <li>ECE455 - Embedded Software (0.50)</li>
+
+          <li>ECE457A - Co-operative and Adaptive Algorithms (0.50)</li>
+
+          <li>ECE457B - Fundamentals of Computational Intelligence (0.50)</li>
+
+          <li>ECE457C - Reinforcement Learning (0.50)</li>
+
+          <li>ECE458 - Computer Security (0.50)</li>
+
+          <li>ECE459 - Programming for Performance (0.50)</li>
+
+          <li>ECE481 - Digital Control Systems (0.50)</li>
+
+          <li>ECE486 - Robot Dynamics and Control (0.50)</li>
+
+          <li>ECE488 - Multivariable Control Systems (0.50)</li>
+
+          <li>ECE493 - Special Topics in Electrical and Computer Engineering (0.50)</li>
+
+          <li>ECE495 - Autonomous Vehicles (0.50)</li>
+
+        </ul>
+
+      </section>
+
+
+
+      <section class=\"uw-te-list uw-te-list--3\" id=\"te-list-3\">
+
+        <h5>List 3</h5>
+
+        <p>Complete 2 additional course from List 1, List 2, or List 3.</p>
+
+        <ul>
+
+          <li>BIOL487 - Computational Neuroscience (0.50)</li>
+
+          <li>CO331 - Coding Theory (0.50)</li>
+
+          <li>CO342 - Introduction to Graph Theory (0.50)</li>
+
+          <li>CO351 - Network Flow Theory (0.50)</li>
+
+          <li>CO353 - Computational Discrete Optimization (0.50)</li>
+
+          <li>CO367 - Nonlinear Optimization (0.50)</li>
+
+          <li>CO456 - Introduction to Game Theory (0.50)</li>
+
+          <li>CO481 - Introduction to Quantum Information Processing (0.50)</li>
+
+          <li>CO485 - The Mathematics of Public-Key Cryptography (0.50)</li>
+
+          <li>CO487 - Applied Cryptography (0.50)</li>
+
+          <li>CS467 - Introduction to Quantum Information Processing (0.50)</li>
+
+          <li>MSE343 - Human-Computer Interaction (0.50)</li>
+
+          <li>MSE446 - Introduction to Machine Learning (0.50)</li>
+
+          <li>MSE543 - Analytics and User Experience (0.50)</li>
+
+          <li>MTE544 - Autonomous Mobile Robots (0.50)</li>
+
+          <li>MTE546 - Multi-Sensor Data Fusion (0.50)</li>
+
+          <li>PHYS467 - Introduction to Quantum Information Processing (0.50)</li>
+
+          <li>SE498 - Advanced Topics in Software Engineering (0.50)</li>
+
+          <li>STAT440 - Computational Inference (0.50)</li>
+
+          <li>STAT441 - Statistical Learning - Classification (0.50)</li>
+
+          <li>STAT442 - Data Visualization (0.50)</li>
+
+          <li>STAT444 - Statistical Learning - Advanced Regression (0.50)</li>
+
+          <li>SYDE533 - Conflict Resolution (0.50)</li>
+
+          <li>SYDE543 - Cognitive Ergonomics (0.50)</li>
+
+          <li>SYDE548 - User Centred Design Methods (0.50)</li>
+
+          <li>SYDE552 - Computational Neuroscience (0.50)</li>
+
+          <li>SYDE556 - Simulating Neurobiological Systems (0.50)</li>
+
+          <li>SYDE575 - Image Processing (0.50)</li>
+
+        </ul>
+
+      </section>
+
+
+
+      <p class=\"uw-te-constraint\">Courses in the Technical Electives Lists may not be taken before the 3A term.</p>
+
+    </article>
+
+
+
+    <article class=\"uw-additional-reqs\" id=\"additional-requirements\">
+
+      <h4>Additional Requirements</h4>
+
+      <p>Complete 1 sustainability-related course, from the following list. This course may also be counted towards another elective requirement (e.g., Natural Science elective, Complementary Studies elective) if part of that list.</p>
+
+      <ul>
+
+        <li>BIOL489 - Arctic Ecology (0.50)</li>
+
+        <li>EARTH270 - Disasters and Natural Hazards (0.50)</li>
+
+        <li>ENBUS102 - Introduction to Environment and Business (0.50)</li>
+
+        <li>ENBUS211 - Principles of Marketing for Sustainability Professionals (0.50)</li>
+
+        <li>ENGL248 - Literature for an Ailing Planet (0.50)</li>
+
+        <li>ENVS105 - Environmental Sustainability and Ethics (0.50)</li>
+
+        <li>ENVS200 - Field Ecology (0.50)</li>
+
+        <li>ENVS205 - Sustainability: The Future We Want (0.50)</li>
+
+        <li>ENVS220 - Ecological Economics (0.50)</li>
+
+        <li>ERS215 - Environmental and Sustainability Assessment 1 (0.50)</li>
+
+        <li>ERS225 - Gendering Environmental Politics (0.50)</li>
+
+        <li>ERS253 - Communities and Sustainability (0.50)</li>
+
+        <li>ERS270 - Introduction to Sustainable Agroecosystems (0.50)</li>
+
+        <li>ERS294 - Spirituality, Religion, and Ecology (0.50)</li>
+
+        <li>ERS310 - Peace and the Environment (0.50)</li>
+
+        <li>ERS316 - Urban Water and Wastewater Systems: Integrated Planning and Management (0.50)</li>
+
+        <li>ERS320 - Economics and Sustainability (0.50)</li>
+
+        <li>ERS328 - Environmental Politics and System Change (0.50)</li>
+
+        <li>ERS361 - Food Systems and Sustainability (0.50)</li>
+
+        <li>ERS370 - Corporate Sustainability: Issues and Prospects (0.50)</li>
+
+        <li>ERS372 - First Nations and the Environment (0.50)</li>
+
+        <li>ERS404 - Global Environmental Governance (0.50)</li>
+
+        <li>GEOG203 - Environment and Development in a Global Perspective (0.50)</li>
+
+        <li>GEOG207 - Climate Change Fundamentals (0.50)</li>
+
+        <li>GEOG225 - Global Environment and Health (0.50)</li>
+
+        <li>GEOG361 - Food Systems and Sustainability (0.50)</li>
+
+        <li>GEOG459 - Energy and Sustainability (1.00)</li>
+
+        <li>PACS310 - Peace and the Environment (0.50)</li>
+
+        <li>PHIL224 - Environmental Ethics (0.50)</li>
+
+        <li>PLAN451 - Environmental Planning in Rural and Regional Systems (0.50)</li>
+
+        <li>PSCI432 - Global Environmental Governance (0.50)</li>
+        <li>R
+"""
 
 # -------------------------
 # Shared types (match DB)
@@ -39,6 +852,15 @@ class CourseRelation(BaseModel):
     kind: Literal["prereq", "coreq", "exclusion"]
     logic: str
     source_span: Optional[str] = None
+
+_CODE_RE = re.compile(r"\b([A-Z]{2,5})\s*-?\s*(\d{2,3}[A-Z]?)\b")  # e.g., CS 241, MATH119, ECE 105A
+
+def normalize_code(text: Optional[str]) -> Optional[str]:
+    if not text: return None
+    m = _CODE_RE.search(text.replace("\xa0", " "))
+    if not m: return None
+    subj, num = m.group(1), m.group(2)
+    return f"{subj} {num}"
 
 class EnrollmentConstraint(BaseModel):
     type: Literal[
@@ -99,6 +921,9 @@ class ProgramShell(BaseModel):
     total_credits_required: Optional[float] = None
     policy_ids_hints: Optional[List[str]] = None
     root_requirement: Optional[RequirementNode] = None
+    # Add these fields to ProgramShell to directly store parsed program data
+    required_by_term: Dict[str, List[Dict[str, str]]] = Field(default_factory=dict)
+    course_lists: Dict[str, List[Dict[str, str]]] = Field(default_factory=dict)
 
 class OutputEnvelope(BaseModel):
     courses: List[Course] = Field(default_factory=list)
@@ -110,17 +935,6 @@ class OutputEnvelope(BaseModel):
 # -------------------------
 # Heuristics (pre/post)
 # -------------------------
-
-_CODE_RE = re.compile(r"\b([A-Z]{2,4})\s?-?\s?(\d{2,3}[A-Z]?)\b")
-
-def _norm_code(code: Optional[str], title: Optional[str]) -> Optional[str]:
-    if code and code.strip():
-        m = _CODE_RE.search(code)
-        if m: return f"{m.group(1)} {m.group(2)}"
-    if title:
-        m = _CODE_RE.search(title)
-        if m: return f"{m.group(1)} {m.group(2)}"
-    return code
 
 def _subject_level(code: Optional[str]) -> tuple[str,int]:
     if not code: return ("", 0)
@@ -178,6 +992,151 @@ Guidelines:
 Return ONLY JSON.
 """
 
+def _parse_program_text_for_requirements(raw_text: str) -> Dict[str, Any]:
+    # This function is deprecated and replaced by direct structured data from uw_se_scraper.py
+    return {"required_by_term": {}, "course_lists": {}}
+
+def _parse_program_html_for_requirements(html_content: str) -> Dict[str, Any]:
+    program_data = {
+        "title": "",
+        "required_by_term": {},
+        "course_lists": {}
+    }
+
+    print("--- Starting _parse_program_html_for_requirements ---")
+    # Extract program title from h2
+    title_match = re.search(r"<h2 class=\"program-view__title___x6bi1\">(.*?)</h2>", html_content)
+    if title_match:
+        program_data["title"] = title_match.group(1).strip()
+    # print(f"Parsed Program Title (from HTML): {program_data['title']}")
+
+    # Extract term-based requirements
+    # The new JS directly extracts this, so this Python regex might be redundant or need adjustment
+    # For debugging, let's see what this still finds
+    term_block_pattern = re.compile(
+        r"<section class=\"\"><header data-test=\"grouping-\d-header\" class=\"\"><div><div class=\"style__itemHeaderH2___2f-ov\"><span>(?P<term_name>[1-4][AB])\s+Term</span></div>.*?<ul>(?P<courses_html>.*?)</ul>",
+        re.DOTALL | re.IGNORECASE
+    )
+
+    # print("\n--- Term Block Parsing (Python Regex) ---")
+    for term_match in term_block_pattern.finditer(html_content):
+        term_name = term_match.group("term_name")
+        courses_html = term_match.group("courses_html")
+        # print(f"  Found Term (Python Regex): {term_name}")
+        # print(f"  Courses HTML for {term_name}: {courses_html[:200]}...")
+
+        courses_in_term = []
+        course_item_pattern = re.compile(
+            r"<li>\s*(?:<span>)?(?:<a[^>]*>)?(?P<code>[A-Z]{2,5}\s*\d{2,3}[A-Z]?)(?:</a>)?\s*[-–—]?\s*(?P<title>[^<]+?)(?:\s*<span[^>]*>\([0-9.]+\)</span>)?\s*</li>",
+            re.DOTALL | re.IGNORECASE
+        )
+        for course_item_match in course_item_pattern.finditer(courses_html):
+            code = course_item_match.group("code").replace(" ", "")
+            title = course_item_match.group("title").strip()
+            courses_in_term.append({"code": code, "title": title})
+        
+        if courses_in_term:
+            program_data["required_by_term"][term_name] = courses_in_term
+
+    # Regex to find general course lists (electives, etc.)
+    # This pattern needs to be more robust to find nested lists as well
+    list_section_pattern = re.compile(
+        r"<section class=\"\"><header(?: data-test=\"[^\"]+\")? class=\"\"><div><div class=\"style__itemHeaderH2___2f-ov\"><span>(?P<list_name>[^<]+?)</span></div>.*?</div>(?:<div[^>]*>)?(?:<ul>(?P<direct_courses_html>.*?)</ul>)?",
+        re.DOTALL | re.IGNORECASE
+    )
+
+    for list_match in list_section_pattern.finditer(html_content):
+        list_name = list_match.group("list_name").strip()
+        direct_courses_html = list_match.group("direct_courses_html")
+        
+        current_list_courses = []
+        if direct_courses_html:
+            course_item_pattern = re.compile(
+                r"<li>\s*(?:<span>)?(?:<a[^>]*>)?(?P<code>[A-Z]{2,5}\s*\d{2,3}[A-Z]?)(?:</a>)?\s*[-–—]?\s*(?P<title>[^<]+?)(?:\s*<span[^>]*>\([0-9.]+\)</span>)?\s*</li>",
+                re.DOTALL | re.IGNORECASE
+            )
+            for course_item_match in course_item_pattern.finditer(direct_courses_html):
+                code = course_item_match.group("code").replace(" ", "")
+                title = course_item_match.group("title").strip()
+                current_list_courses.append({"code": code, "title": title})
+
+        if current_list_courses:
+            program_data["course_lists"][list_name] = current_list_courses
+
+        # Check for nested sections (like List 1, List 2 under Technical Electives List)
+        # We need to search within the current list_match's span for nested sections
+        # This requires re-parsing the inner HTML of the current section
+        inner_section_html = list_match.group(0) # Get the full HTML of the current section
+        nested_list_pattern = re.compile(
+            r"<section class=\"\"><header(?: class=\"\")?><div><div class=\"style__itemHeaderH2___2f-ov\"><span>(?P<nested_list_name>List \d)</span></div>.*?</div>(?:<div[^>]*>)?(?:<ul>(?P<nested_courses_html>.*?)</ul>)?",
+            re.DOTALL | re.IGNORECASE
+        )
+        for nested_list_match in nested_list_pattern.finditer(inner_section_html):
+            nested_list_name = nested_list_match.group("nested_list_name").strip()
+            nested_courses_html = nested_list_match.group("nested_courses_html")
+
+            nested_courses_in_list = []
+            if nested_courses_html:
+                course_item_pattern = re.compile(
+                    r"<li>\s*(?:<span>)?(?:<a[^>]*>)?(?P<code>[A-Z]{2,5}\s*\d{2,3}[A-Z]?)(?:</a>)?\s*[-–—]?\s*(?P<title>[^<]+?)(?:\s*<span[^>]*>\([0-9.]+\)</span>)?\s*</li>",
+                    re.DOTALL | re.IGNORECASE
+                )
+                for nested_course_item_match in course_item_pattern.finditer(nested_courses_html):
+                    code = nested_course_item_match.group("code").replace(" ", "")
+                    title = nested_course_item_match.group("title").strip()
+                    nested_courses_in_list.append({"code": code, "title": title})
+
+            if nested_courses_in_list:
+                program_data["course_lists"][nested_list_name] = nested_courses_in_list
+
+    return program_data
+
+def _inject_sets_from_required_by_term(out: OutputEnvelope, program_data: Dict[str, Any]):
+    # Note: 'out' is the OutputEnvelope, 'program_data' is the dict from _parse_program_html_for_requirements
+    # This function creates CourseSets and RequirementNodes and appends them to 'out'
+    for term_name, courses_data in program_data.get("required_by_term", {}).items():
+        set_id_hint = f"req_term_{term_name.lower().replace(' ', '')}"
+        course_codes = [course["code"] for course in courses_data]
+        out.course_sets.append(CourseSet(
+            id_hint=set_id_hint,
+            mode="explicit",
+            title=f"Required {term_name}",
+            selector=None,
+            courses=course_codes
+        ))
+        req_node = RequirementNode(
+            id_hint=set_id_hint, # Use the course set id_hint here
+            type="ALL",
+            courseSet=set_id_hint, # Reference to the course set by its id_hint
+            explanations=[f"Required courses in term {term_name}."]
+        )
+        out.requirements.append(req_node)
+
+def _inject_sets_from_course_lists(out: OutputEnvelope, program_data: Dict[str, Any]):
+    # Note: 'out' is the OutputEnvelope, 'program_data' is the dict from _parse_program_html_for_requirements
+    # This function creates CourseSets and RequirementNodes and appends them to 'out'
+    for list_name, courses_data in program_data.get("course_lists", {}).items():
+        set_id_hint = f"course_list_{re.sub(r'[^a-zA-Z0-9_]', '', list_name).lower()}"
+
+        course_codes = [course["code"] for course in courses_data]
+        out.course_sets.append(CourseSet(
+            id_hint=set_id_hint,
+            mode="explicit",
+            title=list_name,
+            selector=None,
+            courses=course_codes
+        ))
+        
+        # Create a requirement node for this course list
+        # This will typically be an ANY requirement (choose any from this list)
+        req_node = RequirementNode(
+            id_hint=set_id_hint, # Use the course set id_hint here
+            type="ANY",
+            courseSet=set_id_hint, # Reference to the course set by its id_hint
+            explanations=[f"Complete courses from {list_name}."]
+        )
+        out.requirements.append(req_node)
+
 def _build_user_prompt(scraped: Dict[str, Any]) -> str:
     return (
         "Scraped JSON follows. Transform to the OutputEnvelope JSON object.\n\n"
@@ -211,7 +1170,7 @@ def _call_ollama(scraped: Dict[str, Any], model: str) -> OutputEnvelope:
 
 def _normalize_courses(envelope: OutputEnvelope) -> None:
     for c in envelope.courses:
-        c.code = _norm_code(c.code, c.title) or (c.code or "").strip()
+        c.code = normalize_code(c.code) or (c.code or "").strip()
         subj, lvl = _subject_level(c.code)
         if not c.subject: c.subject = subj
         if not c.level: c.level = lvl
@@ -236,135 +1195,139 @@ def _normalize_requirements(envelope: OutputEnvelope) -> None:
     for i, rn in enumerate(envelope.requirements):
         assign_ids(rn, f"req{i}")
 
-def _inject_sets_from_required_by_term(envelope: OutputEnvelope, scraped: Dict[str, Any]) -> None:
-    rbt = scraped.get("required_by_term") or {}
-    if not rbt: return
-    term_order = {"1A":10,"1B":11,"2A":20,"2B":21,"3A":30,"3B":31,"4A":40,"4B":41}
-    term_keys = sorted(rbt.keys(), key=lambda t: term_order.get(t, 99))
-    children = []
-    for term in term_keys:
-        items = rbt[term] or []
-        codes = []
-        for item in items:
-            code = _norm_code(item.get("code"), item.get("title"))
-            if code: codes.append(code)
-        if not codes: continue
-        cs_title = f"Required {term}"
-        cs = CourseSet(id_hint=_stable_id_hint([cs_title]), title=cs_title, courses=sorted(set(codes)))
-        envelope.course_sets.append(cs)
-        node = RequirementNode(
-            id_hint=_stable_id_hint(["req_term", term]),
-            type="ALL",
-            courseSet=cs.id_hint,
-            explanations=[f"Required courses in term {term}."]
-        )
-        children.append(node)
-    if children:
-        root = RequirementNode(
-            id_hint=_stable_id_hint(["req_root_required_by_term"]),
-            type="ALL",
-            children=children,
-            explanations=["Complete all required courses by term."]
-        )
-        if not envelope.requirements:
-            envelope.requirements.append(root)
-
-def _inject_sets_from_course_lists(envelope: OutputEnvelope, scraped: Dict[str, Any]) -> None:
-    cl = scraped.get("course_lists") or {}
-    if not cl: return
-    for list_name, payload in cl.items():
-        if not isinstance(payload, dict): continue
-        courses = []
-        for entry in payload.get("courses") or []:
-            code = _norm_code(entry.get("code"), entry.get("title"))
-            if code: courses.append(code)
-        if not courses: continue
-        title = payload.get("list_name") or list_name
-        cs = CourseSet(
-            id_hint=_stable_id_hint(["list", title]),
-            title=title,
+def _inject_sets_from_required_by_term(out: OutputEnvelope, program_data: Dict[str, Any]):
+    # Note: 'out' is the OutputEnvelope, 'program_data' is the dict from _parse_program_html_for_requirements
+    # This function creates CourseSets and RequirementNodes and appends them to 'out'
+    for term_name, courses_data in program_data.get("required_by_term", {}).items():
+        set_id_hint = f"req_term_{term_name.lower().replace(' ', '')}"
+        course_codes = [course["code"] for course in courses_data]
+        out.course_sets.append(CourseSet(
+            id_hint=set_id_hint,
             mode="explicit",
-            courses=sorted(set(courses))
+            title=f"Required {term_name}",
+            selector=None,
+            courses=course_codes
+        ))
+        req_node = RequirementNode(
+            id_hint=set_id_hint, # Use the course set id_hint here
+            type="ALL",
+            courseSet=set_id_hint, # Reference to the course set by its id_hint
+            explanations=[f"Required courses in term {term_name}."]
         )
-        envelope.course_sets.append(cs)
+        out.requirements.append(req_node)
 
-def _ensure_provenance(envelope: OutputEnvelope, scraped: Dict[str, Any]) -> None:
-    url = None
-    if isinstance(scraped.get("course"), dict):
-        url = scraped["course"].get("source_url")
-    url = url or scraped.get("source_url")
-    envelope.provenance = {
-        "source_url": url,
-        "ingested_at": _now_iso(),
-        "fingerprint": hashlib.sha1(json.dumps(scraped, sort_keys=True).encode("utf-8")).hexdigest()
+def _inject_sets_from_course_lists(out: OutputEnvelope, program_data: Dict[str, Any]):
+    # Note: 'out' is the OutputEnvelope, 'program_data' is the dict from _parse_program_html_for_requirements
+    # This function creates CourseSets and RequirementNodes and appends them to 'out'
+    for list_name, courses_data in program_data.get("course_lists", {}).items():
+        set_id_hint = f"course_list_{re.sub(r'[^a-zA-Z0-9_]', '', list_name).lower()}"
+
+        course_codes = [course["code"] for course in courses_data]
+        out.course_sets.append(CourseSet(
+            id_hint=set_id_hint,
+            mode="explicit",
+            title=list_name,
+            selector=None,
+            courses=course_codes
+        ))
+        
+        # Create a requirement node for this course list
+        # This will typically be an ANY requirement (choose any from this list)
+        req_node = RequirementNode(
+            id_hint=set_id_hint, # Use the course set id_hint here
+            type="ANY",
+            courseSet=set_id_hint, # Reference to the course set by its id_hint
+            explanations=[f"Complete courses from {list_name}."]
+        )
+        out.requirements.append(req_node)
+
+def _ensure_provenance(out: OutputEnvelope, scraped: Dict[str, Any]):
+    out.provenance = {
+        "timestamp": _now_iso(),
+        "source_url": scraped.get("source_url"),
+        "scraped_json_captured": scraped.get("json_captured", False),
     }
 
-def normalize_scraped(scraped: Dict[str, Any], model: str) -> OutputEnvelope:
-    # 1) Try structured extraction
-    try:
-        out = _call_ollama(scraped, model=model)
-    except ValidationError:
-        out = OutputEnvelope()
+def _inject_requirements_from_course_data(out: OutputEnvelope, course_data: Dict[str, Any]):
+    """This function can be implemented later if specific course-level requirements need to be injected."""
+    pass
 
-    # 2) Safety nets for sections the model might skip
-    _inject_sets_from_course_lists(out, scraped)
-    _inject_sets_from_required_by_term(out, scraped)
+def normalize_scraped(scraped: Dict[str, Any]) -> OutputEnvelope:
+    out = OutputEnvelope()
+    
+    # Handle program-level data first
+    # Check for 'program_url' to identify program details entry
+    if scraped.get("program_url") and scraped.get("raw_program_html"):
+        program_data = _parse_program_html_for_requirements(scraped["raw_program_html"])
+        
+        # Ensure program title is correctly set
+        program_title = scraped.get("title") # Get title from scraped data directly
+        if not program_title and program_data.get("title"):
+            program_title = program_data["title"]
 
-    # 3) Normalize entities
-    _normalize_courses(out)
-    _ensure_course_sets(out)
-    _normalize_requirements(out)
+        # Clean and de-duplicate course lists before assigning to ProgramShell
+        cleaned_required_by_term = {term: _clean_and_deduplicate_courses(courses) for term, courses in program_data.get("required_by_term", {}).items()}
+        cleaned_course_lists = {list_name: _clean_and_deduplicate_courses(courses) for list_name, courses in program_data.get("course_lists", {}).items()}
+
+        out.program = ProgramShell(
+            kind="degree",
+            title=program_title or "Unknown Program", # Use cleaned title
+            required_by_term=cleaned_required_by_term,
+            course_lists=cleaned_course_lists
+        )
+        
+        # Generate course sets and requirements from the cleaned program data
+        _inject_sets_from_required_by_term(out, out.program.model_dump())
+        _inject_sets_from_course_lists(out, out.program.model_dump())
+
+    # Process individual course data
+    # This part should be after program data processing to ensure program-related course sets are available.
+    # Filter out the program details entry if it's mistakenly included in course processing
+    if not scraped.get("program_url") or not out.program: # Only process as individual course if not a program entry or if program data was not successfully extracted
+        course_data = scraped.copy()
+        if course_data.get("course_id") or course_data.get("code"):
+            # Ensure code and title are correctly extracted for individual courses
+            course_code = course_data.get("code")
+            course_title = course_data.get("title")
+
+            if not course_code and course_title:
+                # Attempt to extract code from title if not present
+                code_match = re.match(r"([A-Z]{2,5}\s*\d{2,3}[A-Z]?)", course_title)
+                if code_match:
+                    course_code = code_match.group(1).replace(" ", "")
+
+            if course_code:
+                course_obj = Course(
+                    course_id=course_data.get("course_id") or course_code,
+                    code=course_code,
+                    title=course_title or "Unknown Course",
+                    credits=float(course_data["units"]) if course_data.get("units") else 0.0,
+                    description=course_data.get("description"),
+                    subject=_subject_level(course_code)[0],
+                    level=_subject_level(course_code)[1],
+                )
+                out.courses.append(course_obj)
+
+            # Inject requirements/course sets for individual course, if any
+            _inject_requirements_from_course_data(out, course_data)
+    
     _ensure_provenance(out, scraped)
-
-    # 4) If no courses emitted but a course-like dict present, create a minimal Course
-    if not out.courses:
-        # Accept either { "course": {...} } or a flat course dict on the line
-        c = scraped.get("course", scraped)
-        if isinstance(c, dict) and ("title" in c or "code" in c):
-            code = _norm_code(c.get("code"), c.get("title"))
-            subj, lvl = _subject_level(code)
-            credits = _float_units(c.get("units") or c.get("credits")) or 0.0
-            title = c.get("title") or ""
-            # If title included code prefix like "CS343 - ...", strip leading code part
-            if code and title.startswith(code.replace(" ", "")):
-                # e.g., "CS343 - Name" --> "Name"
-                title = re.sub(r"^[A-Z]{2,4}\s?-?\s?\d{2,3}[A-Z]?\s*-\s*", "", title)
-            elif code and title.startswith(code):
-                title = title[len(code):].lstrip(" -–—")
-            course = Course(
-                code=code or "",
-                title=title or c.get("title") or "",
-                credits=credits,
-                level=lvl, subject=subj,
-                description=c.get("description"),
-                source_url=c.get("source_url"),
-                fetched_at=_now_iso(),
-                notes=["Fallback heuristic course parse."]
-            )
-            prereq = (c.get("prerequisites") or "").strip()
-            if prereq:
-                # Quick heuristic: if it names plans/faculties/standing, treat as enrollment constraint
-                if re.search(r"enrolled in|enrol+ed in|plan|program|standing|term|honours|H-|JH-|BMath|BCS|BBA|SE|CS|CFM|Data Science", prereq, re.I):
-                    course.enrollment_constraints.append(EnrollmentConstraint(
-                        type="program_in", values=[prereq], message="Plan/faculty/standing restriction parsed verbatim"
-                    ))
-                else:
-                    course.relations.append(CourseRelation(kind="prereq", logic="ALL()", source_span=prereq))
-            # Coreqs/antireqs if present
-            for k, kind in (("corequisites","coreq"), ("antirequisites","exclusion")):
-                txt = (c.get(k) or "").strip()
-                if txt:
-                    course.relations.append(CourseRelation(kind=kind, logic="ALL()", source_span=txt))
-            out.courses.append(course)
-
     return out
 
-# -------------------------
-# Concurrent processing
-# -------------------------
+def _clean_and_deduplicate_courses(courses: List[Dict[str, str]]) -> List[Dict[str, str]]:
+    seen_codes = set()
+    cleaned_courses = []
+    for course in courses:
+        if course["code"] not in seen_codes:
+            seen_codes.add(course["code"])
+            cleaned_courses.append(course)
+    return cleaned_courses
 
-def process_single_entry(scraped: Dict[str, Any], model: str) -> Dict[str, Any]:
+def process_single_entry(scraped: Dict[str, Any]) -> Dict[str, Any]:
     """Process a single scraped entry and return the normalized envelope as dict."""
+    # No longer passing model to normalize_scraped since we're bypassing Ollama.
+    # The 'model' argument can be removed from this function's signature if it's not used elsewhere.
+    # For now, keeping it for compatibility but not using it.
     if scraped.get("_malformed"):
         env = OutputEnvelope(
             provenance={
@@ -374,7 +1337,7 @@ def process_single_entry(scraped: Dict[str, Any], model: str) -> Dict[str, Any]:
             }
         )
     else:
-        env = normalize_scraped(scraped, model=model)
+        env = normalize_scraped(scraped) # Pass an empty string for model as it's not used
     
     return json.loads(env.model_dump_json())
 
@@ -432,7 +1395,7 @@ def main():
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
             # Submit all tasks
             future_to_entry = {
-                executor.submit(process_single_entry, scraped, model): scraped 
+                executor.submit(process_single_entry, scraped): scraped 
                 for scraped in scraped_entries
             }
             

@@ -15,15 +15,29 @@ def find_codes(text:str)->List[str]:
 
 @dataclass
 class Node:
-    id:str; title:Optional[str]=None; credits:Optional[float]=None; level:Optional[int]=None; subject:Optional[str]=None; source_url:Optional[str]=None
+    id:str; 
+    title:Optional[str]=None; 
+    credits:Optional[float]=None; 
+    level:Optional[int]=None; 
+    subject:Optional[str]=None; 
+    source_url:Optional[str]=None
 
 @dataclass
 class Edge:
-    from_id:str; to_id:str; kind:str; group_id:Optional[str]=None; logic:Optional[str]=None; k:Optional[int]=None; concurrent_ok:Optional[bool]=None; source_span:Optional[str]=None
+    from_id:str; 
+    to_id:str; 
+    kind:str; 
+    group_id:Optional[str]=None; 
+    logic:Optional[str]=None; 
+    k:Optional[int]=None; 
+    concurrent_ok:Optional[bool]=None; 
+    source_span:Optional[str]=None
 
 @dataclass
 class Constraint:
-    target:str; kind:str; expr:str
+    target:str; 
+    kind:str; 
+    expr:str
 
 def read_any(path:str)->List[Dict[str,Any]]:
     with open(path,'r',encoding='utf-8') as f:

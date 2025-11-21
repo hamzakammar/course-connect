@@ -14,7 +14,7 @@ from typing import Dict, List, Optional, Set, Tuple
 
 from playwright.async_api import async_playwright
 
-PROGRAM_URL = "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/programs/H1zle10Cs3"
+PROGRAM_URL = "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/programs/H1zle10Cs3?searchTerm=software%20engineering&bc=true&bcCurrent=Software%20Engineering%20(Bachelor%20of%20Software%20Engineering%20-%20Honours)&bcItemType=programs"
 COURSE_LINK_HREF_PART = "#/courses/view/"
 
 # ---- Helpers ---------------------------------------------------------------
@@ -58,6 +58,16 @@ class CourseResult:
     lists: List[str]                 # lists / terms where this course is referenced (e.g., "1B Term", "List 1")
     source_url: str
     json_captured: bool              # whether any Kuali JSON captured for this course (informational)
+
+@dataclass
+class ProgramResult:
+    program_url: str
+    title: Optional[str]
+    description: Optional[str]
+    required_by_term: Dict[str, List[Dict[str, str]]] # e.g., "1A": [{"code": "CS 137", "title": "Programming Principles"}]
+    course_lists: Dict[str, List[Dict[str, str]]] # e.g., "Electives": [{"code": "MATH 100", "title": "Math for Dummies"}]
+    source_url: str
+    json_captured: bool # informational, if any program JSON was captured
 
 # ---- DOM scraping utilities (run in the page) ------------------------------
 
@@ -121,31 +131,154 @@ DOM_JS_COLLECT_LINKS = """
 })();
 """
 
-DOM_JS_READ_SECTION = r"""
-(sectionTitle) => {
-  // Returns all text within the section whose heading text matches sectionTitle (case-insensitive, substring ok)
-  const head = Array.from(document.querySelectorAll('h1,h2,h3,h4,h5,h6'))
-    .find(h => (h.textContent || '').toLowerCase().includes(sectionTitle.toLowerCase()));
-  if (!head) return null;
-
-  // gather siblings until the next heading of same or higher level
-  const level = parseInt(head.tagName.slice(1), 10);
-  let n = head.nextElementSibling;
-  let texts = [];
-  const pushText = (el) => {
-    const t = el.innerText || el.textContent || '';
-    if (t) texts.push(t);
-  };
-  while (n) {
-    if (/^H[1-6]$/i.test(n.tagName)) {
-      const lv = parseInt(n.tagName.slice(1), 10);
-      if (lv <= level) break;
+DOM_JS_GET_MAIN_CONTENT_TEXT = """
+(() => {
+    const mainContentElement = document.body; 
+    if (mainContentElement) {
+        return mainContentElement.innerText;
     }
-    pushText(n);
-    n = n.nextElementSibling;
-  }
-  return texts.join("\n").trim();
-}
+    return null;
+})();
+"""
+
+# We are removing DOM_JS_READ_SECTION as its functionality will be handled in Python
+
+DOM_JS_COLLECT_PROGRAM_REQUIREMENTS = """
+(() => {
+    const programData = {
+        required_by_term: {},
+        course_lists: {}
+    };
+
+    const extractCoursesFromList = (listElement) => {
+        const courses = [];
+        const courseLinks = Array.from(listElement.querySelectorAll('li > span > a[href*="#/courses/view/"]'));
+        for (const link of courseLinks) {
+            const textContent = link.textContent.trim();
+            const codeMatch = textContent.match(/([A-Z]{2,5})\\s*-?\\s*(\\d{2,3}[A-Z]?)/);
+            if (codeMatch) {
+                const fullCode = `${codeMatch[1]} ${codeMatch[2]}`.replace(/\\s+/g, ''); // Remove space for consistent code format
+                let title = textContent.replace(codeMatch[0], '').trim();
+                // Remove credits part if present, e.g., " - Programming Principles (0.50)" -> " - Programming Principles"
+                title = title.replace(/\\s*\\([0-9.]+\\)/, '').replace(/^[\\s-–—]*/, '').trim();
+                if (title === '' && link.parentNode) {
+                    // Fallback to parent text if title is still empty, removing code and credits
+                    const parentText = link.parentNode.textContent.trim();
+                    title = parentText.replace(codeMatch[0], '').replace(/\\s*\\([0-9.]+\\)/, '').replace(/^[\\s-–—]*/, '').trim();
+                }
+                courses.push({
+                    code: fullCode,
+                    title: title || "Unknown Title" // Ensure title is never empty
+                });
+            } 
+        }
+
+        // Handle generic elective placeholders if no specific course links were found in this list
+        const genericElectiveItems = Array.from(listElement.querySelectorAll('li'));
+        for (const item of genericElectiveItems) {
+            if (item.textContent.includes('approved elective') && !item.querySelector('a[href*="#/courses/view/"]')) {
+                const electiveText = item.textContent.trim();
+                const numElectivesMatch = electiveText.match(/Complete (?:a total of )?(\\d+) approved electives?/);
+                if (numElectivesMatch) {
+                    const num = parseInt(numElectivesMatch[1]);
+                    for (let i = 0; i < num; i++) {
+                        courses.push({
+                            code: `ELECTIVE_GENERIC_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+                            title: `Approved Elective ${i + 1}`
+                        });
+                    }
+                } else if (electiveText.includes('approved elective')) {
+                    courses.push({
+                        code: `ELECTIVE_GENERIC_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+                        title: `Approved Elective`
+                    });
+                }
+            }
+        }
+
+        return courses;
+    };
+
+    // Extract term-based requirements
+    const courseRequirementsSection = document.querySelector('h3.program-view__label___RGRDq');
+
+    if (courseRequirementsSection && courseRequirementsSection.textContent.includes('Course Requirements')) {
+        const rulesWrapper = courseRequirementsSection.closest('.noBreak').querySelector('.rules-wrapper');
+        if (rulesWrapper) {
+            const termSections = Array.from(rulesWrapper.querySelectorAll('section'));
+            for (const section of termSections) {
+                const headerSpan = section.querySelector('.style__itemHeaderH2___2f-ov > span');
+                if (headerSpan) {
+                    const termName = headerSpan.textContent.trim();
+                    if (termName.match(/^[1-4][AB] Term$/)) {
+                        // Look for ul directly under div[data-test="ruleView-A-result"] or div[data-test="ruleView-C-result"]
+                        const courseListUlA = section.querySelector('div[data-test="ruleView-A-result"] > div > ul');
+                        const courseListUlC = section.querySelector('div[data-test="ruleView-C-result"] > div > ul');
+                        
+                        let courseListElement = null;
+                        if (courseListUlA) {
+                            courseListElement = courseListUlA;
+                        } else if (courseListUlC) {
+                            courseListElement = courseListUlC;
+                        }
+
+                        if (courseListElement) {
+                            programData.required_by_term[termName] = [...(programData.required_by_term[termName] || []), ...extractCoursesFromList(courseListElement)];
+                        }
+
+                         // Also check for electives directly under ruleView-B
+                        const electiveDivB = section.querySelector('div[data-test="ruleView-B-result"]');
+                        if (electiveDivB) {
+                            const electives = extractCoursesFromList(electiveDivB);
+                            if (electives.length > 0) {
+                                programData.required_by_term[termName] = [...(programData.required_by_term[termName] || []), ...electives];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Extract general course lists (electives, etc.)
+    const courseListsSection = Array.from(document.querySelectorAll('h3.program-view__label___RGRDq')).find(h3 => h3.textContent.includes('Course Lists'));
+    if (courseListsSection) {
+        const rulesWrapper = courseListsSection.closest('.noBreak').querySelector('.rules-wrapper');
+        if (rulesWrapper) {
+            const topLevelSections = Array.from(rulesWrapper.querySelectorAll('section'));
+            for (const topSection of topLevelSections) {
+                const topHeaderSpan = topSection.querySelector('.style__itemHeaderH2___2f-ov > span');
+                if (topHeaderSpan) {
+                    const listName = topHeaderSpan.textContent.trim();
+                    if (listName !== '') {
+                        // Check for direct course lists under this section (like Undergraduate Communication Requirement)
+                        const directCourseList = topSection.querySelector('div[data-test="ruleView-A-result"] > div > ul, div[data-test="ruleView-B-result"] > div > ul');
+                        if (directCourseList) {
+                             programData.course_lists[listName] = [...(programData.course_lists[listName] || []), ...extractCoursesFromList(directCourseList)];
+                        }
+
+                        // Check for nested sections (like List 1, List 2 under Technical Electives List)
+                        const nestedSections = Array.from(topSection.querySelectorAll('section'));
+                        for (const nestedSection of nestedSections) {
+                            const nestedHeaderSpan = nestedSection.querySelector('.style__itemHeaderH2___2f-ov > span');
+                            if (nestedHeaderSpan) {
+                                const nestedListName = nestedHeaderSpan.textContent.trim();
+                                if (nestedListName !== '') {
+                                    const nestedCourseList = nestedSection.querySelector('div[data-test="ruleView-A-result"] > div > ul, div[data-test="ruleView-B-result"] > div > ul');
+                                    if (nestedCourseList) {
+                                        programData.course_lists[nestedListName] = [...(programData.course_lists[nestedListName] || []), ...extractCoursesFromList(nestedCourseList)];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return programData;
+})();
 """
 
 DOM_JS_READ_UNITS = r"""
@@ -267,11 +400,39 @@ async def collect_program_courses(page) -> Tuple[List[Tuple[str, str]], Dict[str
     course_refs = list(uniq(course_refs))
     return course_refs, membership
 
+async def scrape_program_details(page, program_url: str, json_seen_flag: Dict[str, bool], debug_html_out: Optional[Path] = None) -> ProgramResult:
+    await page.goto(program_url, wait_until="domcontentloaded")
+    await wait_for_spa(page, heavy=True)
+
+    if debug_html_out: # Save raw HTML for debugging if requested
+        # Capture outerHTML of the main content area after SPA has rendered
+        html_content = await page.evaluate("document.querySelector('main#kuali-catalog-main').outerHTML")
+        debug_html_out.write_text(html_content, encoding="utf-8")
+        print(f"Saved program HTML to {debug_html_out}")
+
+    # Get the correct program title from the breadcrumb
+    title_el = await page.locator("span.style__current___S6hvB").first.inner_text()
+    title = clean_text(title_el)
+
+    description_el = await read_section_text(page, "Description") # This will return None
+    description = clean_text(description_el)
+
+    # Get the structured program requirements directly
+    program_structured_data = await page.evaluate(DOM_JS_COLLECT_PROGRAM_REQUIREMENTS)
+
+    return ProgramResult(
+        program_url=program_url,
+        title=title,
+        description=description,
+        required_by_term=program_structured_data.get("required_by_term", {}),
+        course_lists=program_structured_data.get("course_lists", {}),
+        source_url=program_url,
+        json_captured=bool(json_seen_flag.get(program_url, False)),
+    )
+
 async def read_section_text(page, title: str) -> Optional[str]:
-    try:
-        txt = await page.evaluate(DOM_JS_READ_SECTION, title)
-        return clean_text(txt)
-    except Exception:
+    # This function is no longer needed as we are getting raw text and parsing in Python
+    # Re-enabling for description, but it will likely return None since text is not extracted like this anymore.
         return None
 
 async def read_units(page) -> Optional[str]:
@@ -340,7 +501,7 @@ async def scrape_course(page, cid: str, url: str, buckets_for_course: Set[str], 
 
 # ---- Main -------------------------------------------------------------------
 
-async def run(program_url: str, out_path: Path, headful: bool, max_courses: Optional[int]):
+async def run(program_url: str, out_path: Path, headful: bool, max_courses: Optional[int], debug_html_out: Optional[Path]):
     t0 = time.time()
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -353,8 +514,8 @@ async def run(program_url: str, out_path: Path, headful: bool, max_courses: Opti
         page = await context.new_page()
 
         # JSON capture (informational). We attach BEFORE any navigation.
-        # We'll map course-id -> True if we saw any JSON from Kuali for it.
-        json_seen_for_course: Dict[str, bool] = {}
+        # We'll map url -> True if we saw any JSON for it.
+        json_seen_for_url: Dict[str, bool] = {}
 
         def looks_like_json(ctype: Optional[str], url: str) -> bool:
             ct = (ctype or "").lower()
@@ -372,23 +533,26 @@ async def run(program_url: str, out_path: Path, headful: bool, max_courses: Opti
                     t = txt.strip()
                     if not t:
                         return
-                    if t[0] in "{[" and t[-1] in "}]":
-                        # Mark any /courses/view/<id> or .../courses/<id>
-                        m = re.search(r'/courses/(view/)?([a-f0-9]{24})', url)
-                        if m:
-                            cid = m.group(2)
-                            json_seen_for_course[cid] = True
+                    if t[0] in "{" and t[-1] == "}": # Check for JSON object
+                        json_seen_for_url[url] = True
             except Exception:
                 pass
 
         context.on("response", on_response)
 
-        # Go to program page
+        # Go to program page and scrape program details first
+        program_details = await scrape_program_details(page, program_url, json_seen_for_url, debug_html_out) # Pass debug_html_out
+        # Write program details to the JSONL file
+        out_f.write(json.dumps(asdict(program_details), ensure_ascii=False) + "\n")
+        out_f.flush()
+        print(f"Scraped program details for: {program_details.title}")
+
+        # Collect all course links & buckets from program page
+        # We need to re-navigate to the program_url after scraping details, as scrape_program_details might have changed the page.
         await page.goto(program_url, wait_until="domcontentloaded")
         await accept_cookies_if_present(page)
         await wait_for_spa(page, heavy=True)
 
-        # Collect all course links & buckets from program page
         course_refs, membership = await collect_program_courses(page)
 
         if max_courses:
@@ -407,7 +571,7 @@ async def run(program_url: str, out_path: Path, headful: bool, max_courses: Opti
             buckets = set()
 
             try:
-                result = await scrape_course(page, cid, url, buckets, json_seen_for_course)
+                result = await scrape_course(page, cid, url, buckets, json_seen_for_url)
 
                 # If we now have a code, merge any buckets we learned from the program page
                 if result.code and result.code in buckets_by_code:
@@ -430,7 +594,7 @@ async def run(program_url: str, out_path: Path, headful: bool, max_courses: Opti
                     course_id=cid,
                     code=None, title=None, units=None, description=None,
                     prerequisites=None, corequisites=None, antirequisites=None,
-                    lists=sorted(list(buckets)), source_url=url, json_captured=bool(json_seen_for_course.get(cid, False))
+                    lists=sorted(list(buckets)), source_url=url, json_captured=bool(json_seen_for_url.get(cid, False))
                 )
                 out_f.write(json.dumps(asdict(minimal), ensure_ascii=False) + "\n")
                 out_f.flush()
@@ -449,9 +613,11 @@ def main():
     p.add_argument("--out", default="se_courses.jsonl", help="Output JSONL path.")
     p.add_argument("--headful", action="store_true", help="Run headed (helpful to watch).")
     p.add_argument("--max-courses", type=int, default=None, help="Limit number of courses (debug).")
+    # p.add_argument("--debug-html-out", type=Path, default=None, help="Output path for raw HTML content (debug).") # Commented out new argument
     args = p.parse_args()
 
-    asyncio.run(run(args.program_url, Path(args.out), args.headful, args.max_courses))
+    # asyncio.run(run(args.program_url, Path(args.out), args.headful, args.max_courses, args.debug_html_out))
+    asyncio.run(run(args.program_url, Path(args.out), args.headful, args.max_courses, None)) # Pass None for debug_html_out
 
 if __name__ == "__main__":
     main()

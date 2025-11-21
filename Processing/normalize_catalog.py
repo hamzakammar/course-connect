@@ -17,7 +17,7 @@ Requires:
 from __future__ import annotations
 from typing import List, Optional, Literal, Union, Dict, Any, Iterable
 from pydantic import BaseModel, Field, constr, ValidationError
-from datetime import datetime
+from datetime import datetime, timezone
 import hashlib
 import argparse
 import json
@@ -152,7 +152,8 @@ def _stable_id_hint(parts: List[str]) -> str:
     return hashlib.sha1(base.encode("utf-8")).hexdigest()[:10]
 
 def _now_iso() -> str:
-    return datetime.utcnow().isoformat() + "Z"
+    # DeprecationWarning: datetime.datetime.utcnow() is deprecated
+    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 # -------------------------
 # System & User prompts

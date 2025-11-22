@@ -1,1 +1,234 @@
-[]
+[
+  {
+    "id_hint": "req_term_1a",
+    "mode": "explicit",
+    "title": "Required 1A",
+    "courses": [
+      "CS137",
+      "CHE102",
+      "MATH115",
+      "MATH117",
+      "MATH135",
+      "SE101"
+    ]
+  },
+  {
+    "id_hint": "req_term_1b",
+    "mode": "explicit",
+    "title": "Required 1B",
+    "courses": [
+      "CS138",
+      "ECE124",
+      "ECE140",
+      "ECE192",
+      "MATH119",
+      "SE102"
+    ]
+  },
+  {
+    "id_hint": "req_term_2a",
+    "mode": "explicit",
+    "title": "Required 2A",
+    "courses": [
+      "CS241",
+      "ECE222",
+      "SE201",
+      "SE212",
+      "STAT206"
+    ]
+  },
+  {
+    "id_hint": "req_term_2b",
+    "mode": "explicit",
+    "title": "Required 2B",
+    "courses": [
+      "CS240",
+      "CS247",
+      "CS348",
+      "MATH239",
+      "SE202"
+    ]
+  },
+  {
+    "id_hint": "req_term_3a",
+    "mode": "explicit",
+    "title": "Required 3A",
+    "courses": [
+      "CS341",
+      "MATH213",
+      "SE301",
+      "SE350",
+      "SE464",
+      "SE465"
+    ]
+  },
+  {
+    "id_hint": "req_term_3b",
+    "mode": "explicit",
+    "title": "Required 3B",
+    "courses": [
+      "CS343",
+      "ECE358",
+      "SE302",
+      "SE380",
+      "SE463"
+    ]
+  },
+  {
+    "id_hint": "req_term_4a",
+    "mode": "explicit",
+    "title": "Required 4A",
+    "courses": [
+      "SE401"
+    ]
+  },
+  {
+    "id_hint": "req_term_4b",
+    "mode": "explicit",
+    "title": "Required 4B",
+    "courses": [
+      "SE402"
+    ]
+  },
+  {
+    "id_hint": "req_term_1a_all",
+    "mode": "explicit",
+    "title": "Required 1A",
+    "selector": null,
+    "courses": [
+      "CS137",
+      "CHE102",
+      "MATH115",
+      "MATH117",
+      "MATH135",
+      "SE101"
+    ]
+  },
+  {
+    "id_hint": "req_term_1b_all",
+    "mode": "explicit",
+    "title": "Required 1B",
+    "selector": null,
+    "courses": [
+      "CS138",
+      "ECE124",
+      "ECE140",
+      "ECE192",
+      "MATH119",
+      "SE102"
+    ]
+  },
+  {
+    "id_hint": "req_term_2a_all",
+    "mode": "explicit",
+    "title": "Required 2A",
+    "selector": null,
+    "courses": [
+      "CS241",
+      "ECE222",
+      "SE201",
+      "SE212",
+      "STAT206"
+    ]
+  },
+  {
+    "id_hint": "req_term_2a_any",
+    "mode": "explicit",
+    "title": "Select one from 2A",
+    "selector": null,
+    "courses": [
+      "ECE105",
+      "PHYS115",
+      "PHYS121"
+    ]
+  },
+  {
+    "id_hint": "req_term_2b_all",
+    "mode": "explicit",
+    "title": "Required 2B",
+    "selector": null,
+    "courses": [
+      "CS240",
+      "CS247",
+      "CS348",
+      "MATH239",
+      "SE202"
+    ]
+  },
+  {
+    "id_hint": "req_term_3a_all",
+    "mode": "explicit",
+    "title": "Required 3A",
+    "selector": null,
+    "courses": [
+      "CS341",
+      "MATH213",
+      "SE301",
+      "SE350",
+      "SE464",
+      "SE465"
+    ]
+  },
+  {
+    "id_hint": "req_term_3b_all",
+    "mode": "explicit",
+    "title": "Required 3B",
+    "selector": null,
+    "courses": [
+      "CS343",
+      "ECE358",
+      "SE302",
+      "SE380",
+      "SE463"
+    ]
+  },
+  {
+    "id_hint": "req_term_3b_any",
+    "mode": "explicit",
+    "title": "Select one from 3B",
+    "selector": null,
+    "courses": [
+      "CS349",
+      "CS449",
+      "MSE343"
+    ]
+  },
+  {
+    "id_hint": "req_term_4a_all",
+    "mode": "explicit",
+    "title": "Required 4A",
+    "selector": null,
+    "courses": [
+      "SE401"
+    ]
+  },
+  {
+    "id_hint": "req_term_4a_any",
+    "mode": "explicit",
+    "title": "Select one from 4A",
+    "selector": null,
+    "courses": [
+      "GENE403",
+      "SE490"
+    ]
+  },
+  {
+    "id_hint": "req_term_4b_all",
+    "mode": "explicit",
+    "title": "Required 4B",
+    "selector": null,
+    "courses": [
+      "SE402"
+    ]
+  },
+  {
+    "id_hint": "req_term_4b_any",
+    "mode": "explicit",
+    "title": "Select one from 4B",
+    "selector": null,
+    "courses": [
+      "GENE404",
+      "SE491"
+    ]
+  }
+]

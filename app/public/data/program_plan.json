@@ -9,8 +9,326 @@
     "total_credits_required": null,
     "policy_ids_hints": null,
     "root_requirement": null,
-    "required_by_term": {},
+    "required_by_term": {
+      "1A": [
+        {
+          "code": "CS137",
+          "title": "Programming Principles"
+        },
+        {
+          "code": "CHE102",
+          "title": "Chemistry for Engineers"
+        },
+        {
+          "code": "MATH115",
+          "title": "Linear Algebra for Engineering"
+        },
+        {
+          "code": "MATH117",
+          "title": "Calculus 1 for Engineering"
+        },
+        {
+          "code": "MATH135",
+          "title": "Algebra for Honours Mathematics"
+        },
+        {
+          "code": "SE101",
+          "title": "Introduction to Methods of Software Engineering"
+        }
+      ],
+      "1B": [
+        {
+          "code": "CS138",
+          "title": "Introduction to Data Abstraction and Implementation"
+        },
+        {
+          "code": "ECE124",
+          "title": "Digital Circuits and Systems"
+        },
+        {
+          "code": "ECE140",
+          "title": "Linear Circuits"
+        },
+        {
+          "code": "ECE192",
+          "title": "Engineering Economics and Impact on Society"
+        },
+        {
+          "code": "MATH119",
+          "title": "Calculus 2 for Engineering"
+        },
+        {
+          "code": "SE102",
+          "title": "Seminar"
+        }
+      ],
+      "2A": [
+        {
+          "code": "CS241",
+          "title": "Foundations of Sequential Programs"
+        },
+        {
+          "code": "ECE222",
+          "title": "Digital Computers"
+        },
+        {
+          "code": "SE201",
+          "title": "Seminar"
+        },
+        {
+          "code": "SE212",
+          "title": "Logic and Computation"
+        },
+        {
+          "code": "STAT206",
+          "title": "Statistics for Software Engineering"
+        }
+      ],
+      "2B": [
+        {
+          "code": "CS240",
+          "title": "Data Structures and Data Management"
+        },
+        {
+          "code": "CS247",
+          "title": "Software Engineering Principles"
+        },
+        {
+          "code": "CS348",
+          "title": "Introduction to Database Management"
+        },
+        {
+          "code": "MATH239",
+          "title": "Introduction to Combinatorics"
+        },
+        {
+          "code": "SE202",
+          "title": "Seminar"
+        }
+      ],
+      "3A": [
+        {
+          "code": "CS341",
+          "title": "Algorithms"
+        },
+        {
+          "code": "MATH213",
+          "title": "Signals, Systems, and Differential Equations"
+        },
+        {
+          "code": "SE301",
+          "title": "Seminar"
+        },
+        {
+          "code": "SE350",
+          "title": "Operating Systems"
+        },
+        {
+          "code": "SE464",
+          "title": "Software Design and Architectures"
+        },
+        {
+          "code": "SE465",
+          "title": "Software Testing and Quality Assurance"
+        }
+      ],
+      "3B": [
+        {
+          "code": "CS343",
+          "title": "Concurrent and Parallel Programming"
+        },
+        {
+          "code": "ECE358",
+          "title": "Computer Networks"
+        },
+        {
+          "code": "SE302",
+          "title": "Seminar"
+        },
+        {
+          "code": "SE380",
+          "title": "Introduction to Feedback Control"
+        },
+        {
+          "code": "SE463",
+          "title": "Software Project Management, Requirements, and Analysis"
+        }
+      ],
+      "4A": [
+        {
+          "code": "SE401",
+          "title": "Seminar"
+        }
+      ],
+      "4B": [
+        {
+          "code": "SE402",
+          "title": "Seminar"
+        }
+      ]
+    },
     "course_lists": {}
   },
-  "requirements": []
+  "requirements": [
+    {
+      "id": "term_req_1A",
+      "type": "ALL",
+      "content": "req_term_1a",
+      "explanations": [
+        "Required courses in term 1A."
+      ]
+    },
+    {
+      "id": "term_req_1B",
+      "type": "ALL",
+      "content": "req_term_1b",
+      "explanations": [
+        "Required courses in term 1B."
+      ]
+    },
+    {
+      "id": "term_req_2A",
+      "type": "ALL",
+      "content": "req_term_2a",
+      "explanations": [
+        "Required courses in term 2A."
+      ]
+    },
+    {
+      "id": "term_req_2B",
+      "type": "ALL",
+      "content": "req_term_2b",
+      "explanations": [
+        "Required courses in term 2B."
+      ]
+    },
+    {
+      "id": "term_req_3A",
+      "type": "ALL",
+      "content": "req_term_3a",
+      "explanations": [
+        "Required courses in term 3A."
+      ]
+    },
+    {
+      "id": "term_req_3B",
+      "type": "ALL",
+      "content": "req_term_3b",
+      "explanations": [
+        "Required courses in term 3B."
+      ]
+    },
+    {
+      "id": "term_req_4A",
+      "type": "ALL",
+      "content": "req_term_4a",
+      "explanations": [
+        "Required courses in term 4A."
+      ]
+    },
+    {
+      "id": "term_req_4B",
+      "type": "ALL",
+      "content": "req_term_4b",
+      "explanations": [
+        "Required courses in term 4B."
+      ]
+    },
+    {
+      "id": "req_term_1a_all",
+      "type": "ALL",
+      "content": "req_term_1a_all",
+      "explanations": [
+        "Required courses in term 1A."
+      ]
+    },
+    {
+      "id": "req_term_1b_all",
+      "type": "ALL",
+      "content": "req_term_1b_all",
+      "explanations": [
+        "Required courses in term 1B."
+      ]
+    },
+    {
+      "id": "req_term_2a_all",
+      "type": "ALL",
+      "content": "req_term_2a_all",
+      "explanations": [
+        "Required courses in term 2A."
+      ]
+    },
+    {
+      "id": "req_term_2a_any",
+      "type": "ANY",
+      "content": "req_term_2a_any",
+      "explanations": [
+        "Complete 1 of the following courses in term 2A."
+      ]
+    },
+    {
+      "id": "req_term_2b_all",
+      "type": "ALL",
+      "content": "req_term_2b_all",
+      "explanations": [
+        "Required courses in term 2B."
+      ]
+    },
+    {
+      "id": "req_term_3a_all",
+      "type": "ALL",
+      "content": "req_term_3a_all",
+      "explanations": [
+        "Required courses in term 3A."
+      ]
+    },
+    {
+      "id": "req_term_3b_all",
+      "type": "ALL",
+      "content": "req_term_3b_all",
+      "explanations": [
+        "Required courses in term 3B."
+      ]
+    },
+    {
+      "id": "req_term_3b_any",
+      "type": "ANY",
+      "content": "req_term_3b_any",
+      "explanations": [
+        "Complete 1 of the following courses in term 3B."
+      ]
+    },
+    {
+      "id": "req_term_4a_all",
+      "type": "ALL",
+      "content": "req_term_4a_all",
+      "explanations": [
+        "Required courses in term 4A."
+      ]
+    },
+    {
+      "id": "req_term_4a_any",
+      "type": "ANY",
+      "content": "req_term_4a_any",
+      "explanations": [
+        "Complete 1 of the following courses in term 4A."
+      ]
+    },
+    {
+      "id": "req_term_4b_all",
+      "type": "ALL",
+      "content": "req_term_4b_all",
+      "explanations": [
+        "Required courses in term 4B."
+      ]
+    },
+    {
+      "id": "req_term_4b_any",
+      "type": "ANY",
+      "content": "req_term_4b_any",
+      "explanations": [
+        "Complete 1 of the following courses in term 4B."
+      ]
+    }
+  ]
 }

@@ -1000,7 +1000,8 @@ def _parse_program_html_for_requirements(html_content: str) -> Dict[str, Any]:
     program_data = {
         "title": "",
         "required_by_term": {},
-        "course_lists": {}
+        "course_lists": {},
+        "any_requirements_by_term": {}  # Maps term -> list of course codes that are "select one"
     }
 
     print("--- Starting _parse_program_html_for_requirements ---")
@@ -1011,32 +1012,88 @@ def _parse_program_html_for_requirements(html_content: str) -> Dict[str, Any]:
     # print(f"Parsed Program Title (from HTML): {program_data['title']}")
 
     # Extract term-based requirements
-    # The new JS directly extracts this, so this Python regex might be redundant or need adjustment
-    # For debugging, let's see what this still finds
-    term_block_pattern = re.compile(
-        r"<section class=\"\"><header data-test=\"grouping-\d-header\" class=\"\"><div><div class=\"style__itemHeaderH2___2f-ov\"><span>(?P<term_name>[1-4][AB])\s+Term</span></div>.*?<ul>(?P<courses_html>.*?)</ul>",
+    # The HTML structure is:
+    # <section><header data-test="grouping-0-header">...<span>1A Term</span>...</header>
+    #   <div><div><ul>
+    #     <li data-test="ruleView-A"><div data-test="ruleView-A-result">Complete all the following: <div><ul>...</ul></div></div></li>
+    #     <li data-test="ruleView-B"><div data-test="ruleView-B-result">Complete 1 of the following: ...</div></li>
+    #   </ul></div></div>
+    # </section>
+    
+    # Pattern to find term sections
+    term_section_pattern = re.compile(
+        r"<section class=\"\"><header data-test=\"grouping-\d+-header\"[^>]*><div><div class=\"style__itemHeaderH2___2f-ov\"><span>(?P<term_name>[1-4][AB])\s+Term</span></div>.*?</header>.*?(?=<section class=\"\"|<h3|$)",
         re.DOTALL | re.IGNORECASE
     )
-
-    # print("\n--- Term Block Parsing (Python Regex) ---")
-    for term_match in term_block_pattern.finditer(html_content):
+    
+    # Extract courses from each term section
+    for term_match in term_section_pattern.finditer(html_content):
         term_name = term_match.group("term_name")
-        courses_html = term_match.group("courses_html")
-        # print(f"  Found Term (Python Regex): {term_name}")
-        # print(f"  Courses HTML for {term_name}: {courses_html[:200]}...")
-
-        courses_in_term = []
-        course_item_pattern = re.compile(
-            r"<li>\s*(?:<span>)?(?:<a[^>]*>)?(?P<code>[A-Z]{2,5}\s*\d{2,3}[A-Z]?)(?:</a>)?\s*[-–—]?\s*(?P<title>[^<]+?)(?:\s*<span[^>]*>\([0-9.]+\)</span>)?\s*</li>",
+        term_section = term_match.group(0)
+        
+        all_courses = []  # Courses that are ALL requirements
+        any_courses = []  # Courses that are ANY requirements
+        
+        # Find ruleView-A-result (ALL requirements) - "Complete all the following"
+        rule_a_pattern = re.compile(
+            r'<div data-test="ruleView-A-result">.*?<ul[^>]*>(?P<courses_html>.*?)</ul>',
             re.DOTALL | re.IGNORECASE
         )
-        for course_item_match in course_item_pattern.finditer(courses_html):
-            code = course_item_match.group("code").replace(" ", "")
-            title = course_item_match.group("title").strip()
-            courses_in_term.append({"code": code, "title": title})
+        for rule_a_match in rule_a_pattern.finditer(term_section):
+            courses_html = rule_a_match.group("courses_html")
+            # Extract course codes and titles from nested ul
+            # Pattern: <li><span><a href="...">CODE</a> - Title <span>(credits)</span></span></li>
+            # Match title between </a> and the credits span or closing tag
+            course_item_pattern = re.compile(
+                r'<li[^>]*>.*?<a[^>]*href="#/courses/view/[^"]*"[^>]*>(?P<code>[A-Z]{2,5}\s*\d{2,3}[A-Z]?)</a>\s*[-–—]\s*(?P<title>.*?)(?:\s*<span[^>]*>\([0-9.]+\)</span>|</span></li>)',
+                re.DOTALL | re.IGNORECASE
+            )
+            for course_item_match in course_item_pattern.finditer(courses_html):
+                code = course_item_match.group("code").replace(" ", "")
+                title = course_item_match.group("title").strip()
+                # Clean up any remaining HTML entities or tags in the title
+                title = re.sub(r'<[^>]+>', '', title).strip()
+                all_courses.append({"code": code, "title": title})
         
-        if courses_in_term:
-            program_data["required_by_term"][term_name] = courses_in_term
+        # Find ruleView-C-result (ANY requirements) - "Complete 1 of the following"
+        # Note: ruleView-B-result is for general electives (not specific course lists)
+        # ruleView-C-result is for "Complete 1 of the following: <course list>"
+        # Format: <div data-test="ruleView-C-result">Complete <span>1</span> of the following: <div><ul>...</ul></div></div>
+        rule_c_pattern = re.compile(
+            r'<div data-test="ruleView-C-result">.*?Complete\s*<span>\s*1\s*</span>\s*of\s+the\s+following:\s*<div><ul[^>]*>(?P<courses_html>.*?)</ul></div></div>',
+            re.DOTALL | re.IGNORECASE
+        )
+        for rule_c_match in rule_c_pattern.finditer(term_section):
+            courses_html = rule_c_match.group("courses_html")
+            
+            # Extract from ul list (same pattern as ruleView-A-result to get titles too)
+            course_item_pattern = re.compile(
+                r'<li[^>]*>.*?<a[^>]*href="#/courses/view/[^"]*"[^>]*>(?P<code>[A-Z]{2,5}\s*\d{2,3}[A-Z]?)</a>\s*[-–—]\s*(?P<title>.*?)(?:\s*<span[^>]*>\([0-9.]+\)</span>|</span></li>)',
+                re.DOTALL | re.IGNORECASE
+            )
+            for course_item_match in course_item_pattern.finditer(courses_html):
+                code = course_item_match.group("code").replace(" ", "")
+                title = course_item_match.group("title").strip()
+                # Clean up any remaining HTML entities or tags in the title
+                title = re.sub(r'<[^>]+>', '', title).strip()
+                any_courses.append({"code": code, "title": title})
+        
+        # Store ALL (required) courses in required_by_term
+        # Store ANY (select one) courses separately - they should NOT be in required_by_term
+        # They'll be represented as type="ANY" requirements instead
+        if all_courses:
+            program_data["required_by_term"][term_name] = all_courses
+        
+        if any_courses:
+            # Convert any_courses list of codes/dicts to a list of dicts with code and title
+            any_courses_dicts = []
+            for item in any_courses:
+                if isinstance(item, dict):
+                    any_courses_dicts.append(item)
+                else:
+                    # It's just a code string, convert to dict
+                    any_courses_dicts.append({"code": item, "title": ""})
+            program_data["any_requirements_by_term"][term_name] = any_courses_dicts
 
     # Regex to find general course lists (electives, etc.)
     # This pattern needs to be more robust to find nested lists as well
@@ -1091,26 +1148,65 @@ def _parse_program_html_for_requirements(html_content: str) -> Dict[str, Any]:
 
     return program_data
 
-def _inject_sets_from_required_by_term(out: OutputEnvelope, program_data: Dict[str, Any]):
+def _inject_sets_from_required_by_term(out: OutputEnvelope, program_data: Dict[str, Any], any_requirements_by_term: Dict[str, List[Union[str, Dict[str, str]]]] = None):
     # Note: 'out' is the OutputEnvelope, 'program_data' is the dict from _parse_program_html_for_requirements
+    # 'any_requirements_by_term' maps term -> list of course codes (or dicts with code/title) that are "select one" (ANY requirements)
     # This function creates CourseSets and RequirementNodes and appends them to 'out'
+    if any_requirements_by_term is None:
+        any_requirements_by_term = {}
+    
     for term_name, courses_data in program_data.get("required_by_term", {}).items():
-        set_id_hint = f"req_term_{term_name.lower().replace(' ', '')}"
         course_codes = [course["code"] for course in courses_data]
-        out.course_sets.append(CourseSet(
-            id_hint=set_id_hint,
-            mode="explicit",
-            title=f"Required {term_name}",
-            selector=None,
-            courses=course_codes
-        ))
-        req_node = RequirementNode(
-            id_hint=set_id_hint, # Use the course set id_hint here
-            type="ALL",
-            courseSet=set_id_hint, # Reference to the course set by its id_hint
-            explanations=[f"Required courses in term {term_name}."]
-        )
-        out.requirements.append(req_node)
+        any_items_for_term = any_requirements_by_term.get(term_name, [])
+        # Extract codes from any_items (which might be strings or dicts)
+        any_codes_for_term = []
+        for item in any_items_for_term:
+            if isinstance(item, dict):
+                any_codes_for_term.append(item["code"])
+            else:
+                any_codes_for_term.append(item)
+        
+        # Split courses into ALL (required) and ANY (select one)
+        # ALL courses are those NOT in any_requirements_by_term
+        all_courses = [code for code in course_codes if code not in any_codes_for_term]
+        # ANY courses are those IN any_requirements_by_term
+        any_courses = any_codes_for_term
+        
+        # Create ALL requirement node for required courses (if any)
+        if all_courses:
+            all_set_id_hint = f"req_term_{term_name.lower().replace(' ', '')}_all"
+            out.course_sets.append(CourseSet(
+                id_hint=all_set_id_hint,
+                mode="explicit",
+                title=f"Required {term_name}",
+                selector=None,
+                courses=all_courses
+            ))
+            req_node = RequirementNode(
+                id_hint=all_set_id_hint,
+                type="ALL",
+                courseSet=all_set_id_hint,
+                explanations=[f"Required courses in term {term_name}."]
+            )
+            out.requirements.append(req_node)
+        
+        # Create ANY requirement node for select-one courses (if any)
+        if any_courses:
+            any_set_id_hint = f"req_term_{term_name.lower().replace(' ', '')}_any"
+            out.course_sets.append(CourseSet(
+                id_hint=any_set_id_hint,
+                mode="explicit",
+                title=f"Select one from {term_name}",
+                selector=None,
+                courses=any_courses
+            ))
+            req_node = RequirementNode(
+                id_hint=any_set_id_hint,
+                type="ANY",
+                courseSet=any_set_id_hint,
+                explanations=[f"Complete 1 of the following courses in term {term_name}."]
+            )
+            out.requirements.append(req_node)
 
 def _inject_sets_from_course_lists(out: OutputEnvelope, program_data: Dict[str, Any]):
     # Note: 'out' is the OutputEnvelope, 'program_data' is the dict from _parse_program_html_for_requirements
@@ -1195,27 +1291,6 @@ def _normalize_requirements(envelope: OutputEnvelope) -> None:
     for i, rn in enumerate(envelope.requirements):
         assign_ids(rn, f"req{i}")
 
-def _inject_sets_from_required_by_term(out: OutputEnvelope, program_data: Dict[str, Any]):
-    # Note: 'out' is the OutputEnvelope, 'program_data' is the dict from _parse_program_html_for_requirements
-    # This function creates CourseSets and RequirementNodes and appends them to 'out'
-    for term_name, courses_data in program_data.get("required_by_term", {}).items():
-        set_id_hint = f"req_term_{term_name.lower().replace(' ', '')}"
-        course_codes = [course["code"] for course in courses_data]
-        out.course_sets.append(CourseSet(
-            id_hint=set_id_hint,
-            mode="explicit",
-            title=f"Required {term_name}",
-            selector=None,
-            courses=course_codes
-        ))
-        req_node = RequirementNode(
-            id_hint=set_id_hint, # Use the course set id_hint here
-            type="ALL",
-            courseSet=set_id_hint, # Reference to the course set by its id_hint
-            explanations=[f"Required courses in term {term_name}."]
-        )
-        out.requirements.append(req_node)
-
 def _inject_sets_from_course_lists(out: OutputEnvelope, program_data: Dict[str, Any]):
     # Note: 'out' is the OutputEnvelope, 'program_data' is the dict from _parse_program_html_for_requirements
     # This function creates CourseSets and RequirementNodes and appends them to 'out'
@@ -1257,13 +1332,39 @@ def normalize_scraped(scraped: Dict[str, Any]) -> OutputEnvelope:
     
     # Handle program-level data first
     # Check for 'program_url' to identify program details entry
-    if scraped.get("program_url") and scraped.get("raw_program_html"):
-        program_data = _parse_program_html_for_requirements(scraped["raw_program_html"])
+    if scraped.get("program_url"):
+        # Step 1: Try to use structured data from scraper (JavaScript extraction) if available
+        program_data = {
+            "title": scraped.get("title", ""),
+            "required_by_term": scraped.get("required_by_term", {}),
+            "course_lists": scraped.get("course_lists", {}),
+            "any_requirements_by_term": {}  # Will be populated from HTML parsing
+        }
+        
+        # Step 2: If structured data is empty or missing, OR if we have HTML, parse HTML as fallback
+        has_html = scraped.get("raw_program_html")
+        needs_html_parsing = (
+            not program_data["required_by_term"] or 
+            not program_data["course_lists"] or
+            has_html  # Always parse HTML to detect "Complete 1 of the following" patterns
+        )
+        
+        if needs_html_parsing and has_html:
+            html_parsed = _parse_program_html_for_requirements(scraped["raw_program_html"])
+            # Merge HTML parsed data (if structured data was empty, use HTML parsed data)
+            if not program_data["required_by_term"]:
+                program_data["required_by_term"] = html_parsed.get("required_by_term", {})
+            if not program_data["course_lists"]:
+                program_data["course_lists"] = html_parsed.get("course_lists", {})
+            if not program_data["title"]:
+                program_data["title"] = html_parsed.get("title", "")
+            # Store ANY requirements detected from HTML
+            program_data["any_requirements_by_term"] = html_parsed.get("any_requirements_by_term", {})
         
         # Ensure program title is correctly set
-        program_title = scraped.get("title") # Get title from scraped data directly
-        if not program_title and program_data.get("title"):
-            program_title = program_data["title"]
+        program_title = scraped.get("title") or program_data.get("title", "")
+        if not program_title:
+            program_title = "Unknown Program"
 
         # Clean and de-duplicate course lists before assigning to ProgramShell
         cleaned_required_by_term = {term: _clean_and_deduplicate_courses(courses) for term, courses in program_data.get("required_by_term", {}).items()}
@@ -1271,13 +1372,14 @@ def normalize_scraped(scraped: Dict[str, Any]) -> OutputEnvelope:
 
         out.program = ProgramShell(
             kind="degree",
-            title=program_title or "Unknown Program", # Use cleaned title
+            title=program_title,
             required_by_term=cleaned_required_by_term,
             course_lists=cleaned_course_lists
         )
         
         # Generate course sets and requirements from the cleaned program data
-        _inject_sets_from_required_by_term(out, out.program.model_dump())
+        # Pass any_requirements info so we can create ANY nodes
+        _inject_sets_from_required_by_term(out, out.program.model_dump(), program_data.get("any_requirements_by_term", {}))
         _inject_sets_from_course_lists(out, out.program.model_dump())
 
     # Process individual course data

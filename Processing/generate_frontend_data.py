@@ -160,13 +160,19 @@ def generate_frontend_data(input_jsonl_path: str, output_dir: str):
 
             # Accumulate requirements (from top-level envelope.requirements if any, though program-level overrides)
             for req_data in envelope_data.get("requirements", []):
-                req_id = req_data.get("id") # Use 'id' from the envelope data
+                # Use 'id' if available, otherwise fall back to 'id_hint'
+                req_id = req_data.get("id") or req_data.get("id_hint")
                 if req_id and req_id not in all_program_requirements:
                     def convert_req_node_to_dict(node_data: Dict[str, Any]) -> Dict[str, Any]:
+                        # Use 'id' or 'id_hint' for the id field
+                        node_id = node_data.get("id") or node_data.get("id_hint", "")
+                        # Use 'content' if available, otherwise use 'courseSet'
+                        content = node_data.get("content") or node_data.get("courseSet")
+                        
                         converted = {
-                            "id": node_data.get("id", ""), # Use 'id' consistently
+                            "id": node_id,
                             "type": node_data.get("type", ""),
-                            "content": node_data.get("content"), # Use 'content' directly
+                            "content": content,
                             "explanations": node_data.get("explanations", []),
                         }
                         if node_data.get("children"):

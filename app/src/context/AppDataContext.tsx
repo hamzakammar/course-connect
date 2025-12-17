@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
-interface CourseNode {
+export interface CourseNode {
   id: string;
   code: string;
   title: string;
@@ -10,14 +10,14 @@ interface CourseNode {
   level: number;
 }
 
-interface CourseEdge {
+export interface CourseEdge {
   source: string;
   target: string;
   type: string;
   logic: string;
 }
 
-interface CourseSet {
+export interface CourseSet {
   id_hint: string;
   mode: "explicit" | "selector";
   title?: string;
@@ -25,14 +25,14 @@ interface CourseSet {
   courses: string[]; // by course code, e.g., "CS 137"
 }
 
-interface ProgramRequirement {
+export interface ProgramRequirement {
   id: string;
   type: string;
   content: any;
   explanations: string[];
 }
 
-interface ProgramInfo {
+export interface ProgramInfo {
   kind?: string;
   scope?: string;
   title?: string;
@@ -42,6 +42,8 @@ interface ProgramInfo {
   total_credits_required?: number;
   policy_ids_hints?: string[];
   root_requirement?: ProgramRequirement; // Or adjust if this is flattened
+  required_by_term?: Record<string, Array<{ code: string; title: string }>>;
+  course_lists?: Record<string, any>;
 }
 
 interface AppData {

@@ -1,93 +1,81 @@
-import React from 'react';
-import { CourseNode, CourseSet, ProgramRequirement } from '../context/AppDataContext';
+import React, { useState } from 'react';
+import { CourseNode, ProgramLists } from '../context/AppDataContext';
 
 interface RequirementBoxesProps {
   courses: CourseNode[];
-  courseSets: CourseSet[];
-  programPlan: ProgramRequirement[];
   selectedCourses: Set<string>;
   onViewCourseDetail: (courseCode: string) => void;
+  programLists: ProgramLists;
+  onCourseSelect?: (courseCode: string, term?: string) => void;
+  onCourseDeselect?: (courseCode: string, term?: string) => void;
 }
 
 const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
   courses,
-  courseSets,
-  programPlan,
   selectedCourses,
-  onViewCourseDetail
+  onViewCourseDetail,
+  programLists,
+  onCourseSelect,
+  onCourseDeselect,
 }) => {
   const courseMap = new Map<string, CourseNode>();
   courses.forEach(course => courseMap.set(course.code, course));
 
-  const courseSetMap = new Map<string, CourseSet>();
-  courseSets.forEach(cs => {
-    if (cs.id_hint) {
-      courseSetMap.set(cs.id_hint, cs);
-    }
-  });
+  const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
 
-  // Filter out term-based requirements, keep only course list requirements
-  const courseListRequirements = programPlan.filter(req => {
-    // Exclude term-based requirements
-    if (req.id.startsWith('req_term_') || req.id.startsWith('term_req_')) {
-      return false;
-    }
-    // Include course list requirements (those with courseSet content)
-    const courseSetId = req.content as string;
-    const courseSet = courseSetMap.get(courseSetId);
-    return courseSet && courseSet.title && !courseSet.title.includes('Term');
-  });
-
-  // If no course list requirements, check courseSets directly
-  const courseListSets = courseSets.filter(cs => {
-    if (!cs.id_hint) return false;
-    // Exclude term-based course sets
-    if (cs.id_hint.startsWith('req_term_')) return false;
-    return true;
-  });
-
-  // Determine if a requirement is fulfilled
-  const isRequirementFulfilled = (requirement: ProgramRequirement): boolean => {
-    const courseSetId = requirement.content as string;
-    const courseSet = courseSetMap.get(courseSetId);
-    
-    if (!courseSet) return false;
-
-    if (requirement.type === 'ALL') {
-      // ALL: all courses must be selected
-      return courseSet.courses.every(code => selectedCourses.has(code));
-    } else if (requirement.type === 'ANY') {
-      // ANY: at least one course must be selected
-      return courseSet.courses.some(code => selectedCourses.has(code));
-    }
-    
-    return false;
+  const toggleCollapsed = (id: string) => {
+    setCollapsed(prev => ({ ...prev, [id]: !prev[id] }));
   };
 
-  const isCourseSetFulfilled = (courseSet: CourseSet): boolean => {
-    // For course sets without explicit requirements, check if all courses are selected
-    return courseSet.courses.every(code => selectedCourses.has(code));
+  const normalizeCode = (code: string) => code.replace(/\s+/g, '');
+
+  // Build credits and title fallback maps from programLists
+  const creditsFallback = new Map<string, number>();
+  const titleFallback = new Map<string, string>();
+  Object.values(programLists?.course_lists || {}).forEach(list => {
+    (list.courses || []).forEach((c: { code: string; units?: string; title?: string | null }) => {
+      const normalizedCode = normalizeCode(c.code);
+      if (c.units) {
+        const units = parseFloat(c.units);
+        if (!isNaN(units) && units > 0) {
+          creditsFallback.set(normalizedCode, units);
+        }
+      }
+      if (c.title) {
+        titleFallback.set(normalizedCode, c.title);
+      }
+    });
+  });
+
+  // Helper to get credits with fallback
+  const getCourseCredits = (code: string): number => {
+    const course = courseMap.get(code);
+    if (course && course.credits > 0) {
+      return course.credits;
+    }
+    return creditsFallback.get(code) || 0;
   };
 
-  // Combine requirements and course sets
-  const allRequirements = [
-    ...courseListRequirements.map(req => ({
-      id: req.id,
-      title: courseSetMap.get(req.content as string)?.title || req.explanations[0] || 'Requirement',
-      courseSet: courseSetMap.get(req.content as string),
-      requirement: req,
-      isFulfilled: isRequirementFulfilled(req)
-    })),
-    ...courseListSets
-      .filter(cs => !courseListRequirements.some(req => req.content === cs.id_hint))
-      .map(cs => ({
-        id: cs.id_hint,
-        title: cs.title || 'Course List',
-        courseSet: cs,
-        requirement: null,
-        isFulfilled: isCourseSetFulfilled(cs)
-      }))
-  ];
+  // Helper to get title with fallback
+  const getCourseTitle = (code: string): string => {
+    const course = courseMap.get(code);
+    if (course?.title) {
+      return course.title;
+    }
+    return titleFallback.get(code) || '';
+  };
+
+  const allRequirements = Object.values(programLists?.course_lists || {}).map(list => {
+    const codes = (list.courses || []).map((c: { code: string }) => normalizeCode(c.code));
+    const isFulfilled = codes.some(code => selectedCourses.has(code));
+
+    return {
+      id: list.list_name,
+      title: list.list_name,
+      codes,
+      isFulfilled,
+    };
+  });
 
   if (allRequirements.length === 0) {
     return (
@@ -102,55 +90,74 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
     <div className="requirement-boxes">
       <h2>Additional Requirements</h2>
       <div className="requirement-boxes-grid">
-        {allRequirements.map(req => {
-          const coursesInSet = req.courseSet?.courses || [];
-          
-          return (
-            <div 
-              key={req.id} 
-              className={`requirement-box ${req.isFulfilled ? 'requirement-fulfilled' : ''}`}
+        {allRequirements.map(req => (
+          <div
+            key={req.id}
+            className={`requirement-box ${req.isFulfilled ? 'requirement-fulfilled' : ''}`}
+          >
+            <div
+              className="requirement-box-header"
+              onClick={() => toggleCollapsed(req.id)}
+              style={{ cursor: 'pointer' }}
             >
-              <div className="requirement-box-header">
-                <h3 className="requirement-title">{req.title}</h3>
-                <div className={`requirement-status ${req.isFulfilled ? 'status-fulfilled' : 'status-pending'}`}>
-                  {req.isFulfilled ? (
-                    <span className="status-icon">✓</span>
-                  ) : (
-                    <span className="status-icon">○</span>
-                  )}
-                </div>
+              <h3 className="requirement-title">{req.title}</h3>
+              <div className={`requirement-status ${req.isFulfilled ? 'status-fulfilled' : 'status-pending'}`}>
+                {req.isFulfilled ? (
+                  <span className="status-icon">✓</span>
+                ) : (
+                  <span className="status-icon">○</span>
+                )}
               </div>
-              
-              {req.requirement && (
-                <p className="requirement-description">
-                  {req.requirement.explanations[0] || ''}
-                </p>
-              )}
-              
+            </div>
+
+            {!collapsed[req.id] && (
               <div className="requirement-courses">
-                {coursesInSet.length > 0 ? (
+                {req.codes.length > 0 ? (
                   <ul className="requirement-course-list">
-                    {coursesInSet.map(courseCode => {
-                      const course = courseMap.get(courseCode);
-                      const isSelected = selectedCourses.has(courseCode);
-                      
+                    {req.codes.map(code => {
+                      const isSelected = selectedCourses.has(code);
+                      const credits = getCourseCredits(code);
+                      const title = getCourseTitle(code);
+
                       return (
-                        <li 
-                          key={courseCode} 
+                        <li
+                          key={code}
                           className={`requirement-course-item ${isSelected ? 'course-selected' : ''}`}
                         >
-                          <a 
-                            href="#" 
-                            onClick={(e) => {
+                          <a
+                            href="#"
+                            onClick={e => {
                               e.preventDefault();
-                              onViewCourseDetail(courseCode);
+                              onViewCourseDetail(code);
                             }}
                             className="course-link"
                           >
-                            <span className="course-code">{courseCode}</span>
-                            <span className="course-title">{course?.title || ''}</span>
+                            <span className="course-code">{code}</span>
+                            <span className="course-title">{title}</span>
+                            <span className="course-units">{credits.toFixed(2)}</span>
                             {isSelected && <span className="selected-indicator">✓</span>}
                           </a>
+                          {onCourseSelect && onCourseDeselect && (
+                            <button
+                              className="course-toggle-btn"
+                              onClick={e => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                if (isSelected) {
+                                  onCourseDeselect(code);
+                                } else {
+                                  const input = window.prompt(
+                                    'Assign this course to a term (e.g., 2B):',
+                                    '2B'
+                                  );
+                                  const term = input ? input.trim().toUpperCase() : undefined;
+                                  onCourseSelect(code, term);
+                                }
+                              }}
+                            >
+                              {isSelected ? 'Deselect' : 'Select'}
+                            </button>
+                          )}
                         </li>
                       );
                     })}
@@ -159,9 +166,9 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
                   <p className="no-courses">No courses specified</p>
                 )}
               </div>
-            </div>
-          );
-        })}
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );

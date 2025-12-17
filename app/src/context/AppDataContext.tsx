@@ -32,6 +32,13 @@ export interface ProgramRequirement {
   explanations: string[];
 }
 
+export interface ProgramLists {
+  course_lists: Record<string, {
+    list_name: string;
+    courses: { course_id: string; code: string; title: string | null; units: string; href: string }[];
+  }>;
+}
+
 export interface ProgramInfo {
   kind?: string;
   scope?: string;
@@ -53,6 +60,7 @@ interface AppData {
   programPlan: ProgramRequirement[]; // Array of requirements
   constraints: any[]; // Define a proper interface for constraints if needed
   courseSets: CourseSet[];
+  programLists: ProgramLists | null;
 }
 
 interface AppContextType {
@@ -71,12 +79,13 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [nodesResponse, edgesResponse, programPlanResponse, constraintsResponse, courseSetsResponse] = await Promise.all([
+        const [nodesResponse, edgesResponse, programPlanResponse, constraintsResponse, courseSetsResponse, programListsResponse] = await Promise.all([
           fetch('/data/nodes.json'),
           fetch('/data/edges.json'),
           fetch('/data/program_plan.json'),
           fetch('/data/constraints.json'),
           fetch('/data/course_sets.json'),
+          fetch('/data/program_lists.json'),
         ]);
 
         const nodes: CourseNode[] = await nodesResponse.json();
@@ -84,11 +93,12 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         const programPlanData = await programPlanResponse.json();
         const constraints: any[] = await constraintsResponse.json();
         const courseSets: CourseSet[] = await courseSetsResponse.json();
+        const programLists: ProgramLists = await programListsResponse.json();
 
         const programInfo: ProgramInfo | null = programPlanData.program || null;
         const programPlan: ProgramRequirement[] = programPlanData.requirements || [];
 
-        setAppData({ nodes, edges, programInfo, programPlan, constraints, courseSets });
+        setAppData({ nodes, edges, programInfo, programPlan, constraints, courseSets, programLists });
       } catch (err) {
         setError('Failed to load application data.');
         console.error(err);

@@ -253,9 +253,21 @@ class ProgramListsScraper(Tool):
             raise ValueError("HTML content is required")
         soup = BeautifulSoup(html, "lxml")
 
+        # Scope parsing to the "Course Lists" section if present, so we don't
+        # accidentally treat headings in the main requirements summary
+        # (e.g., "Undergraduate Communication Requirement" above core SE terms)
+        # as list titles.
+        root = soup
+        for h3 in soup.find_all("h3"):
+            txt = _clean_text(h3.get_text(" ", strip=True))
+            if txt and "course lists" in txt.lower():
+                parent = h3.find_parent(class_="noBreak") or h3.parent
+                root = parent or h3
+                break
+
         # 1) Collect all potential list titles in DOM order (any tag, not only <h*>)
         header_nodes = []
-        for tag in soup.find_all(True):
+        for tag in root.find_all(True):
             # skip tiny tags to avoid noise
             if not getattr(tag, "get_text", None):
                 continue
@@ -269,8 +281,8 @@ class ProgramListsScraper(Tool):
         if not header_nodes:
             return json.dumps({"course_lists": {}}, ensure_ascii=False)
 
-        # 2) Collect all course anchors in DOM order (global)
-        anchors = soup.select('a[href*="#/courses/view/"]')
+        # 2) Collect all course anchors in DOM order (scoped to root)
+        anchors = root.select('a[href*="#/courses/view/"]')
 
         lists_out: Dict[str, Dict[str, Any]] = {}
         # Pre-create list buckets with order preserved

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import {useState, useEffect } from 'react';
 import './App.css';
 import { useAppData } from './context/AppDataContext.tsx';
 import TermTimeline from './components/TermTimeline.tsx';
@@ -11,6 +11,33 @@ function App() {
   const { appData, loading, error } = useAppData();
   const [selectedCourses, setSelectedCourses] = useState<Set<string>>(new Set());
   const [courseDetail, setCourseDetail] = useState<CourseNode | null>(null);
+  const [electiveAssignments, setElectiveAssignments] = useState<Record<string, string | undefined>>({});
+
+  // On initial load, pre-select all required courses from the program plan
+  useEffect(() => {
+    if (!appData || !appData.programInfo) return;
+    setSelectedCourses(prev => {
+      // Don't overwrite if user has already made selections
+      if (prev.size > 0) return prev;
+
+      const next = new Set<string>(prev);
+      const requiredByTerm = appData.programInfo!.required_by_term as
+        | Record<string, { code: string }[]>
+        | undefined;
+
+      if (!requiredByTerm) return prev;
+
+      Object.values(requiredByTerm).forEach(termCourses => {
+        termCourses.forEach(course => {
+          if (course?.code) {
+            next.add(course.code);
+          }
+        });
+      });
+
+      return next;
+    });
+  }, [appData]);
 
   if (loading) {
     return <div>Loading application data...</div>;
@@ -24,15 +51,107 @@ function App() {
     return <div>No application data available.</div>
   }
 
-  const handleCourseSelect = (courseCode: string) => {
-    setSelectedCourses(prev => new Set(prev).add(courseCode));
+  const getCourseCredits = (courseCode: string): number => {
+    const course = appData?.nodes.find(node => node.code === courseCode);
+    if (course && course.credits > 0) {
+      return course.credits;
+    }
+    // Fallback to programLists if course not found or has 0 credits
+    if (appData?.programLists) {
+      const normalizeCode = (code: string) => code.replace(/\s+/g, '');
+      const normalizedCode = normalizeCode(courseCode);
+      for (const list of Object.values(appData.programLists.course_lists || {})) {
+        for (const c of list.courses || []) {
+          if (normalizeCode(c.code) === normalizedCode && c.units) {
+            const units = parseFloat(c.units);
+            if (!isNaN(units) && units > 0) {
+              return units;
+            }
+          }
+        }
+      }
+    }
+    return 0;
   };
 
-  const handleCourseDeselect = (courseCode: string) => {
+  const computeTermCredits = (term: string, selected: Set<string>): number => {
+    if (!appData || !appData.programInfo) return 0;
+
+    let total = 0;
+    const requiredByTerm = appData.programInfo.required_by_term || {};
+
+    // Required courses in term
+    (requiredByTerm[term] || []).forEach(course => {
+      if (selected.has(course.code)) {
+        total += getCourseCredits(course.code);
+      }
+    });
+
+    // ANY requirements in term (count just one selected)
+    const anySets = appData.courseSets.filter(cs =>
+      cs.id_hint && cs.id_hint.match(new RegExp(`^req_term_${term.toLowerCase()}_any`))
+    );
+    anySets.forEach(cs => {
+      const selectedAny = cs.courses.find(code => selected.has(code));
+      if (selectedAny) {
+        total += getCourseCredits(selectedAny);
+      }
+    });
+
+    // Electives explicitly assigned to this term
+    Object.entries(electiveAssignments).forEach(([code, assignedTerm]) => {
+      if (assignedTerm === term && selected.has(code)) {
+        total += getCourseCredits(code);
+      }
+    });
+
+    return total;
+  };
+
+  const handleCourseSelect = (courseCode: string, term?: string) => {
     setSelectedCourses(prev => {
-      const newSet = new Set(prev);
-      newSet.delete(courseCode);
-      return newSet;
+      const next = new Set(prev);
+      if (next.has(courseCode)) return prev;
+      next.add(courseCode);
+
+      if (term && appData) {
+        // Check if this course is part of an ANY requirement for this term
+        // If so, don't add it to electiveAssignments (it's already a requirement)
+        const anySets = appData.courseSets.filter(cs =>
+          cs.id_hint && cs.id_hint.match(new RegExp(`^req_term_${term.toLowerCase()}_any`))
+        );
+        const isAnyRequirement = anySets.some(cs => cs.courses.includes(courseCode));
+        
+        // Only add to electiveAssignments if it's NOT an ANY requirement
+        if (!isAnyRequirement) {
+          const termCreditsBefore = computeTermCredits(term, prev);
+          const addedCredits = getCourseCredits(courseCode);
+          if (termCreditsBefore + addedCredits > 3.0 + 1e-6) {
+            window.alert(`Cannot add ${courseCode} to ${term}: this would exceed 3.0 credits in that term.`);
+            return prev;
+          }
+          setElectiveAssignments(prevAssign => ({
+            ...prevAssign,
+            [courseCode]: term,
+          }));
+        }
+      }
+
+      return next;
+    });
+  };
+
+  const handleCourseDeselect = (courseCode: string, _term?: string) => {
+    setSelectedCourses(prev => {
+      const next = new Set(prev);
+      next.delete(courseCode);
+      return next;
+    });
+    setElectiveAssignments(prev => {
+      if (!(courseCode in prev)) return prev;
+      const copy = { ...prev };
+      delete copy[courseCode];
+      return copy;
     });
   };
 
@@ -57,16 +176,19 @@ function App() {
             onViewCourseDetail={handleViewCourseDetail}
             onCourseSelect={handleCourseSelect}
             onCourseDeselect={handleCourseDeselect}
+            electiveAssignments={electiveAssignments}
+            programLists={appData.programLists}
           />
         </div>
         
         <div className="right-panel">
           <RequirementBoxes
             courses={appData.nodes}
-            courseSets={appData.courseSets}
-            programPlan={appData.programPlan}
             selectedCourses={selectedCourses}
             onViewCourseDetail={handleViewCourseDetail}
+            programLists={appData.programLists!}
+            onCourseSelect={handleCourseSelect}
+            onCourseDeselect={handleCourseDeselect}
           />
           
           {courseDetail && (

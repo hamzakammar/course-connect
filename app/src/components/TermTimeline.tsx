@@ -1,5 +1,5 @@
 import React from 'react';
-import { CourseNode, ProgramInfo, CourseSet } from '../context/AppDataContext';
+import { CourseNode, ProgramInfo, CourseSet, ProgramLists } from '../context/AppDataContext';
 
 interface TermTimelineProps {
   courses: CourseNode[];
@@ -7,8 +7,10 @@ interface TermTimelineProps {
   courseSets: CourseSet[];
   selectedCourses: Set<string>;
   onViewCourseDetail: (courseCode: string) => void;
-  onCourseSelect?: (courseCode: string) => void;
-  onCourseDeselect?: (courseCode: string) => void;
+  onCourseSelect?: (courseCode: string, term?: string) => void;
+  onCourseDeselect?: (courseCode: string, term?: string) => void;
+  electiveAssignments: Record<string, string | undefined>;
+  programLists: ProgramLists | null;
 }
 
 const TermTimeline: React.FC<TermTimelineProps> = ({ 
@@ -18,10 +20,51 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
   selectedCourses,
   onViewCourseDetail,
   onCourseSelect,
-  onCourseDeselect
+  onCourseDeselect,
+  electiveAssignments,
+  programLists
 }) => {
   const courseMap = new Map<string, CourseNode>();
   courses.forEach(course => courseMap.set(course.code, course));
+
+  // Build credits and title fallback maps from programLists
+  const normalizeCode = (code: string) => code.replace(/\s+/g, '');
+  const creditsFallback = new Map<string, number>();
+  const titleFallback = new Map<string, string>();
+  if (programLists) {
+    Object.values(programLists.course_lists || {}).forEach(list => {
+      (list.courses || []).forEach((c: { code: string; units?: string; title?: string | null }) => {
+        const normalizedCode = normalizeCode(c.code);
+        if (c.units) {
+          const units = parseFloat(c.units);
+          if (!isNaN(units) && units > 0) {
+            creditsFallback.set(normalizedCode, units);
+          }
+        }
+        if (c.title) {
+          titleFallback.set(normalizedCode, c.title);
+        }
+      });
+    });
+  }
+
+  // Helper to get credits with fallback
+  const getCourseCredits = (code: string): number => {
+    const course = courseMap.get(code);
+    if (course && course.credits > 0) {
+      return course.credits;
+    }
+    return creditsFallback.get(code) || 0;
+  };
+
+  // Helper to get title with fallback
+  const getCourseTitle = (code: string): string => {
+    const course = courseMap.get(code);
+    if (course?.title) {
+      return course.title;
+    }
+    return titleFallback.get(code) || '';
+  };
 
   const courseSetMap = new Map<string, CourseSet>();
   courseSets.forEach(cs => {
@@ -56,6 +99,9 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
         {termOrder.map((term, index) => {
           const termCourses = requiredByTerm[term] || [];
           const anyReq = anyReqMap.get(term);
+          const electiveCodesForTerm = Object.entries(electiveAssignments)
+            .filter(([_, assignedTerm]) => assignedTerm === term)
+            .map(([code]) => code);
           
           // Calculate selected credits for this term
           const selectedCredits = (() => {
@@ -64,11 +110,7 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
             // Count credits from selected required courses
             termCourses.forEach(course => {
               if (selectedCourses.has(course.code)) {
-                const fullCourse = courseMap.get(course.code);
-                const credits = typeof fullCourse?.credits === 'number' 
-                  ? fullCourse.credits 
-                  : parseFloat(String(fullCourse?.credits || '0'));
-                total += credits;
+                total += getCourseCredits(course.code);
               }
             });
             
@@ -77,13 +119,16 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
               const selectedAnyCourses = anyReq.courses.filter((code: string) => selectedCourses.has(code));
               if (selectedAnyCourses.length > 0) {
                 // Only count the first selected ANY course (since it's "select one")
-                const firstSelected = courseMap.get(selectedAnyCourses[0]);
-                const credits = typeof firstSelected?.credits === 'number'
-                  ? firstSelected.credits
-                  : parseFloat(String(firstSelected?.credits || '0'));
-                total += credits;
+                total += getCourseCredits(selectedAnyCourses[0]);
               }
             }
+
+            // Count credits from electives explicitly assigned to this term
+            electiveCodesForTerm.forEach(code => {
+              if (selectedCourses.has(code)) {
+                total += getCourseCredits(code);
+              }
+            });
             
             return total;
           })();
@@ -96,7 +141,7 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
               <div className="term-box">
                 <div className="term-header">
                   <h3 className="term-label">{term}</h3>
-                  <h6 className="term-units">Credits: {selectedCredits}</h6>
+                  <h6 className="term-units">Credits: {selectedCredits.toFixed(2)}</h6>
                 </div>
                 
                 <div className="term-content">
@@ -106,7 +151,8 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
                       <h4 className="term-section-title">Required</h4>
                       <ul className="term-course-list">
                         {termCourses.map((course: { code: string; title: string }) => {
-                          const fullCourse = courseMap.get(course.code);
+                          const credits = getCourseCredits(course.code);
+                          const title = getCourseTitle(course.code) || course.title;
                           return (
                             <li 
                               key={course.code} 
@@ -121,8 +167,8 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
                                 className="course-link"
                               >
                                 <span className="course-code">{course.code}</span>
-                                <span className="course-title">{course.title || fullCourse?.title || ''}</span>
-                                <span className="course-units">{fullCourse?.credits || '0.0'}</span>
+                                <span className="course-title">{title}</span>
+                                <span className="course-units">{credits.toFixed(2)}</span>
                                 {selectedCourses.has(course.code) && <span className="selected-indicator">✓</span>}
                               </a>
                               {onCourseSelect && onCourseDeselect && (
@@ -132,9 +178,9 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
                                     e.preventDefault();
                                     e.stopPropagation();
                                     if (selectedCourses.has(course.code)) {
-                                      onCourseDeselect(course.code);
+                                      onCourseDeselect(course.code, term);
                                     } else {
-                                      onCourseSelect(course.code);
+                                      onCourseSelect(course.code, term);
                                     }
                                   }}
                                 >
@@ -154,7 +200,8 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
                       <h4 className="term-section-title">Select One</h4>
                       <ul className="term-course-list">
                         {anyReq.courses.map((courseCode: string) => {
-                          const fullCourse = courseMap.get(courseCode);
+                          const credits = getCourseCredits(courseCode);
+                          const title = getCourseTitle(courseCode);
                           return (
                             <li 
                               key={courseCode} 
@@ -169,8 +216,8 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
                                 className="course-link"
                               >
                                 <span className="course-code">{courseCode}</span>
-                                <span className="course-title">{fullCourse?.title || ''}</span>
-                                <span className="course-units">{fullCourse?.credits || '0.0'}</span>
+                                <span className="course-title">{title}</span>
+                                <span className="course-units">{credits.toFixed(2)}</span>
                                 {selectedCourses.has(courseCode) && <span className="selected-indicator">✓</span>}
                               </a>
                               {onCourseSelect && onCourseDeselect && (
@@ -180,13 +227,63 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
                                     e.preventDefault();
                                     e.stopPropagation();
                                     if (selectedCourses.has(courseCode)) {
-                                      onCourseDeselect(courseCode);
+                                      onCourseDeselect(courseCode, term);
                                     } else {
-                                      onCourseSelect(courseCode);
+                                      onCourseSelect(courseCode, term);
                                     }
                                   }}
                                 >
                                   {selectedCourses.has(courseCode) ? 'Deselect' : 'Select'}
+                                </button>
+                              )}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Electives explicitly assigned to this term */}
+                  {electiveCodesForTerm.length > 0 && (
+                    <div className="term-section term-section-any">
+                      <h4 className="term-section-title">Electives</h4>
+                      <ul className="term-course-list">
+                        {electiveCodesForTerm.map(code => {
+                          const isSelected = selectedCourses.has(code);
+                          const credits = getCourseCredits(code);
+                          const title = getCourseTitle(code);
+                          return (
+                            <li
+                              key={code}
+                              className={`term-course-item term-course-any ${isSelected ? 'course-selected' : ''}`}
+                            >
+                              <a
+                                href="#"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  onViewCourseDetail(code);
+                                }}
+                                className="course-link"
+                              >
+                                <span className="course-code">{code}</span>
+                                <span className="course-title">{title}</span>
+                                <span className="course-units">{credits.toFixed(2)}</span>
+                                {isSelected && <span className="selected-indicator">✓</span>}
+                              </a>
+                              {onCourseSelect && onCourseDeselect && (
+                                <button
+                                  className="course-toggle-btn"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    if (isSelected) {
+                                      onCourseDeselect(code, term);
+                                    } else {
+                                      onCourseSelect(code, term);
+                                    }
+                                  }}
+                                >
+                                  {isSelected ? 'Deselect' : 'Select'}
                                 </button>
                               )}
                             </li>

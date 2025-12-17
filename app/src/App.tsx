@@ -115,15 +115,19 @@ function App() {
       next.add(courseCode);
 
       if (term && appData) {
+        // Check if this course is a required course (ALL requirement) for this term
+        const requiredByTerm = appData.programInfo?.required_by_term || {};
+        const termRequiredCourses = requiredByTerm[term] || [];
+        const isRequiredCourse = termRequiredCourses.some(c => c.code === courseCode);
+        
         // Check if this course is part of an ANY requirement for this term
-        // If so, don't add it to electiveAssignments (it's already a requirement)
         const anySets = appData.courseSets.filter(cs =>
           cs.id_hint && cs.id_hint.match(new RegExp(`^req_term_${term.toLowerCase()}_any`))
         );
         const isAnyRequirement = anySets.some(cs => cs.courses.includes(courseCode));
         
-        // Only add to electiveAssignments if it's NOT an ANY requirement
-        if (!isAnyRequirement) {
+        // Only add to electiveAssignments if it's NOT a required course and NOT an ANY requirement
+        if (!isRequiredCourse && !isAnyRequirement) {
           const termCreditsBefore = computeTermCredits(term, prev);
           const addedCredits = getCourseCredits(courseCode);
           if (termCreditsBefore + addedCredits > 3.0 + 1e-6) {
@@ -134,6 +138,16 @@ function App() {
             ...prevAssign,
             [courseCode]: term,
           }));
+        } else {
+          // If it's a required course or ANY requirement, ensure it's NOT in electiveAssignments
+          setElectiveAssignments(prevAssign => {
+            if (courseCode in prevAssign) {
+              const copy = { ...prevAssign };
+              delete copy[courseCode];
+              return copy;
+            }
+            return prevAssign;
+          });
         }
       }
 

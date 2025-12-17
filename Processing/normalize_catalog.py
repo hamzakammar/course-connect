@@ -1158,6 +1158,35 @@ def _inject_sets_from_required_by_term(out: OutputEnvelope, program_data: Dict[s
     for term_name, courses_data in program_data.get("required_by_term", {}).items():
         course_codes = [course["code"] for course in courses_data]
         any_items_for_term = any_requirements_by_term.get(term_name, [])
+        
+        # Create Course entries for required courses if they don't exist
+        for course_dict in courses_data:
+            course_code = course_dict.get("code")
+            if course_code and not any(c.code == course_code for c in out.courses):
+                # Default credits for required courses is typically 0.5
+                # Seminars will be handled separately
+                course_title = course_dict.get("title", "")
+                is_seminar = "seminar" in course_title.lower()
+                default_credits = 0.0 if is_seminar else 0.5
+                
+                # Try to extract credits from course_dict if available
+                credits_value = course_dict.get("credits")
+                if credits_value:
+                    credits_value = _float_units(credits_value) or default_credits
+                else:
+                    credits_value = default_credits
+                
+                course_obj = Course(
+                    course_id=course_code,
+                    code=course_code,
+                    title=course_title or f"{course_code} - Course",
+                    credits=credits_value,
+                    description=None,
+                    subject=_subject_level(course_code)[0],
+                    level=_subject_level(course_code)[1],
+                )
+                out.courses.append(course_obj)
+        
         # Extract codes from any_items (which might be strings or dicts)
         any_codes_for_term = []
         for item in any_items_for_term:
@@ -1207,6 +1236,38 @@ def _inject_sets_from_required_by_term(out: OutputEnvelope, program_data: Dict[s
                 explanations=[f"Complete 1 of the following courses in term {term_name}."]
             )
             out.requirements.append(req_node)
+            
+            # Create Course entries for ANY courses if they don't exist
+            # Extract course info from any_requirements_by_term if available
+            any_items_for_term = any_requirements_by_term.get(term_name, [])
+            for course_code in any_courses:
+                # Check if course already exists
+                if not any(c.code == course_code for c in out.courses):
+                    # Try to find course info from any_items
+                    course_info = None
+                    for item in any_items_for_term:
+                        if isinstance(item, dict) and item.get("code") == course_code:
+                            course_info = item
+                            break
+                    
+                    # Default credits for physics/engineering courses is typically 0.5
+                    # This matches the HTML example: "ECE105, PHYS115, PHYS121 (each 0.50)"
+                    default_credits = 0.5
+                    if course_info and "credits" in course_info:
+                        credits_value = _float_units(course_info["credits"]) or default_credits
+                    else:
+                        credits_value = default_credits
+                    
+                    course_obj = Course(
+                        course_id=course_code,
+                        code=course_code,
+                        title=course_info.get("title") if course_info else f"{course_code} - Course",
+                        credits=credits_value,
+                        description=None,
+                        subject=_subject_level(course_code)[0],
+                        level=_subject_level(course_code)[1],
+                    )
+                    out.courses.append(course_obj)
 
 def _inject_sets_from_course_lists(out: OutputEnvelope, program_data: Dict[str, Any]):
     # Note: 'out' is the OutputEnvelope, 'program_data' is the dict from _parse_program_html_for_requirements
@@ -1324,12 +1385,66 @@ def _ensure_provenance(out: OutputEnvelope, scraped: Dict[str, Any]):
     }
 
 def _inject_requirements_from_course_data(out: OutputEnvelope, course_data: Dict[str, Any]):
-    """This function can be implemented later if specific course-level requirements need to be injected."""
-    pass
+    """Extract prerequisites/corequisites/antirequisites from course data and add as CourseRelation objects."""
+    course_code = course_data.get("code")
+    if not course_code:
+        return
+    
+    # Find the course object in the envelope
+    course_obj = None
+    for c in out.courses:
+        if c.code == course_code:
+            course_obj = c
+            break
+    
+    if not course_obj:
+        return
+    
+    # Extract relations from scraped data
+    prereq_text = course_data.get("prerequisites")
+    coreq_text = course_data.get("corequisites")
+    antireq_text = course_data.get("antirequisites")
+    
+    def parse_relation_text(text: Optional[str], kind: str) -> List[CourseRelation]:
+        """Parse prerequisite/corequisite/antirequisite text and extract course codes."""
+        if not text:
+            return []
+        
+        # Extract course codes from the text using regex
+        codes = []
+        for match in _CODE_RE.finditer(text):
+            subj, num = match.group(1), match.group(2)
+            code = f"{subj} {num}"
+            codes.append(code)
+        
+        if not codes:
+            return []
+        
+        # Create a logic string: ALL(course:CODE1, course:CODE2, ...) for multiple codes
+        # or just course:CODE for single code
+        if len(codes) == 1:
+            logic = f"course:{codes[0]}"
+        else:
+            code_refs = ", ".join([f"course:{code}" for code in codes])
+            logic = f"ALL({code_refs})"
+        
+        return [CourseRelation(kind=kind, logic=logic, source_span=text)]
+    
+    # Add prerequisites
+    if prereq_text:
+        course_obj.relations.extend(parse_relation_text(prereq_text, "prereq"))
+    
+    # Add corequisites
+    if coreq_text:
+        course_obj.relations.extend(parse_relation_text(coreq_text, "coreq"))
+    
+    # Add antirequisites/exclusions
+    if antireq_text:
+        course_obj.relations.extend(parse_relation_text(antireq_text, "exclusion"))
 
 def normalize_scraped(scraped: Dict[str, Any]) -> OutputEnvelope:
     out = OutputEnvelope()
-    
+
     # Handle program-level data first
     # Check for 'program_url' to identify program details entry
     if scraped.get("program_url"):
@@ -1399,11 +1514,13 @@ def normalize_scraped(scraped: Dict[str, Any]) -> OutputEnvelope:
                     course_code = code_match.group(1).replace(" ", "")
 
             if course_code:
+                # Normalize credits/units using _float_units helper
+                credits_value = _float_units(course_data.get("units") or course_data.get("credits")) or 0.0
                 course_obj = Course(
                     course_id=course_data.get("course_id") or course_code,
                     code=course_code,
                     title=course_title or "Unknown Course",
-                    credits=float(course_data["units"]) if course_data.get("units") else 0.0,
+                    credits=credits_value,
                     description=course_data.get("description"),
                     subject=_subject_level(course_code)[0],
                     level=_subject_level(course_code)[1],

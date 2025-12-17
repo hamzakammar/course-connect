@@ -12,8 +12,10 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses }
   allCourses.forEach(c => courseMap.set(c.code, c));
 
   const getRelatedCourses = (targetCourseCode: string, relationType: string) => {
-    return edges.filter(edge => edge.source === targetCourseCode && edge.type === relationType)
-                .map(edge => courseMap.get(edge.target))
+    // Edges point FROM the related course TO the target course
+    // So for prerequisites of CS241, we want edges where target === CS241
+    return edges.filter(edge => edge.target === targetCourseCode && edge.type === relationType)
+                .map(edge => courseMap.get(edge.source))
                 .filter(Boolean) as CourseNode[];
   };
 

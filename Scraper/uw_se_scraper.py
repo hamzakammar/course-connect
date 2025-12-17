@@ -404,9 +404,10 @@ async def scrape_program_details(page, program_url: str, json_seen_flag: Dict[st
     await page.goto(program_url, wait_until="domcontentloaded")
     await wait_for_spa(page, heavy=True)
 
+    # Capture outerHTML of the main content area after SPA has rendered
+    html_content = await page.evaluate("document.querySelector('main#kuali-catalog-main')?.outerHTML || document.body.outerHTML")
+    
     if debug_html_out: # Save raw HTML for debugging if requested
-        # Capture outerHTML of the main content area after SPA has rendered
-        html_content = await page.evaluate("document.querySelector('main#kuali-catalog-main').outerHTML")
         debug_html_out.write_text(html_content, encoding="utf-8")
         print(f"Saved program HTML to {debug_html_out}")
 
@@ -420,7 +421,8 @@ async def scrape_program_details(page, program_url: str, json_seen_flag: Dict[st
     # Get the structured program requirements directly
     program_structured_data = await page.evaluate(DOM_JS_COLLECT_PROGRAM_REQUIREMENTS)
 
-    return ProgramResult(
+    # Create result with HTML included for fallback parsing
+    result = ProgramResult(
         program_url=program_url,
         title=title,
         description=description,
@@ -429,6 +431,11 @@ async def scrape_program_details(page, program_url: str, json_seen_flag: Dict[st
         source_url=program_url,
         json_captured=bool(json_seen_flag.get(program_url, False)),
     )
+    
+    # Attach raw HTML to result object for later serialization
+    result.raw_program_html = html_content
+    
+    return result
 
 async def read_section_text(page, title: str) -> Optional[str]:
     # This function is no longer needed as we are getting raw text and parsing in Python
@@ -475,7 +482,7 @@ async def open_course_page(page, url: str):
     except Exception:
         pass
 
-async def scrape_course(page, cid: str, url: str, buckets_for_course: Set[str], json_seen_flag: Dict[str, bool]) -> CourseResult:
+async def scrape_course(page, cid: str, url: str, buckets_for_course: Set[str], json_seen_flag: Dict[str, bool], json_data_by_course_id: Dict[str, Dict[str, Any]]) -> CourseResult:
     await open_course_page(page, url)
 
     code, title = await read_header(page)
@@ -484,6 +491,20 @@ async def scrape_course(page, cid: str, url: str, buckets_for_course: Set[str], 
     prerequisites = await read_section_text(page, "Prerequisites")
     corequisites = await read_section_text(page, "Corequisites")
     antirequisites = await read_section_text(page, "Antirequisites")
+    
+    # Try to extract units from JSON if DOM extraction failed
+    if not units and cid in json_data_by_course_id:
+        try:
+            json_data = json_data_by_course_id[cid]
+            data = json_data.get("data") or json_data
+            attributes = data.get("attributes") or data
+            credits = attributes.get("credits") or attributes.get("units")
+            if isinstance(credits, dict):
+                units = str(credits.get("min") or credits.get("max") or "")
+            elif credits:
+                units = str(credits)
+        except Exception:
+            pass
 
     return CourseResult(
         course_id=cid,
@@ -514,8 +535,9 @@ async def run(program_url: str, out_path: Path, headful: bool, max_courses: Opti
         page = await context.new_page()
 
         # JSON capture (informational). We attach BEFORE any navigation.
-        # We'll map url -> True if we saw any JSON for it.
+        # We'll map url -> True if we saw any JSON for it, and store JSON data for course extraction
         json_seen_for_url: Dict[str, bool] = {}
+        json_data_by_course_id: Dict[str, Dict[str, Any]] = {}  # course_id -> JSON data
 
         def looks_like_json(ctype: Optional[str], url: str) -> bool:
             ct = (ctype or "").lower()
@@ -535,6 +557,22 @@ async def run(program_url: str, out_path: Path, headful: bool, max_courses: Opti
                         return
                     if t[0] in "{" and t[-1] == "}": # Check for JSON object
                         json_seen_for_url[url] = True
+                        # Try to extract course data from JSON
+                        try:
+                            data = json.loads(txt)
+                            # Extract course ID from URL or JSON
+                            course_id_match = re.search(r"courses/view/([a-f0-9]+)", url)
+                            if not course_id_match:
+                                # Try to find course ID in JSON
+                                if isinstance(data, dict):
+                                    course_id = data.get("data", {}).get("id") or data.get("id")
+                                    if course_id:
+                                        json_data_by_course_id[course_id] = data
+                            else:
+                                course_id = course_id_match.group(1)
+                                json_data_by_course_id[course_id] = data
+                        except Exception:
+                            pass
             except Exception:
                 pass
 
@@ -542,8 +580,11 @@ async def run(program_url: str, out_path: Path, headful: bool, max_courses: Opti
 
         # Go to program page and scrape program details first
         program_details = await scrape_program_details(page, program_url, json_seen_for_url, debug_html_out) # Pass debug_html_out
-        # Write program details to the JSONL file
-        out_f.write(json.dumps(asdict(program_details), ensure_ascii=False) + "\n")
+        # Write program details to the JSONL file (include raw HTML for fallback parsing)
+        program_dict = asdict(program_details)
+        if hasattr(program_details, 'raw_program_html') and program_details.raw_program_html:
+            program_dict['raw_program_html'] = program_details.raw_program_html
+        out_f.write(json.dumps(program_dict, ensure_ascii=False) + "\n")
         out_f.flush()
         print(f"Scraped program details for: {program_details.title}")
 
@@ -571,7 +612,7 @@ async def run(program_url: str, out_path: Path, headful: bool, max_courses: Opti
             buckets = set()
 
             try:
-                result = await scrape_course(page, cid, url, buckets, json_seen_for_url)
+                result = await scrape_course(page, cid, url, buckets, json_seen_for_url, json_data_by_course_id)
 
                 # If we now have a code, merge any buckets we learned from the program page
                 if result.code and result.code in buckets_by_code:

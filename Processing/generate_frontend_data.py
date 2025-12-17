@@ -83,36 +83,70 @@ def generate_frontend_data(input_jsonl_path: str, output_dir: str):
             for course_data in envelope_data.get("courses", []):
                 code = course_data.get("code")
                 if code:
-                    # Only add if not already present (to handle potential duplicates across envelopes)
+                    new_credits = course_data.get("credits", 0.0)
+                    title_lower = (course_data.get("title", "") or "").lower()
+                    is_seminar = "seminar" in title_lower
+                    
+                    # Seminars should be 0.0 credits
+                    if is_seminar:
+                        new_credits = 0.0
+                    
+                    # Handle duplicates: prefer entries with non-zero credits, or update if current entry has 0 credits
                     if code not in nodes:
                         nodes[code] = FrontendCourseNode(
                             course_code=code,
                             title=course_data.get("title", ""),
-                            credits=course_data.get("credits", 0.0),
+                            credits=new_credits,
                             description=course_data.get("description", ""),
                             subject=course_data.get("subject", ""),
                             level=course_data.get("level", 0)
                         )
+                    else:
+                        # Update if current entry has 0 credits and new entry has non-zero credits
+                        # Or if new entry has a different non-zero value (prefer the more common/specific one)
+                        current_credits = nodes[code].credits
+                        title_lower = (course_data.get("title", "") or "").lower()
+                        is_seminar = "seminar" in title_lower
+                        
+                        # Seminars should be 0.0 credits
+                        if is_seminar:
+                            nodes[code].credits = 0.0
+                        elif current_credits == 0.0 and new_credits > 0:
+                            nodes[code].credits = new_credits
+                        elif current_credits > 0 and new_credits > 0 and new_credits != current_credits:
+                            # If we have conflicting non-zero values, prefer the one that's not 0.5 (more specific)
+                            # This handles cases like ECE192 where one entry says 0.5 and others say 0.25
+                            if new_credits != 0.5 and current_credits == 0.5:
+                                nodes[code].credits = new_credits
                 
                 # Accumulate Course Relations (edges)
+                # Edges point FROM the related course TO the course that has the relation
+                # e.g., if CS241 has CS137 as a prerequisite, edge is: source=CS137, target=CS241
                 for relation in course_data.get("relations", []):
                     kind = relation.get("kind")
                     logic = relation.get("logic")
                     
                     related_courses = re.findall(r"course:([A-Z]{2,4}[-\s]?\d{2,3}[A-Z]?)", logic)
                     for related_code in related_courses:
+                        normalized_related = related_code.replace("-", " ")
                         edges.append(FrontendCourseEdge(
-                            source_course_id=code,
-                            target_course_id=related_code.replace("-", " "),
+                            source_course_id=normalized_related,  # The prerequisite/coreq/antireq course
+                            target_course_id=code,  # The course that has this requirement
                             relation_type=kind,
                             logic=logic
                         ))
 
             # Capture ProgramShell if present and assign directly
+            # Only update if we haven't already captured program data, or if this envelope has better data
             if envelope_data.get("program"):
-                print(f"DEBUG: Found program data in envelope: {envelope_data.get("program")}")
-                program_plan_output_program = envelope_data.get("program")
-                print(f"DEBUG: program_plan_output_program after assignment: {program_plan_output_program}")
+                new_program_data = envelope_data.get("program")
+                print(f"DEBUG: Found program data in envelope: {new_program_data}")
+                # Only update if we don't have program data yet (empty title), or if the new data has non-empty required_by_term
+                has_existing_data = program_plan_output_program.get("title")
+                new_has_terms = bool(new_program_data.get("required_by_term"))
+                if not has_existing_data or new_has_terms:
+                    program_plan_output_program = new_program_data
+                    print(f"DEBUG: program_plan_output_program after assignment: {program_plan_output_program}")
                 
                 # Process required_by_term from program_plan_output_program
                 for term_name, courses_in_term in program_plan_output_program.get("required_by_term", {}).items():

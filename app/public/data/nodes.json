@@ -9,243 +9,180 @@
     "level": 100
   },
   {
-    "id": "SE102",
-    "code": "SE102",
-    "title": "SE102 - Seminar",
-    "credits": 0.0,
-    "description": null,
-    "subject": "SE",
-    "level": 100
-  },
-  {
-    "id": "MATH135",
-    "code": "MATH135",
-    "title": "MATH135 - Algebra for Honours Mathematics",
-    "credits": 0.5,
-    "description": null,
-    "subject": "MATH",
-    "level": 100
-  },
-  {
     "id": "CHE102",
     "code": "CHE102",
-    "title": "CHE102 - Chemistry for Engineers",
+    "title": "Chemistry for Engineers",
     "credits": 0.5,
     "description": null,
     "subject": "CHE",
     "level": 100
   },
   {
-    "id": "MATH119",
-    "code": "MATH119",
-    "title": "MATH119 - Calculus 2 for Engineering",
+    "id": "MATH115",
+    "code": "MATH115",
+    "title": "Linear Algebra for Engineering",
     "credits": 0.5,
     "description": null,
     "subject": "MATH",
     "level": 100
   },
   {
+    "id": "MATH117",
+    "code": "MATH117",
+    "title": "Calculus 1 for Engineering",
+    "credits": 0.5,
+    "description": null,
+    "subject": "MATH",
+    "level": 100
+  },
+  {
+    "id": "MATH135",
+    "code": "MATH135",
+    "title": "Algebra for Honours Mathematics",
+    "credits": 0.5,
+    "description": null,
+    "subject": "MATH",
+    "level": 100
+  },
+  {
+    "id": "SE101",
+    "code": "SE101",
+    "title": "Introduction to Methods of Software Engineering",
+    "credits": 0.25,
+    "description": null,
+    "subject": "SE",
+    "level": 100
+  },
+  {
+    "id": "CS138",
+    "code": "CS138",
+    "title": "Introduction to Data Abstraction and Implementation",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 100
+  },
+  {
+    "id": "ECE124",
+    "code": "ECE124",
+    "title": "Digital Circuits and Systems",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 100
+  },
+  {
+    "id": "ECE140",
+    "code": "ECE140",
+    "title": "Linear Circuits",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 100
+  },
+  {
+    "id": "ECE192",
+    "code": "ECE192",
+    "title": "Engineering Economics and Impact on Society",
+    "credits": 0.25,
+    "description": null,
+    "subject": "ECE",
+    "level": 100
+  },
+  {
+    "id": "MATH119",
+    "code": "MATH119",
+    "title": "Calculus 2 for Engineering",
+    "credits": 0.5,
+    "description": null,
+    "subject": "MATH",
+    "level": 100
+  },
+  {
+    "id": "SE102",
+    "code": "SE102",
+    "title": "Seminar",
+    "credits": 0.0,
+    "description": null,
+    "subject": "SE",
+    "level": 100
+  },
+  {
+    "id": "CS241",
+    "code": "CS241",
+    "title": "Foundations of Sequential Programs",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 200
+  },
+  {
+    "id": "ECE222",
+    "code": "ECE222",
+    "title": "Digital Computers",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 200
+  },
+  {
+    "id": "SE201",
+    "code": "SE201",
+    "title": "Seminar",
+    "credits": 0.0,
+    "description": null,
+    "subject": "SE",
+    "level": 200
+  },
+  {
     "id": "SE212",
     "code": "SE212",
-    "title": "SE212 - Logic and Computation",
+    "title": "Logic and Computation",
     "credits": 0.5,
     "description": null,
     "subject": "SE",
     "level": 200
   },
   {
-    "id": "ECE140",
-    "code": "ECE140",
-    "title": "ECE140 - Linear Circuits",
-    "credits": 0.5,
-    "description": null,
-    "subject": "ECE",
-    "level": 100
-  },
-  {
-    "id": "ECE124",
-    "code": "ECE124",
-    "title": "ECE124 - Digital Circuits and Systems",
-    "credits": 0.5,
-    "description": null,
-    "subject": "ECE",
-    "level": 100
-  },
-  {
     "id": "STAT206",
     "code": "STAT206",
-    "title": "STAT206 - Statistics for Software Engineering",
+    "title": "Statistics for Software Engineering",
     "credits": 0.5,
     "description": null,
     "subject": "STAT",
     "level": 200
   },
   {
-    "id": "ECE222",
-    "code": "ECE222",
-    "title": "ECE222 - Digital Computers",
-    "credits": 0.5,
-    "description": null,
-    "subject": "ECE",
-    "level": 200
-  },
-  {
     "id": "ECE105",
     "code": "ECE105",
-    "title": "ECE105 - Classical Mechanics",
+    "title": "Classical Mechanics",
     "credits": 0.5,
     "description": null,
     "subject": "ECE",
     "level": 100
   },
   {
-    "id": "PHYS121",
-    "code": "PHYS121",
-    "title": "PHYS121 - Mechanics",
+    "id": "PHYS115",
+    "code": "PHYS115",
+    "title": "Mechanics",
     "credits": 0.5,
     "description": null,
     "subject": "PHYS",
     "level": 100
   },
   {
-    "id": "MATH239",
-    "code": "MATH239",
-    "title": "MATH239 - Introduction to Combinatorics",
+    "id": "PHYS121",
+    "code": "PHYS121",
+    "title": "Mechanics",
     "credits": 0.5,
     "description": null,
-    "subject": "MATH",
-    "level": 200
-  },
-  {
-    "id": "SE490",
-    "code": "SE490",
-    "title": "SE490 - Design Project 1",
-    "credits": 0.5,
-    "description": null,
-    "subject": "SE",
-    "level": 400
-  },
-  {
-    "id": "CS343",
-    "code": "CS343",
-    "title": "CS343 - Concurrent and Parallel Programming",
-    "credits": 0.5,
-    "description": null,
-    "subject": "CS",
-    "level": 300
-  },
-  {
-    "id": "CS341",
-    "code": "CS341",
-    "title": "CS341 - Algorithms",
-    "credits": 0.5,
-    "description": null,
-    "subject": "CS",
-    "level": 300
-  },
-  {
-    "id": "GENE404",
-    "code": "GENE404",
-    "title": "GENE404 - Interdisciplinary Design Project 2",
-    "credits": 0.5,
-    "description": null,
-    "subject": "GENE",
-    "level": 400
-  },
-  {
-    "id": "CS349",
-    "code": "CS349",
-    "title": "CS349 - User Interfaces",
-    "credits": 0.5,
-    "description": null,
-    "subject": "CS",
-    "level": 300
-  },
-  {
-    "id": "SE380",
-    "code": "SE380",
-    "title": "SE380 - Introduction to Feedback Control",
-    "credits": 0.5,
-    "description": null,
-    "subject": "SE",
-    "level": 300
-  },
-  {
-    "id": "MSE343",
-    "code": "MSE343",
-    "title": "MSE343 - Human-Computer Interaction",
-    "credits": 0.5,
-    "description": null,
-    "subject": "MSE",
-    "level": 300
-  },
-  {
-    "id": "EMLS102R",
-    "code": "EMLS102R",
-    "title": "EMLS102R - Clear Communication in English Writing",
-    "credits": 0.5,
-    "description": null,
-    "subject": "EMLS",
+    "subject": "PHYS",
     "level": 100
   },
   {
-    "id": "SE402",
-    "code": "SE402",
-    "title": "SE402 - Seminar",
-    "credits": 0.0,
-    "description": null,
-    "subject": "SE",
-    "level": 400
-  },
-  {
-    "id": "BIOL110",
-    "code": "BIOL110",
-    "title": "BIOL110 - Biodiversity, Biomes, and Evolution",
-    "credits": 0.5,
-    "description": null,
-    "subject": "BIOL",
-    "level": 100
-  },
-  {
-    "id": "AMATH382",
-    "code": "AMATH382",
-    "title": "AMATH382 - Computational Modelling of Cellular Systems",
-    "credits": 0.5,
-    "description": null,
-    "subject": "AMATH",
-    "level": 300
-  },
-  {
-    "id": "EMLS129R",
-    "code": "EMLS129R",
-    "title": "EMLS129R - Written Academic English",
-    "credits": 0.5,
-    "description": null,
-    "subject": "EMLS",
-    "level": 100
-  },
-  {
-    "id": "ENGL210E",
-    "code": "ENGL210E",
-    "title": "ENGL210E - Genres of Technical Communication",
-    "credits": 0.5,
-    "description": null,
-    "subject": "ENGL",
-    "level": 200
-  },
-  {
-    "id": "ENGL129R",
-    "code": "ENGL129R",
-    "title": "ENGL129R - Written Academic English",
-    "credits": 0.5,
-    "description": null,
-    "subject": "ENGL",
-    "level": 100
-  },
-  {
-    "id": "CS241",
-    "code": "CS241",
-    "title": "CS241 - Foundations of Sequential Programs",
+    "id": "CS240",
+    "code": "CS240",
+    "title": "Data Structures and Data Management",
     "credits": 0.5,
     "description": null,
     "subject": "CS",
@@ -254,82 +191,226 @@
   {
     "id": "CS247",
     "code": "CS247",
-    "title": "CS247 - Software Engineering Principles",
+    "title": "Software Engineering Principles",
     "credits": 0.5,
     "description": null,
     "subject": "CS",
     "level": 200
   },
   {
-    "id": "BIOL130L",
-    "code": "BIOL130L",
-    "title": "BIOL130L - Cell Biology Laboratory",
-    "credits": 0.25,
-    "description": null,
-    "subject": "BIOL",
-    "level": 100
-  },
-  {
-    "id": "ECE192",
-    "code": "ECE192",
-    "title": "ECE192 - Engineering Economics and Impact on Society",
-    "credits": 0.25,
-    "description": null,
-    "subject": "ECE",
-    "level": 100
-  },
-  {
-    "id": "BIOL150",
-    "code": "BIOL150",
-    "title": "BIOL150 - Organismal and Evolutionary Ecology",
-    "credits": 0.5,
-    "description": null,
-    "subject": "BIOL",
-    "level": 100
-  },
-  {
-    "id": "CS138",
-    "code": "CS138",
-    "title": "CS138 - Introduction to Data Abstraction and Implementation",
+    "id": "CS348",
+    "code": "CS348",
+    "title": "Introduction to Database Management",
     "credits": 0.5,
     "description": null,
     "subject": "CS",
-    "level": 100
+    "level": 300
   },
   {
-    "id": "BIOL273",
-    "code": "BIOL273",
-    "title": "BIOL273 - Principles of Human Physiology 1",
-    "credits": 0.5,
-    "description": null,
-    "subject": "BIOL",
-    "level": 200
-  },
-  {
-    "id": "MATH213",
-    "code": "MATH213",
-    "title": "MATH213 - Signals, Systems, and Differential Equations",
+    "id": "MATH239",
+    "code": "MATH239",
+    "title": "Introduction to Combinatorics",
     "credits": 0.5,
     "description": null,
     "subject": "MATH",
     "level": 200
   },
   {
-    "id": "BIOL280",
-    "code": "BIOL280",
-    "title": "BIOL280 - Introduction to Biophysics",
-    "credits": 0.5,
+    "id": "SE202",
+    "code": "SE202",
+    "title": "Seminar",
+    "credits": 0.0,
     "description": null,
-    "subject": "BIOL",
+    "subject": "SE",
     "level": 200
   },
   {
-    "id": "PHYS115",
-    "code": "PHYS115",
-    "title": "PHYS115 - Mechanics",
+    "id": "CS341",
+    "code": "CS341",
+    "title": "Algorithms",
     "credits": 0.5,
     "description": null,
-    "subject": "PHYS",
+    "subject": "CS",
+    "level": 300
+  },
+  {
+    "id": "MATH213",
+    "code": "MATH213",
+    "title": "Signals, Systems, and Differential Equations",
+    "credits": 0.5,
+    "description": null,
+    "subject": "MATH",
+    "level": 200
+  },
+  {
+    "id": "SE301",
+    "code": "SE301",
+    "title": "Seminar",
+    "credits": 0.0,
+    "description": null,
+    "subject": "SE",
+    "level": 300
+  },
+  {
+    "id": "SE350",
+    "code": "SE350",
+    "title": "Operating Systems",
+    "credits": 0.5,
+    "description": null,
+    "subject": "SE",
+    "level": 300
+  },
+  {
+    "id": "SE464",
+    "code": "SE464",
+    "title": "Software Design and Architectures",
+    "credits": 0.5,
+    "description": null,
+    "subject": "SE",
+    "level": 400
+  },
+  {
+    "id": "SE465",
+    "code": "SE465",
+    "title": "Software Testing and Quality Assurance",
+    "credits": 0.5,
+    "description": null,
+    "subject": "SE",
+    "level": 400
+  },
+  {
+    "id": "CS343",
+    "code": "CS343",
+    "title": "Concurrent and Parallel Programming",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 300
+  },
+  {
+    "id": "ECE358",
+    "code": "ECE358",
+    "title": "Computer Networks",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 300
+  },
+  {
+    "id": "SE302",
+    "code": "SE302",
+    "title": "Seminar",
+    "credits": 0.0,
+    "description": null,
+    "subject": "SE",
+    "level": 300
+  },
+  {
+    "id": "SE380",
+    "code": "SE380",
+    "title": "Introduction to Feedback Control",
+    "credits": 0.5,
+    "description": null,
+    "subject": "SE",
+    "level": 300
+  },
+  {
+    "id": "SE463",
+    "code": "SE463",
+    "title": "Software Project Management, Requirements, and Analysis",
+    "credits": 0.5,
+    "description": null,
+    "subject": "SE",
+    "level": 400
+  },
+  {
+    "id": "CS349",
+    "code": "CS349",
+    "title": "User Interfaces",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 300
+  },
+  {
+    "id": "CS449",
+    "code": "CS449",
+    "title": "Human-Computer Interaction",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 400
+  },
+  {
+    "id": "MSE343",
+    "code": "MSE343",
+    "title": "Human-Computer Interaction",
+    "credits": 0.5,
+    "description": null,
+    "subject": "MSE",
+    "level": 300
+  },
+  {
+    "id": "SE401",
+    "code": "SE401",
+    "title": "Seminar",
+    "credits": 0.0,
+    "description": null,
+    "subject": "SE",
+    "level": 400
+  },
+  {
+    "id": "GENE403",
+    "code": "GENE403",
+    "title": "Interdisciplinary Design Project 1",
+    "credits": 0.5,
+    "description": null,
+    "subject": "GENE",
+    "level": 400
+  },
+  {
+    "id": "SE490",
+    "code": "SE490",
+    "title": "Design Project 1",
+    "credits": 0.5,
+    "description": null,
+    "subject": "SE",
+    "level": 400
+  },
+  {
+    "id": "SE402",
+    "code": "SE402",
+    "title": "Seminar",
+    "credits": 0.0,
+    "description": null,
+    "subject": "SE",
+    "level": 400
+  },
+  {
+    "id": "GENE404",
+    "code": "GENE404",
+    "title": "Interdisciplinary Design Project 2",
+    "credits": 0.5,
+    "description": null,
+    "subject": "GENE",
+    "level": 400
+  },
+  {
+    "id": "SE491",
+    "code": "SE491",
+    "title": "Design Project 2",
+    "credits": 0.5,
+    "description": null,
+    "subject": "SE",
+    "level": 400
+  },
+  {
+    "id": "EMLS101R",
+    "code": "EMLS101R",
+    "title": "EMLS101R - Oral Communications for Academic Purposes",
+    "credits": 0.5,
+    "description": null,
+    "subject": "EMLS",
     "level": 100
   },
   {
@@ -342,94 +423,58 @@
     "level": 400
   },
   {
-    "id": "SE302",
-    "code": "SE302",
-    "title": "SE302 - Seminar",
-    "credits": 0.0,
-    "description": null,
-    "subject": "SE",
-    "level": 300
-  },
-  {
-    "id": "CHEM209",
-    "code": "CHEM209",
-    "title": "CHEM209 - Introductory Spectroscopy and Structure",
+    "id": "BIOL469",
+    "code": "BIOL469",
+    "title": "BIOL469 - Genomics",
     "credits": 0.5,
     "description": null,
-    "subject": "CHEM",
-    "level": 200
-  },
-  {
-    "id": "CHEM123",
-    "code": "CHEM123",
-    "title": "CHEM123 - General Chemistry 2",
-    "credits": 0.5,
-    "description": null,
-    "subject": "CHEM",
-    "level": 100
-  },
-  {
-    "id": "SE491",
-    "code": "SE491",
-    "title": "SE491 - Design Project 2",
-    "credits": 0.5,
-    "description": null,
-    "subject": "SE",
+    "subject": "BIOL",
     "level": 400
   },
   {
-    "id": "ENGL109",
-    "code": "ENGL109",
-    "title": "ENGL109 - Introduction to Academic Writing",
+    "id": "BIOL476",
+    "code": "BIOL476",
+    "title": "BIOL476 - Systems Neuroscience: From Neurons to Behaviour",
     "credits": 0.5,
     "description": null,
-    "subject": "ENGL",
-    "level": 100
+    "subject": "BIOL",
+    "level": 400
+  },
+  {
+    "id": "BIOL240L",
+    "code": "BIOL240L",
+    "title": "BIOL240L - Microbiology Laboratory",
+    "credits": 0.25,
+    "description": null,
+    "subject": "BIOL",
+    "level": 200
+  },
+  {
+    "id": "EARTH221",
+    "code": "EARTH221",
+    "title": "EARTH221 - Introductory Geochemistry",
+    "credits": 0.5,
+    "description": null,
+    "subject": "EARTH",
+    "level": 200
   },
   {
     "id": "EARTH121",
     "code": "EARTH121",
     "title": "EARTH121 - Introductory Earth Sciences",
-    "credits": 0.5,
+    "credits": 0.25,
     "description": null,
     "subject": "EARTH",
     "level": 100
   },
   {
-    "id": "ENGL119",
-    "code": "ENGL119",
-    "title": "ENGL119 - Communications in Mathematics and Computer Science",
+    "id": "ECE305",
+    "code": "ECE305",
+    "title": "ECE305 - Introduction to Quantum Mechanics",
     "credits": 0.5,
     "description": null,
-    "subject": "ENGL",
-    "level": 100
-  },
-  {
-    "id": "MATH115",
-    "code": "MATH115",
-    "title": "MATH115 - Linear Algebra for Engineering",
-    "credits": 0.5,
-    "description": null,
-    "subject": "MATH",
-    "level": 100
-  },
-  {
-    "id": "MATH117",
-    "code": "MATH117",
-    "title": "MATH117 - Calculus 1 for Engineering",
-    "credits": 0.5,
-    "description": null,
-    "subject": "MATH",
-    "level": 100
-  },
-  {
-    "id": "BIOL241",
-    "code": "BIOL241",
-    "title": "BIOL241 - Introduction to Applied Microbiology",
-    "credits": 0.5,
-    "description": null,
-    "subject": "BIOL",
-    "level": 200
+    "subject": "ECE",
+    "level": 300
   },
   {
     "id": "BIOL165",
@@ -441,54 +486,81 @@
     "level": 100
   },
   {
-    "id": "SE101",
-    "code": "SE101",
-    "title": "SE101 - Introduction to Methods of Software Engineering",
-    "credits": 0.25,
+    "id": "BIOL110",
+    "code": "BIOL110",
+    "title": "BIOL110 - Biodiversity, Biomes, and Evolution",
+    "credits": 0.5,
     "description": null,
-    "subject": "SE",
+    "subject": "BIOL",
     "level": 100
   },
   {
-    "id": "BIOL239",
-    "code": "BIOL239",
-    "title": "BIOL239 - Genetics",
+    "id": "BIOL130L",
+    "code": "BIOL130L",
+    "title": "BIOL130L - Cell Biology Laboratory",
+    "credits": 0.25,
+    "description": null,
+    "subject": "BIOL",
+    "level": 100
+  },
+  {
+    "id": "ENGL129R",
+    "code": "ENGL129R",
+    "title": "ENGL129R - Written Academic English",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ENGL",
+    "level": 100
+  },
+  {
+    "id": "BIOL382",
+    "code": "BIOL382",
+    "title": "BIOL382 - Computational Modelling of Cellular Systems",
+    "credits": 0.5,
+    "description": null,
+    "subject": "BIOL",
+    "level": 300
+  },
+  {
+    "id": "CHEM123",
+    "code": "CHEM123",
+    "title": "CHEM123 - General Chemistry 2",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CHEM",
+    "level": 100
+  },
+  {
+    "id": "PHYS275",
+    "code": "PHYS275",
+    "title": "PHYS275 - Planets",
+    "credits": 0.5,
+    "description": null,
+    "subject": "PHYS",
+    "level": 200
+  },
+  {
+    "id": "NE222",
+    "code": "NE222",
+    "title": "NE222 - Organic Chemistry for Nanotechnology Engineers",
+    "credits": 0.5,
+    "description": null,
+    "subject": "NE",
+    "level": 200
+  },
+  {
+    "id": "BIOL273",
+    "code": "BIOL273",
+    "title": "BIOL273 - Principles of Human Physiology 1",
     "credits": 0.5,
     "description": null,
     "subject": "BIOL",
     "level": 200
   },
   {
-    "id": "PHYS175",
-    "code": "PHYS175",
-    "title": "PHYS175 - Introduction to the Universe",
-    "credits": 0.5,
-    "description": null,
-    "subject": "PHYS",
-    "level": 100
-  },
-  {
-    "id": "PHYS233",
-    "code": "PHYS233",
-    "title": "PHYS233 - Introduction to Quantum Mechanics",
-    "credits": 0.5,
-    "description": null,
-    "subject": "PHYS",
-    "level": 200
-  },
-  {
-    "id": "CHEM123L",
-    "code": "CHEM123L",
-    "title": "CHEM123L - General Chemistry Laboratory 2",
-    "credits": 0.25,
-    "description": null,
-    "subject": "CHEM",
-    "level": 100
-  },
-  {
-    "id": "BIOL373L",
-    "code": "BIOL373L",
-    "title": "BIOL373L - Human Physiology Laboratory",
+    "id": "BIOL373",
+    "code": "BIOL373",
+    "title": "BIOL373 - Principles of Human Physiology 2",
     "credits": 0.5,
     "description": null,
     "subject": "BIOL",
@@ -504,85 +576,76 @@
     "level": 200
   },
   {
-    "id": "BIOL220",
-    "code": "BIOL220",
-    "title": "BIOL220 - Introduction to Plant Structure and Function",
+    "id": "CS360",
+    "code": "CS360",
+    "title": "CS360 - Introduction to the Theory of Computing",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 300
+  },
+  {
+    "id": "CS442",
+    "code": "CS442",
+    "title": "CS442 - Principles of Programming Languages",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 400
+  },
+  {
+    "id": "AMATH382",
+    "code": "AMATH382",
+    "title": "AMATH382 - Computational Modelling of Cellular Systems",
+    "credits": 0.5,
+    "description": null,
+    "subject": "AMATH",
+    "level": 300
+  },
+  {
+    "id": "BIOL211",
+    "code": "BIOL211",
+    "title": "BIOL211 - Introductory Vertebrate Zoology",
     "credits": 0.5,
     "description": null,
     "subject": "BIOL",
     "level": 200
   },
   {
-    "id": "CHEM262",
-    "code": "CHEM262",
-    "title": "CHEM262 - Organic Chemistry for Engineering",
+    "id": "PHYS122",
+    "code": "PHYS122",
+    "title": "PHYS122 - Waves, Electricity and Magnetism",
     "credits": 0.5,
     "description": null,
-    "subject": "CHEM",
-    "level": 200
-  },
-  {
-    "id": "SE350",
-    "code": "SE350",
-    "title": "SE350 - Operating Systems",
-    "credits": 0.5,
-    "description": null,
-    "subject": "SE",
-    "level": 300
-  },
-  {
-    "id": "EARTH123",
-    "code": "EARTH123",
-    "title": "EARTH123 - Introductory Hydrology",
-    "credits": 0.5,
-    "description": null,
-    "subject": "EARTH",
+    "subject": "PHYS",
     "level": 100
   },
   {
-    "id": "ECE305",
-    "code": "ECE305",
-    "title": "ECE305 - Introduction to Quantum Mechanics",
+    "id": "CS450",
+    "code": "CS450",
+    "title": "CS450 - Computer Architecture",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 400
+  },
+  {
+    "id": "BIOL150",
+    "code": "BIOL150",
+    "title": "BIOL150 - Organismal and Evolutionary Ecology",
+    "credits": 0.5,
+    "description": null,
+    "subject": "BIOL",
+    "level": 100
+  },
+  {
+    "id": "ECE320",
+    "code": "ECE320",
+    "title": "ECE320 - Computer Architecture",
     "credits": 0.5,
     "description": null,
     "subject": "ECE",
     "level": 300
-  },
-  {
-    "id": "NE222",
-    "code": "NE222",
-    "title": "NE222 - Organic Chemistry for Nanotechnology Engineers",
-    "credits": 0.5,
-    "description": null,
-    "subject": "NE",
-    "level": 200
-  },
-  {
-    "id": "CS466",
-    "code": "CS466",
-    "title": "CS466 - Algorithm Design and Analysis",
-    "credits": 0.5,
-    "description": null,
-    "subject": "CS",
-    "level": 400
-  },
-  {
-    "id": "CS479",
-    "code": "CS479",
-    "title": "CS479 - Neural Networks",
-    "credits": 0.5,
-    "description": null,
-    "subject": "CS",
-    "level": 400
-  },
-  {
-    "id": "PHYS275",
-    "code": "PHYS275",
-    "title": "PHYS275 - Planets",
-    "credits": 0.5,
-    "description": null,
-    "subject": "PHYS",
-    "level": 200
   },
   {
     "id": "CS488",
@@ -594,102 +657,210 @@
     "level": 400
   },
   {
-    "id": "PHYS375",
-    "code": "PHYS375",
-    "title": "PHYS375 - Stars",
+    "id": "PHYS124",
+    "code": "PHYS124",
+    "title": "PHYS124 - Modern Physics",
     "credits": 0.5,
     "description": null,
     "subject": "PHYS",
-    "level": 300
+    "level": 100
   },
   {
-    "id": "CS360",
-    "code": "CS360",
-    "title": "CS360 - Introduction to the Theory of Computing",
+    "id": "PHYS468",
+    "code": "PHYS468",
+    "title": "PHYS468 - Introduction to the Implementation of Quantum Information Processing",
+    "credits": 0.5,
+    "description": null,
+    "subject": "PHYS",
+    "level": 400
+  },
+  {
+    "id": "CS482",
+    "code": "CS482",
+    "title": "CS482 - Computational Techniques in Biological Sequence Analysis",
     "credits": 0.5,
     "description": null,
     "subject": "CS",
-    "level": 300
-  },
-  {
-    "id": "BIOL365",
-    "code": "BIOL365",
-    "title": "BIOL365 - Methods in Bioinformatics",
-    "credits": 0.5,
-    "description": null,
-    "subject": "BIOL",
-    "level": 300
-  },
-  {
-    "id": "SCI250",
-    "code": "SCI250",
-    "title": "SCI250 - Environmental Geology",
-    "credits": 0.5,
-    "description": null,
-    "subject": "SCI",
-    "level": 200
-  },
-  {
-    "id": "SCI238",
-    "code": "SCI238",
-    "title": "SCI238 - Introductory Astronomy",
-    "credits": 0.5,
-    "description": null,
-    "subject": "SCI",
-    "level": 200
-  },
-  {
-    "id": "BIOL476",
-    "code": "BIOL476",
-    "title": "BIOL476 - Systems Neuroscience: From Neurons to Behaviour",
-    "credits": 0.5,
-    "description": null,
-    "subject": "BIOL",
     "level": 400
   },
   {
-    "id": "ECE405C",
-    "code": "ECE405C",
-    "title": "ECE405C - Programming of Quantum Computing Algorithms",
+    "id": "ENGL109",
+    "code": "ENGL109",
+    "title": "ENGL109 - Introduction to Academic Writing",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ENGL",
+    "level": 100
+  },
+  {
+    "id": "ECE459",
+    "code": "ECE459",
+    "title": "ECE459 - Programming for Performance",
     "credits": 0.5,
     "description": null,
     "subject": "ECE",
     "level": 400
   },
   {
-    "id": "ECE458",
-    "code": "ECE458",
-    "title": "ECE458 - Computer Security",
+    "id": "ECE457C",
+    "code": "ECE457C",
+    "title": "ECE457C - Reinforcement Learning",
     "credits": 0.5,
     "description": null,
     "subject": "ECE",
     "level": 400
   },
   {
-    "id": "AMATH449",
-    "code": "AMATH449",
-    "title": "AMATH449 - Neural Networks",
+    "id": "ENGL209",
+    "code": "ENGL209",
+    "title": "ENGL209 - Advanced Academic Writing",
     "credits": 0.5,
     "description": null,
-    "subject": "AMATH",
-    "level": 400
+    "subject": "ENGL",
+    "level": 200
   },
   {
-    "id": "EARTH221",
-    "code": "EARTH221",
-    "title": "EARTH221 - Introductory Geochemistry",
+    "id": "ENGL119",
+    "code": "ENGL119",
+    "title": "ENGL119 - Communications in Mathematics and Computer Science",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ENGL",
+    "level": 100
+  },
+  {
+    "id": "ENGL210E",
+    "code": "ENGL210E",
+    "title": "ENGL210E - Genres of Technical Communication",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ENGL",
+    "level": 200
+  },
+  {
+    "id": "CHEM123L",
+    "code": "CHEM123L",
+    "title": "CHEM123L - General Chemistry Laboratory 2",
+    "credits": 0.25,
+    "description": null,
+    "subject": "CHEM",
+    "level": 100
+  },
+  {
+    "id": "BIOL376",
+    "code": "BIOL376",
+    "title": "BIOL376 - Cellular Neurophysiology",
+    "credits": 0.5,
+    "description": null,
+    "subject": "BIOL",
+    "level": 300
+  },
+  {
+    "id": "CHEM209",
+    "code": "CHEM209",
+    "title": "CHEM209 - Introductory Spectroscopy and Structure",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CHEM",
+    "level": 200
+  },
+  {
+    "id": "CHE161",
+    "code": "CHE161",
+    "title": "CHE161 - Engineering Biology",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CHE",
+    "level": 100
+  },
+  {
+    "id": "ENVS200",
+    "code": "ENVS200",
+    "title": "ENVS200 - Field Ecology",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ENVS",
+    "level": 200
+  },
+  {
+    "id": "PHYS175",
+    "code": "PHYS175",
+    "title": "PHYS175 - Introduction to the Universe",
+    "credits": 0.5,
+    "description": null,
+    "subject": "PHYS",
+    "level": 100
+  },
+  {
+    "id": "EMLS102R",
+    "code": "EMLS102R",
+    "title": "EMLS102R - Clear Communication in English Writing",
+    "credits": 0.5,
+    "description": null,
+    "subject": "EMLS",
+    "level": 100
+  },
+  {
+    "id": "EMLS129R",
+    "code": "EMLS129R",
+    "title": "EMLS129R - Written Academic English",
+    "credits": 0.5,
+    "description": null,
+    "subject": "EMLS",
+    "level": 100
+  },
+  {
+    "id": "PHYS234",
+    "code": "PHYS234",
+    "title": "PHYS234 - Quantum Physics 1",
+    "credits": 0.5,
+    "description": null,
+    "subject": "PHYS",
+    "level": 200
+  },
+  {
+    "id": "PHYS263",
+    "code": "PHYS263",
+    "title": "PHYS263 - Classical Mechanics and Special Relativity",
+    "credits": 0.5,
+    "description": null,
+    "subject": "PHYS",
+    "level": 200
+  },
+  {
+    "id": "BIOL241",
+    "code": "BIOL241",
+    "title": "BIOL241 - Introduction to Applied Microbiology",
+    "credits": 0.5,
+    "description": null,
+    "subject": "BIOL",
+    "level": 200
+  },
+  {
+    "id": "PSYCH261",
+    "code": "PSYCH261",
+    "title": "PSYCH261 - Physiological Psychology",
+    "credits": 0.5,
+    "description": null,
+    "subject": "PSYCH",
+    "level": 200
+  },
+  {
+    "id": "EARTH122",
+    "code": "EARTH122",
+    "title": "EARTH122 - Introductory Environmental Sciences",
     "credits": 0.5,
     "description": null,
     "subject": "EARTH",
-    "level": 200
+    "level": 100
   },
   {
-    "id": "ECE481",
-    "code": "ECE481",
-    "title": "ECE481 - Digital Control Systems",
+    "id": "CS454",
+    "code": "CS454",
+    "title": "CS454 - Distributed Systems",
     "credits": 0.5,
     "description": null,
-    "subject": "ECE",
+    "subject": "CS",
     "level": 400
   },
   {
@@ -702,147 +873,174 @@
     "level": 200
   },
   {
-    "id": "CS482",
-    "code": "CS482",
-    "title": "CS482 - Computational Techniques in Biological Sequence Analysis",
+    "id": "ECE106",
+    "code": "ECE106",
+    "title": "ECE106 - Electricity and Magnetism",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 100
+  },
+  {
+    "id": "CS457",
+    "code": "CS457",
+    "title": "CS457 - System Performance Evaluation",
     "credits": 0.5,
     "description": null,
     "subject": "CS",
     "level": 400
   },
   {
-    "id": "CS442",
-    "code": "CS442",
-    "title": "CS442 - Principles of Programming Languages",
-    "credits": 0.5,
-    "description": null,
-    "subject": "CS",
-    "level": 400
-  },
-  {
-    "id": "CS453",
-    "code": "CS453",
-    "title": "CS453 - Software and Systems Security",
-    "credits": 0.5,
-    "description": null,
-    "subject": "CS",
-    "level": 400
-  },
-  {
-    "id": "CS452",
-    "code": "CS452",
-    "title": "CS452 - Real-Time Programming",
-    "credits": 0.5,
-    "description": null,
-    "subject": "CS",
-    "level": 400
-  },
-  {
-    "id": "CS480",
-    "code": "CS480",
-    "title": "CS480 - Introduction to Machine Learning",
-    "credits": 0.5,
-    "description": null,
-    "subject": "CS",
-    "level": 400
-  },
-  {
-    "id": "CS462",
-    "code": "CS462",
-    "title": "CS462 - Formal Languages and Parsing",
-    "credits": 0.5,
-    "description": null,
-    "subject": "CS",
-    "level": 400
-  },
-  {
-    "id": "ECE493",
-    "code": "ECE493",
-    "title": "ECE493 - Special Topics in Electrical and Computer Engineering",
+    "id": "ECE403",
+    "code": "ECE403",
+    "title": "ECE403 - Thermal Physics",
     "credits": 0.5,
     "description": null,
     "subject": "ECE",
     "level": 400
   },
   {
-    "id": "CS486",
-    "code": "CS486",
-    "title": "CS486 - Introduction to Artificial Intelligence",
+    "id": "CS487",
+    "code": "CS487",
+    "title": "CS487 - Introduction to Symbolic Computation",
     "credits": 0.5,
     "description": null,
     "subject": "CS",
-    "level": 400
-  },
-  {
-    "id": "CO456",
-    "code": "CO456",
-    "title": "CO456 - Introduction to Game Theory",
-    "credits": 0.5,
-    "description": null,
-    "subject": "CO",
-    "level": 400
-  },
-  {
-    "id": "CS489",
-    "code": "CS489",
-    "title": "CS489 - Advanced Topics in Computer Science",
-    "credits": 0.5,
-    "description": null,
-    "subject": "CS",
-    "level": 400
-  },
-  {
-    "id": "PSYCH261",
-    "code": "PSYCH261",
-    "title": "PSYCH261 - Physiological Psychology",
-    "credits": 0.5,
-    "description": null,
-    "subject": "PSYCH",
-    "level": 200
-  },
-  {
-    "id": "SCI201",
-    "code": "SCI201",
-    "title": "SCI201 - Global Warming and Climate Change",
-    "credits": 0.5,
-    "description": null,
-    "subject": "SCI",
-    "level": 200
-  },
-  {
-    "id": "CO487",
-    "code": "CO487",
-    "title": "CO487 - Applied Cryptography",
-    "credits": 0.5,
-    "description": null,
-    "subject": "CO",
     "level": 400
   },
   {
     "id": "ECE327",
     "code": "ECE327",
     "title": "ECE327 - Digital Hardware Systems",
-    "credits": 0.5,
+    "credits": 0.0,
     "description": null,
     "subject": "ECE",
     "level": 300
   },
   {
-    "id": "MTE546",
-    "code": "MTE546",
-    "title": "MTE546 - Multi-Sensor Data Fusion",
+    "id": "ECE457A",
+    "code": "ECE457A",
+    "title": "ECE457A - Co-operative and Adaptive Algorithms",
     "credits": 0.5,
     "description": null,
-    "subject": "MTE",
+    "subject": "ECE",
     "level": 400
   },
   {
-    "id": "SYDE556",
-    "code": "SYDE556",
-    "title": "SYDE556 - Simulating Neurobiological Systems",
+    "id": "BIOL280",
+    "code": "BIOL280",
+    "title": "BIOL280 - Introduction to Biophysics",
     "credits": 0.5,
     "description": null,
-    "subject": "SYDE",
+    "subject": "BIOL",
+    "level": 200
+  },
+  {
+    "id": "CS448",
+    "code": "CS448",
+    "title": "CS448 - Database Systems Implementation",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 400
+  },
+  {
+    "id": "ECE423",
+    "code": "ECE423",
+    "title": "ECE423 - Embedded Computer Systems",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 400
+  },
+  {
+    "id": "SCI250",
+    "code": "SCI250",
+    "title": "SCI250 - Environmental Geology",
+    "credits": 0.5,
+    "description": null,
+    "subject": "SCI",
+    "level": 200
+  },
+  {
+    "id": "BIOL239",
+    "code": "BIOL239",
+    "title": "BIOL239 - Genetics",
+    "credits": 0.5,
+    "description": null,
+    "subject": "BIOL",
+    "level": 200
+  },
+  {
+    "id": "PSYCH306",
+    "code": "PSYCH306",
+    "title": "PSYCH306 - Perception",
+    "credits": 0.5,
+    "description": null,
+    "subject": "PSYCH",
+    "level": 300
+  },
+  {
+    "id": "BIOL365",
+    "code": "BIOL365",
+    "title": "BIOL365 - Methods in Bioinformatics",
+    "credits": 0.5,
+    "description": null,
+    "subject": "BIOL",
+    "level": 300
+  },
+  {
+    "id": "ECE405A",
+    "code": "ECE405A",
+    "title": "ECE405A - Quantum Information Processing Devices",
+    "credits": 0.5,
+    "description": null,
+    "subject": "ECE",
+    "level": 400
+  },
+  {
+    "id": "CS444",
+    "code": "CS444",
+    "title": "CS444 - Compiler Construction",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 400
+  },
+  {
+    "id": "BIOL240",
+    "code": "BIOL240",
+    "title": "BIOL240 - Fundamentals of Microbiology",
+    "credits": 0.5,
+    "description": null,
+    "subject": "BIOL",
+    "level": 200
+  },
+  {
+    "id": "CO331",
+    "code": "CO331",
+    "title": "CO331 - Coding Theory",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CO",
+    "level": 300
+  },
+  {
+    "id": "CS371",
+    "code": "CS371",
+    "title": "CS371 - Introduction to Computational Mathematics",
+    "credits": 0.5,
+    "description": null,
+    "subject": "CS",
+    "level": 300
+  },
+  {
+    "id": "AMATH449",
+    "code": "AMATH449",
+    "title": "AMATH449 - Neural Networks",
+    "credits": 0.5,
+    "description": null,
+    "subject": "AMATH",
     "level": 400
   }
 ]

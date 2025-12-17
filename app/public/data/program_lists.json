@@ -923,7 +923,7 @@
         }
       ]
     },
-    "Complete 2 additional course from List 1, List 2, or List 3.": {
+    "List 3": {
       "list_name": "Complete 2 additional course from List 1, List 2, or List 3.",
       "courses": [
         {
@@ -1124,7 +1124,7 @@
         }
       ]
     },
-    "Complete 1 sustainability-related course, from the following list. This course may also be counted towards another elective requirement (e.g., Natural Science elective, Complementary Studies elective) if part of that list.": {
+    "Sustainability Elective": {
       "list_name": "Complete 1 sustainability-related course, from the following list. This course may also be counted towards another elective requirement (e.g., Natural Science elective, Complementary Studies elective) if part of that list.",
       "courses": [
         {

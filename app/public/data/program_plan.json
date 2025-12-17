@@ -2,7 +2,7 @@
   "program": {
     "kind": "degree",
     "scope": null,
-    "title": "Undergraduate studies",
+    "title": "Software Engineering (Bachelor of Software Engineering - Honours)",
     "catalog_year_label": null,
     "owning_faculty_code": null,
     "owning_program_codes": null,
@@ -167,7 +167,576 @@
         }
       ]
     },
-    "course_lists": {}
+    "course_lists": {
+      "Undergraduate Communication Requirement": [
+        {
+          "code": "OMMST100",
+          "title": "C"
+        },
+        {
+          "code": "OMMST223",
+          "title": "C"
+        },
+        {
+          "code": "EMLS101R",
+          "title": "Oral Communications for Academic Purposes"
+        },
+        {
+          "code": "EMLS102R",
+          "title": "Clear Communication in English Writing"
+        },
+        {
+          "code": "EMLS129R",
+          "title": "Written Academic English"
+        },
+        {
+          "code": "ENGL109",
+          "title": "Introduction to Academic Writing"
+        },
+        {
+          "code": "ENGL119",
+          "title": "Communications in Mathematics and Computer Science"
+        },
+        {
+          "code": "ENGL129R",
+          "title": "Written Academic English"
+        },
+        {
+          "code": "ENGL209",
+          "title": "Advanced Academic Writing"
+        },
+        {
+          "code": "ENGL210E",
+          "title": "Genres of Technical Communication"
+        }
+      ],
+      "Natural Science List": [
+        {
+          "code": "AMATH382",
+          "title": "Computational Modelling of Cellular Systems"
+        },
+        {
+          "code": "BIOL110",
+          "title": "Biodiversity, Biomes, and Evolution"
+        },
+        {
+          "code": "BIOL130",
+          "title": "Introductory Cell Biology"
+        },
+        {
+          "code": "BIOL130L",
+          "title": "Cell Biology Laboratory"
+        },
+        {
+          "code": "BIOL150",
+          "title": "Organismal and Evolutionary Ecology"
+        },
+        {
+          "code": "BIOL165",
+          "title": "Diversity of Life"
+        },
+        {
+          "code": "BIOL211",
+          "title": "Introductory Vertebrate Zoology"
+        },
+        {
+          "code": "BIOL220",
+          "title": "Introduction to Plant Structure and Function"
+        },
+        {
+          "code": "BIOL239",
+          "title": "Genetics"
+        },
+        {
+          "code": "BIOL240",
+          "title": "Fundamentals of Microbiology"
+        },
+        {
+          "code": "BIOL240L",
+          "title": "Microbiology Laboratory"
+        },
+        {
+          "code": "BIOL241",
+          "title": "Introduction to Applied Microbiology"
+        },
+        {
+          "code": "BIOL273",
+          "title": "Principles of Human Physiology 1"
+        },
+        {
+          "code": "BIOL280",
+          "title": "Introduction to Biophysics"
+        },
+        {
+          "code": "BIOL365",
+          "title": "Methods in Bioinformatics"
+        },
+        {
+          "code": "BIOL373",
+          "title": "Principles of Human Physiology 2"
+        },
+        {
+          "code": "BIOL373L",
+          "title": "Human Physiology Laboratory"
+        },
+        {
+          "code": "BIOL376",
+          "title": "Cellular Neurophysiology"
+        },
+        {
+          "code": "BIOL382",
+          "title": "Computational Modelling of Cellular Systems"
+        },
+        {
+          "code": "BIOL469",
+          "title": "Genomics"
+        },
+        {
+          "code": "BIOL476",
+          "title": "Systems Neuroscience: From Neurons to Behaviour"
+        },
+        {
+          "code": "BIOL489",
+          "title": "Arctic Ecology"
+        },
+        {
+          "code": "CHE161",
+          "title": "Engineering Biology"
+        },
+        {
+          "code": "CHEM123",
+          "title": "General Chemistry 2"
+        },
+        {
+          "code": "CHEM123L",
+          "title": "General Chemistry Laboratory 2"
+        },
+        {
+          "code": "CHEM209",
+          "title": "Introductory Spectroscopy and Structure"
+        },
+        {
+          "code": "CHEM237",
+          "title": "Introductory Biochemistry"
+        },
+        {
+          "code": "CHEM237L",
+          "title": "Introductory Biochemistry Laboratory"
+        },
+        {
+          "code": "CHEM254",
+          "title": "Introductory Chemical Thermodynamics"
+        },
+        {
+          "code": "CHEM262",
+          "title": "Organic Chemistry for Engineering"
+        },
+        {
+          "code": "CHEM262L",
+          "title": "Organic Chemistry Laboratory for Engineering Students"
+        },
+        {
+          "code": "CHEM266",
+          "title": "Basic Organic Chemistry 1"
+        },
+        {
+          "code": "CHEM356",
+          "title": "Introductory Quantum Mechanics"
+        },
+        {
+          "code": "CS482",
+          "title": "Computational Techniques in Biological Sequence Analysis"
+        },
+        {
+          "code": "EARTH121",
+          "title": "Introductory Earth Sciences"
+        },
+        {
+          "code": "EARTH122",
+          "title": "Introductory Environmental Sciences"
+        },
+        {
+          "code": "EARTH123",
+          "title": "Introductory Hydrology"
+        },
+        {
+          "code": "EARTH221",
+          "title": "Introductory Geochemistry"
+        },
+        {
+          "code": "EARTH270",
+          "title": "Disasters and Natural Hazards"
+        },
+        {
+          "code": "EARTH281",
+          "title": "Geological Impacts on Human Health"
+        },
+        {
+          "code": "ECE106",
+          "title": "Electricity and Magnetism"
+        },
+        {
+          "code": "ECE231",
+          "title": "Semiconductor Physics and Devices"
+        },
+        {
+          "code": "ECE305",
+          "title": "Introduction to Quantum Mechanics"
+        },
+        {
+          "code": "ECE403",
+          "title": "Thermal Physics"
+        },
+        {
+          "code": "ECE404",
+          "title": "Geometrical and Physical Optics"
+        },
+        {
+          "code": "ENVE275",
+          "title": "Aquatic Chemistry"
+        },
+        {
+          "code": "ENVS200",
+          "title": "Field Ecology"
+        },
+        {
+          "code": "NE222",
+          "title": "Organic Chemistry for Nanotechnology Engineers"
+        },
+        {
+          "code": "PHYS122",
+          "title": "Waves, Electricity and Magnetism"
+        },
+        {
+          "code": "PHYS124",
+          "title": "Modern Physics"
+        },
+        {
+          "code": "PHYS175",
+          "title": "Introduction to the Universe"
+        },
+        {
+          "code": "PHYS233",
+          "title": "Introduction to Quantum Mechanics"
+        },
+        {
+          "code": "PHYS234",
+          "title": "Quantum Physics 1"
+        },
+        {
+          "code": "PHYS263",
+          "title": "Classical Mechanics and Special Relativity"
+        },
+        {
+          "code": "PHYS275",
+          "title": "Planets"
+        },
+        {
+          "code": "PHYS280",
+          "title": "Introduction to Biophysics"
+        },
+        {
+          "code": "PHYS334",
+          "title": "Quantum Physics 2"
+        },
+        {
+          "code": "PHYS335",
+          "title": "Condensed Matter Physics"
+        },
+        {
+          "code": "PHYS375",
+          "title": "Stars"
+        },
+        {
+          "code": "PHYS380",
+          "title": "Molecular and Cellular Biophysics"
+        },
+        {
+          "code": "PHYS468",
+          "title": "Introduction to the Implementation of Quantum Information Processing"
+        },
+        {
+          "code": "PSYCH207",
+          "title": "Cognitive Processes"
+        },
+        {
+          "code": "PSYCH261",
+          "title": "Physiological Psychology"
+        },
+        {
+          "code": "PSYCH306",
+          "title": "Perception"
+        },
+        {
+          "code": "PSYCH307",
+          "title": "Human Neuropsychology"
+        },
+        {
+          "code": "SCI200",
+          "title": "Energy - Its Development, Use, and Issues"
+        },
+        {
+          "code": "SCI201",
+          "title": "Global Warming and Climate Change"
+        },
+        {
+          "code": "SCI238",
+          "title": "Introductory Astronomy"
+        },
+        {
+          "code": "SCI250",
+          "title": "Environmental Geology"
+        }
+      ],
+      "Technical Electives List": [
+        {
+          "code": "AMATH242",
+          "title": "Introduction to Computational Mathematics"
+        },
+        {
+          "code": "AMATH449",
+          "title": "Neural Networks"
+        },
+        {
+          "code": "CS360",
+          "title": "Introduction to the Theory of Computing"
+        },
+        {
+          "code": "CS365",
+          "title": "Models of Computation"
+        },
+        {
+          "code": "CS370",
+          "title": "Numerical Computation"
+        },
+        {
+          "code": "CS371",
+          "title": "Introduction to Computational Mathematics"
+        },
+        {
+          "code": "CS442",
+          "title": "Principles of Programming Languages"
+        },
+        {
+          "code": "CS444",
+          "title": "Compiler Construction"
+        },
+        {
+          "code": "CS448",
+          "title": "Database Systems Implementation"
+        },
+        {
+          "code": "CS450",
+          "title": "Computer Architecture"
+        },
+        {
+          "code": "CS451",
+          "title": "Data-Intensive Distributed Computing"
+        },
+        {
+          "code": "CS452",
+          "title": "Real-Time Programming"
+        },
+        {
+          "code": "CS453",
+          "title": "Software and Systems Security"
+        },
+        {
+          "code": "CS454",
+          "title": "Distributed Systems"
+        },
+        {
+          "code": "CS457",
+          "title": "System Performance Evaluation"
+        },
+        {
+          "code": "CS459",
+          "title": "Privacy, Cryptography, Network and Data Security"
+        },
+        {
+          "code": "CS462",
+          "title": "Formal Languages and Parsing"
+        },
+        {
+          "code": "CS466",
+          "title": "Algorithm Design and Analysis"
+        },
+        {
+          "code": "CS479",
+          "title": "Neural Networks"
+        },
+        {
+          "code": "CS480",
+          "title": "Introduction to Machine Learning"
+        },
+        {
+          "code": "CS484",
+          "title": "Computational Vision"
+        },
+        {
+          "code": "CS485",
+          "title": "Statistical and Computational Foundations of Machine Learning"
+        },
+        {
+          "code": "CS486",
+          "title": "Introduction to Artificial Intelligence"
+        },
+        {
+          "code": "CS487",
+          "title": "Introduction to Symbolic Computation"
+        },
+        {
+          "code": "CS488",
+          "title": "Introduction to Computer Graphics"
+        },
+        {
+          "code": "CS489",
+          "title": "Advanced Topics in Computer Science"
+        }
+      ],
+      "Additional Requirements": [
+        {
+          "code": "BIOL489",
+          "title": "Arctic Ecology"
+        },
+        {
+          "code": "EARTH270",
+          "title": "Disasters and Natural Hazards"
+        },
+        {
+          "code": "ENBUS102",
+          "title": "Introduction to Environment and Business"
+        },
+        {
+          "code": "ENBUS211",
+          "title": "Principles of Marketing for Sustainability Professionals"
+        },
+        {
+          "code": "ENGL248",
+          "title": "Literature for an Ailing Planet"
+        },
+        {
+          "code": "ENVS105",
+          "title": "Environmental Sustainability and Ethics"
+        },
+        {
+          "code": "ENVS200",
+          "title": "Field Ecology"
+        },
+        {
+          "code": "ENVS205",
+          "title": "Sustainability: The Future We Want"
+        },
+        {
+          "code": "ENVS220",
+          "title": "Ecological Economics"
+        },
+        {
+          "code": "ERS215",
+          "title": "Environmental and Sustainability Assessment 1"
+        },
+        {
+          "code": "ERS225",
+          "title": "Gendering Environmental Politics"
+        },
+        {
+          "code": "ERS253",
+          "title": "Communities and Sustainability"
+        },
+        {
+          "code": "ERS270",
+          "title": "Introduction to Sustainable Agroecosystems"
+        },
+        {
+          "code": "ERS294",
+          "title": "Spirituality, Religion, and Ecology"
+        },
+        {
+          "code": "ERS310",
+          "title": "Peace and the Environment"
+        },
+        {
+          "code": "ERS316",
+          "title": "Urban Water and Wastewater Systems: Integrated Planning and Management"
+        },
+        {
+          "code": "ERS320",
+          "title": "Economics and Sustainability"
+        },
+        {
+          "code": "ERS328",
+          "title": "Environmental Politics and System Change"
+        },
+        {
+          "code": "ERS361",
+          "title": "Food Systems and Sustainability"
+        },
+        {
+          "code": "ERS370",
+          "title": "Corporate Sustainability: Issues and Prospects"
+        },
+        {
+          "code": "ERS372",
+          "title": "First Nations and the Environment"
+        },
+        {
+          "code": "ERS404",
+          "title": "Global Environmental Governance"
+        },
+        {
+          "code": "GEOG203",
+          "title": "Environment and Development in a Global Perspective"
+        },
+        {
+          "code": "GEOG207",
+          "title": "Climate Change Fundamentals"
+        },
+        {
+          "code": "GEOG225",
+          "title": "Global Environment and Health"
+        },
+        {
+          "code": "GEOG361",
+          "title": "Food Systems and Sustainability"
+        },
+        {
+          "code": "GEOG459",
+          "title": "Energy and Sustainability"
+        },
+        {
+          "code": "PACS310",
+          "title": "Peace and the Environment"
+        },
+        {
+          "code": "PHIL224",
+          "title": "Environmental Ethics"
+        },
+        {
+          "code": "PLAN451",
+          "title": "Environmental Planning in Rural and Regional Systems"
+        },
+        {
+          "code": "PSCI432",
+          "title": "Global Environmental Governance"
+        },
+        {
+          "code": "RCS285",
+          "title": "Spirituality, Religion, and Ecology"
+        },
+        {
+          "code": "SCI200",
+          "title": "Energy - Its Development, Use, and Issues"
+        },
+        {
+          "code": "SCI201",
+          "title": "Global Warming and Climate Change"
+        },
+        {
+          "code": "HPERF374",
+          "title": "T"
+        }
+      ]
+    }
   },
   "requirements": [
     {
@@ -232,6 +801,38 @@
       "content": "req_term_4b",
       "explanations": [
         "Required courses in term 4B."
+      ]
+    },
+    {
+      "id": "list_req_UndergraduateCommunicationRequirement",
+      "type": "ANY",
+      "content": "course_list_undergraduatecommunicationrequirement",
+      "explanations": [
+        "Complete courses from Undergraduate Communication Requirement."
+      ]
+    },
+    {
+      "id": "list_req_NaturalScienceList",
+      "type": "ANY",
+      "content": "course_list_naturalsciencelist",
+      "explanations": [
+        "Complete courses from Natural Science List."
+      ]
+    },
+    {
+      "id": "list_req_TechnicalElectivesList",
+      "type": "ANY",
+      "content": "course_list_technicalelectiveslist",
+      "explanations": [
+        "Complete courses from Technical Electives List."
+      ]
+    },
+    {
+      "id": "list_req_AdditionalRequirements",
+      "type": "ANY",
+      "content": "course_list_additionalrequirements",
+      "explanations": [
+        "Complete courses from Additional Requirements."
       ]
     },
     {
@@ -328,6 +929,38 @@
       "content": "req_term_4b_any",
       "explanations": [
         "Complete 1 of the following courses in term 4B."
+      ]
+    },
+    {
+      "id": "course_list_undergraduatecommunicationrequirement",
+      "type": "ANY",
+      "content": "course_list_undergraduatecommunicationrequirement",
+      "explanations": [
+        "Complete courses from Undergraduate Communication Requirement."
+      ]
+    },
+    {
+      "id": "course_list_naturalsciencelist",
+      "type": "ANY",
+      "content": "course_list_naturalsciencelist",
+      "explanations": [
+        "Complete courses from Natural Science List."
+      ]
+    },
+    {
+      "id": "course_list_technicalelectiveslist",
+      "type": "ANY",
+      "content": "course_list_technicalelectiveslist",
+      "explanations": [
+        "Complete courses from Technical Electives List."
+      ]
+    },
+    {
+      "id": "course_list_additionalrequirements",
+      "type": "ANY",
+      "content": "course_list_additionalrequirements",
+      "explanations": [
+        "Complete courses from Additional Requirements."
       ]
     }
   ]

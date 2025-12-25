@@ -5,9 +5,19 @@ export interface CourseNode {
   code: string;
   title: string;
   credits: number;
-  description: string;
+  description: string | null;
   subject: string;
   level: number;
+  // UWFlow data (optional)
+  uwflow_rating_liked?: number;
+  uwflow_rating_easy?: number;
+  uwflow_rating_useful?: number;
+  uwflow_rating_filled_count?: number;
+  uwflow_rating_comment_count?: number;
+  uwflow_url?: string;
+  uwflow_prereqs?: string;
+  uwflow_coreqs?: string;
+  uwflow_antireqs?: string;
 }
 
 export interface CourseEdge {

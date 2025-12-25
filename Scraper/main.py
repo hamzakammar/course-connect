@@ -11,8 +11,7 @@ def main():
             print(course_code)
 
             course = uwflow_api.fetch_course(course_code)
-            if course:  # Only write if course was found
-                # Convert dataclass to dict, then write as JSONL
+            if course:
                 f.write(json.dumps(asdict(course), ensure_ascii=False) + '\n')
 if __name__ == "__main__":
     main()

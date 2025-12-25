@@ -8,6 +8,15 @@ interface CourseDetailProps {
 }
 
 const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses }) => {
+  // Debug: log course data to see if UWFlow fields are present
+  console.log('CourseDetail - course data:', {
+    code: course.code,
+    hasLiked: 'uwflow_rating_liked' in course,
+    liked: course.uwflow_rating_liked,
+    hasEasy: 'uwflow_rating_easy' in course,
+    easy: course.uwflow_rating_easy,
+  });
+
   const courseMap = new Map<string, CourseNode>();
   allCourses.forEach(c => courseMap.set(c.code, c));
 
@@ -19,9 +28,19 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses }
                 .filter(Boolean) as CourseNode[];
   };
 
-  const prerequisites = getRelatedCourses(course.code, 'prereq');
-  const corequisites = getRelatedCourses(course.code, 'coreq');
-  const exclusions = getRelatedCourses(course.code, 'exclusion');
+  const prerequisites = getRelatedCourses(course.code, 'PREREQ');
+  const corequisites = getRelatedCourses(course.code, 'COREQ');
+  const exclusions = getRelatedCourses(course.code, 'ANTIREQ');
+
+  const formatRating = (rating: number | undefined) => {
+    if (rating === undefined || rating === null) return 'N/A';
+    return `${(rating * 100).toFixed(0)}%`;
+  };
+
+  // Check if course has UWFlow ratings
+  const hasRatings = course.uwflow_rating_liked != null || 
+                     course.uwflow_rating_easy != null || 
+                     course.uwflow_rating_useful != null;
 
   return (
     <div className="course-detail">
@@ -29,7 +48,43 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses }
       <p><strong>Credits:</strong> {course.credits}</p>
       <p><strong>Subject:</strong> {course.subject}</p>
       <p><strong>Level:</strong> {course.level}</p>
-      <p><strong>Description:</strong> {course.description}</p>
+      {course.description && (
+        <p><strong>Description:</strong> {course.description}</p>
+      )}
+
+      {/* UWFlow Ratings */}
+      {hasRatings && (
+        <div>
+          <h3>UWFlow Ratings</h3>
+          {course.uwflow_rating_liked != null && (
+            <p>
+              <strong>Liked:</strong> {formatRating(course.uwflow_rating_liked)}
+              {course.uwflow_rating_filled_count != null && (
+                <span style={{ color: '#666', fontSize: '0.9em' }}>
+                  {' '}({course.uwflow_rating_filled_count} responses)
+                </span>
+              )}
+            </p>
+          )}
+          {course.uwflow_rating_easy != null && (
+            <p>
+              <strong>Easy:</strong> {formatRating(course.uwflow_rating_easy)}
+            </p>
+          )}
+          {course.uwflow_rating_useful != null && (
+            <p>
+              <strong>Useful:</strong> {formatRating(course.uwflow_rating_useful)}
+            </p>
+          )}
+          {course.uwflow_url && (
+            <p>
+              <a href={course.uwflow_url} target="_blank" rel="noopener noreferrer" style={{ color: '#0066cc' }}>
+                View on UWFlow →
+              </a>
+            </p>
+          )}
+        </div>
+      )}
 
       {prerequisites.length > 0 && (
         <div>

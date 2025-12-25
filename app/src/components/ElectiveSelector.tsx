@@ -29,7 +29,7 @@ const ElectiveSelector: React.FC<ElectiveSelectorProps> = ({
   });
 
   const getPrerequisites = (courseCode: string): CourseNode[] => {
-    const prereqEdges = edges.filter(edge => edge.target === courseCode && edge.type === 'prereq');
+    const prereqEdges = edges.filter(edge => edge.target === courseCode && edge.type === 'PREREQ');
     const prereqCourseCodes = prereqEdges.map(edge => edge.source);
     return prereqCourseCodes.map(code => courses.find(c => c.code === code)).filter(Boolean) as CourseNode[];
   };

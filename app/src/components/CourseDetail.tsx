@@ -2,12 +2,23 @@ import React from 'react';
 import { CourseNode, CourseEdge } from '../context/AppDataContext';
 
 interface CourseDetailProps {
-  course: CourseNode;
+  course: CourseNode | null;
   edges: CourseEdge[];
   allCourses: CourseNode[]; // For looking up related course details
 }
 
 const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses }) => {
+  // Show placeholder if no course is selected
+  if (!course) {
+    return (
+      <div className="course-detail">
+        <h2>Course Details</h2>
+        <p style={{ color: '#666', fontStyle: 'italic' }}>
+          Select a course to view details, prerequisites, and ratings.
+        </p>
+      </div>
+    );
+  }
   // Debug: log course data to see if UWFlow fields are present
   console.log('CourseDetail - course data:', {
     code: course.code,
@@ -92,6 +103,12 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses }
           <ul>
             {prerequisites.map(p => <li key={p.id}>{p.code} - {p.title}</li>)}
           </ul>
+        </div>
+      )}
+      {prerequisites.length === 0 && (
+        <div>
+          <h3>Prerequisites:</h3>
+          <p>No prerequisites found</p>
         </div>
       )}
 

@@ -88,7 +88,6 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
 
   return (
     <div className="requirement-boxes">
-      <h2>Additional Requirements</h2>
       <div className="requirement-boxes-grid">
         {allRequirements.map(req => (
           <div

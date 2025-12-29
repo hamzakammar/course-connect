@@ -170,15 +170,21 @@ function App() {
   };
 
   const handleViewCourseDetail = (courseCode: string) => {
-    const course = appData?.nodes.find(node => node.code === courseCode);
+    const normalizeCode = (code: string) => code.replace(/\s+/g, '').toUpperCase();
+    const normalizedCode = normalizeCode(courseCode);
+    const course = appData?.nodes.find(node => normalizeCode(node.code) === normalizedCode);
     if (course) {
       setCourseDetail(course);
+    } else {
+      console.warn(`Course not found: ${courseCode} (normalized: ${normalizedCode})`);
     }
   };
 
   return (
     <div className="App">
-      <h1>Course Connect Planner</h1>
+      <div className="app-header">
+        <h1>Course Connect Planner</h1>
+      </div>
       
       <div className="main-content">
         <div className="left-panel">
@@ -195,7 +201,7 @@ function App() {
           />
         </div>
         
-        <div className="right-panel">
+        <div className="middle-panel">
           <RequirementBoxes
             courses={appData.nodes}
             selectedCourses={selectedCourses}
@@ -204,14 +210,14 @@ function App() {
             onCourseSelect={handleCourseSelect}
             onCourseDeselect={handleCourseDeselect}
           />
-          
-          {courseDetail && (
-            <CourseDetail
-              course={courseDetail}
-              edges={appData.edges}
-              allCourses={appData.nodes}
-            />
-          )}
+        </div>
+        
+        <div className="rightmost-panel">
+          <CourseDetail
+            course={courseDetail}
+            edges={appData.edges}
+            allCourses={appData.nodes}
+          />
         </div>
       </div>
       

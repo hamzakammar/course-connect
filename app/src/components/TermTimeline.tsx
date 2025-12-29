@@ -94,7 +94,6 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
 
   return (
     <div className="term-timeline">
-      <h2>{programInfo?.title || "Degree Program Plan"}</h2>
       <div className="term-timeline-container">
         {termOrder.map((term, index) => {
           const termCourses = requiredByTerm[term] || [];
@@ -136,9 +135,6 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
           
           return (
             <div key={term} className="term-box-wrapper">
-              {/* Connector line (except for first term) */}
-              {index > 0 && <div className="term-connector" />}
-              
               <div className="term-box">
                 <div className="term-header">
                   <h3 className="term-label">{term}</h3>

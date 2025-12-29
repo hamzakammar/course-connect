@@ -4,6 +4,22 @@
   max-width: 1600px;
 }
 
+.app-header {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  margin-bottom: 2rem;
+  padding: 0 2rem;
+}
+
+.app-header h1 {
+  text-align: center;
+  margin: 0;
+}
+
 .main-content {
   display: flex;
   gap: 2rem;
@@ -16,11 +32,17 @@
   min-width: 0;
 }
 
-.right-panel {
+.middle-panel {
   flex: 0 0 400px;
   display: flex;
   flex-direction: column;
   gap: 2rem;
+}
+
+.rightmost-panel {
+  flex: 0 0 350px;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Term Timeline Styles */
@@ -354,15 +376,78 @@
   text-align: center;
 }
 
+/* Course Detail Styles */
+.course-detail {
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 2rem;
+  color: #333;
+}
+
+.course-detail h2 {
+  margin-top: 0;
+  color: #4a90e2;
+  border-bottom: 2px solid #4a90e2;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.course-detail h3 {
+  color: #333;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.course-detail p {
+  margin: 0.5rem 0;
+  line-height: 1.6;
+  color: #333;
+}
+
+.course-detail ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+  color: #333;
+}
+
+.course-detail li {
+  margin: 0.25rem 0;
+  color: #333;
+}
+
+.course-detail strong {
+  color: #333;
+  font-weight: 600;
+}
+
+.course-detail a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.course-detail a:hover {
+  text-decoration: underline;
+}
+
 /* Responsive Design */
 @media (max-width: 1200px) {
   .main-content {
     flex-direction: column;
   }
   
-  .right-panel {
+  .middle-panel,
+  .rightmost-panel {
     flex: 1;
     width: 100%;
+  }
+  
+  .course-detail {
+    position: static;
   }
 }
 

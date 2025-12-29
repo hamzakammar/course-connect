@@ -25,6 +25,7 @@ export interface CourseEdge {
   target: string;
   type: string;
   logic: string;
+  group_id?: string;
 }
 
 export interface CourseSet {

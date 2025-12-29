@@ -30,10 +30,16 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
   const normalizeCode = (code: string) => code.replace(/\s+/g, '');
 
   // Build credits and title fallback maps from programLists
+  // Handle both formats: Record<string, Array<{code, title}>> and Record<string, {list_name, courses}>
   const creditsFallback = new Map<string, number>();
   const titleFallback = new Map<string, string>();
   Object.values(programLists?.course_lists || {}).forEach(list => {
-    (list.courses || []).forEach((c: { code: string; units?: string; title?: string | null }) => {
+    // Check if list is an array (direct format) or an object with courses property
+    const courses = Array.isArray(list) 
+      ? list 
+      : (list as any)?.courses || [];
+    
+    courses.forEach((c: { code: string; units?: string; title?: string | null }) => {
       const normalizedCode = normalizeCode(c.code);
       if (c.units) {
         const units = parseFloat(c.units);
@@ -65,13 +71,19 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
     return titleFallback.get(code) || '';
   };
 
-  const allRequirements = Object.values(programLists?.course_lists || {}).map(list => {
-    const codes = (list.courses || []).map((c: { code: string }) => normalizeCode(c.code));
-    const isFulfilled = codes.some(code => selectedCourses.has(code));
+  // Handle both formats: Record<string, Array<{code, title}>> and Record<string, {list_name, courses}>
+  const allRequirements = Object.entries(programLists?.course_lists || {}).map(([listName, list]) => {
+    // Check if list is an array (direct format) or an object with courses property
+    const courses = Array.isArray(list) 
+      ? list 
+      : (list as any)?.courses || [];
+    
+    const codes = courses.map((c: { code: string }) => normalizeCode(c.code));
+    const isFulfilled = codes.some((code: string) => selectedCourses.has(code));
 
     return {
-      id: list.list_name,
-      title: list.list_name,
+      id: listName,
+      title: listName,
       codes,
       isFulfilled,
     };
@@ -113,7 +125,7 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
               <div className="requirement-courses">
                 {req.codes.length > 0 ? (
                   <ul className="requirement-course-list">
-                    {req.codes.map(code => {
+                    {req.codes.map((code: string) => {
                       const isSelected = selectedCourses.has(code);
                       const credits = getCourseCredits(code);
                       const title = getCourseTitle(code);
@@ -122,20 +134,17 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
                         <li
                           key={code}
                           className={`requirement-course-item ${isSelected ? 'course-selected' : ''}`}
+                          onClick={e => {
+                            e.preventDefault();
+                            onViewCourseDetail(code);
+                          }}
                         >
-                          <a
-                            href="#"
-                            onClick={e => {
-                              e.preventDefault();
-                              onViewCourseDetail(code);
-                            }}
-                            className="course-link"
-                          >
+                          <div className="course-link">
                             <span className="course-code">{code}</span>
                             <span className="course-title">{title}</span>
                             <span className="course-units">{credits.toFixed(2)}</span>
                             {isSelected && <span className="selected-indicator">✓</span>}
-                          </a>
+                          </div>
                           {onCourseSelect && onCourseDeselect && (
                             <button
                               className="course-toggle-btn"

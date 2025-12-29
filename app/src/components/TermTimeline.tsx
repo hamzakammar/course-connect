@@ -154,20 +154,17 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
                             <li 
                               key={course.code} 
                               className={`term-course-item ${selectedCourses.has(course.code) ? 'course-selected' : ''}`}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                onViewCourseDetail(course.code);
+                              }}
                             >
-                              <a 
-                                href="#" 
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  onViewCourseDetail(course.code);
-                                }}
-                                className="course-link"
-                              >
+                              <div className="course-link">
                                 <span className="course-code">{course.code}</span>
                                 <span className="course-title">{title}</span>
                                 <span className="course-units">{credits.toFixed(2)}</span>
                                 {selectedCourses.has(course.code) && <span className="selected-indicator">✓</span>}
-                              </a>
+                              </div>
                               {onCourseSelect && onCourseDeselect && (
                                 <button
                                   className="course-toggle-btn"
@@ -203,20 +200,17 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
                             <li 
                               key={courseCode} 
                               className={`term-course-item term-course-any ${selectedCourses.has(courseCode) ? 'course-selected' : ''}`}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                onViewCourseDetail(courseCode);
+                              }}
                             >
-                              <a 
-                                href="#" 
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  onViewCourseDetail(courseCode);
-                                }}
-                                className="course-link"
-                              >
+                              <div className="course-link">
                                 <span className="course-code">{courseCode}</span>
                                 <span className="course-title">{title}</span>
                                 <span className="course-units">{credits.toFixed(2)}</span>
                                 {selectedCourses.has(courseCode) && <span className="selected-indicator">✓</span>}
-                              </a>
+                              </div>
                               {onCourseSelect && onCourseDeselect && (
                                 <button
                                   className="course-toggle-btn"
@@ -296,20 +290,17 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
                               <li
                                 key={code}
                                 className={`term-course-item term-course-any ${isSelected ? 'course-selected' : ''}`}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  onViewCourseDetail(code);
+                                }}
                               >
-                                <a
-                                  href="#"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    onViewCourseDetail(code);
-                                  }}
-                                  className="course-link"
-                                >
+                                <div className="course-link">
                                   <span className="course-code">{code}</span>
                                   <span className="course-title">{title}</span>
                                   <span className="course-units">{credits.toFixed(2)}</span>
                                   {isSelected && <span className="selected-indicator">✓</span>}
-                                </a>
+                                </div>
                                 {onCourseSelect && onCourseDeselect && (
                                   <button
                                     className="course-toggle-btn"

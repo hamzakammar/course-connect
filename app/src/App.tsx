@@ -217,6 +217,7 @@ function App() {
             course={courseDetail}
             edges={appData.edges}
             allCourses={appData.nodes}
+            onViewCourseDetail={handleViewCourseDetail}
           />
         </div>
       </div>

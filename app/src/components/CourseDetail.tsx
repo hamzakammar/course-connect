@@ -5,9 +5,10 @@ interface CourseDetailProps {
   course: CourseNode | null;
   edges: CourseEdge[];
   allCourses: CourseNode[]; // For looking up related course details
+  onViewCourseDetail?: (courseCode: string) => void; // Optional callback to view related courses
 }
 
-const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses }) => {
+const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses, onViewCourseDetail }) => {
   // Show placeholder if no course is selected
   if (!course) {
     return (
@@ -28,20 +29,97 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses }
     easy: course.uwflow_rating_easy,
   });
 
+  // Normalize course codes for matching (remove spaces, uppercase)
+  const normalizeCode = (code: string) => code.replace(/\s+/g, '').toUpperCase();
+  
+  // Create normalized maps for lookups
   const courseMap = new Map<string, CourseNode>();
-  allCourses.forEach(c => courseMap.set(c.code, c));
+  const normalizedCourseMap = new Map<string, CourseNode>();
+  allCourses.forEach(c => {
+    courseMap.set(c.code, c);
+    normalizedCourseMap.set(normalizeCode(c.code), c);
+  });
 
-  const getRelatedCourses = (targetCourseCode: string, relationType: string) => {
+  interface RelatedCourseWithEdge {
+    course: CourseNode | { code: string; title: string; id: string };
+    logic?: string;
+    groupId?: string;
+  }
+
+  const getRelatedCourses = (targetCourseCode: string, relationType: string): RelatedCourseWithEdge[] => {
+    // Normalize the target course code for matching
+    const normalizedTarget = normalizeCode(targetCourseCode);
+    
     // Edges point FROM the related course TO the target course
     // So for prerequisites of CS241, we want edges where target === CS241
-    return edges.filter(edge => edge.target === targetCourseCode && edge.type === relationType)
-                .map(edge => courseMap.get(edge.source))
-                .filter(Boolean) as CourseNode[];
+    // Normalize both edge.target and edge.source for matching
+    const matchingEdges = edges.filter(edge => 
+      normalizeCode(edge.target) === normalizedTarget && 
+      edge.type === relationType
+    );
+    
+    // Try to find full course details, but also include codes we can't find
+    const relatedCourses: RelatedCourseWithEdge[] = [];
+    const foundCodes = new Set<string>();
+    
+    for (const edge of matchingEdges) {
+      const normalizedSource = normalizeCode(edge.source);
+      const course = normalizedCourseMap.get(normalizedSource);
+      
+      if (!foundCodes.has(normalizedSource)) {
+        let courseData: CourseNode;
+        if (course) {
+          courseData = course;
+        } else {
+          // Include course code even if we don't have full details
+          courseData = {
+            code: edge.source,
+            title: edge.source, // Fallback to code as title
+            id: `missing-${edge.source}`,
+          } as CourseNode;
+        }
+        
+        relatedCourses.push({
+          course: courseData,
+          logic: edge.logic,
+          groupId: edge.group_id,
+        });
+        foundCodes.add(normalizedSource);
+      }
+    }
+    
+    return relatedCourses;
   };
 
   const prerequisites = getRelatedCourses(course.code, 'PREREQ');
   const corequisites = getRelatedCourses(course.code, 'COREQ');
   const exclusions = getRelatedCourses(course.code, 'ANTIREQ');
+  
+  // Use corequisites as-is (data should be correct)
+  const filteredCorequisites = corequisites;
+
+  // Group related courses by group_id when logic is "ANY" (one of)
+  const groupRelatedCourses = (relatedCourses: RelatedCourseWithEdge[]) => {
+    const groups: Map<string, RelatedCourseWithEdge[]> = new Map();
+    const ungrouped: RelatedCourseWithEdge[] = [];
+    
+    for (const item of relatedCourses) {
+      if (item.logic === 'ANY' && item.groupId) {
+        if (!groups.has(item.groupId)) {
+          groups.set(item.groupId, []);
+        }
+        groups.get(item.groupId)!.push(item);
+      } else {
+        ungrouped.push(item);
+      }
+    }
+    
+    return { groups, ungrouped };
+  };
+
+  const prereqGroups = groupRelatedCourses(prerequisites);
+  const coreqGroups = groupRelatedCourses(filteredCorequisites);
+  const antireqGroups = groupRelatedCourses(exclusions);
 
   const formatRating = (rating: number | undefined) => {
     if (rating === undefined || rating === null) return 'N/A';
@@ -64,71 +142,183 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses }
       )}
 
       {/* UWFlow Ratings */}
-      {hasRatings && (
-        <div>
-          <h3>UWFlow Ratings</h3>
-          {course.uwflow_rating_liked != null && (
-            <p>
-              <strong>Liked:</strong> {formatRating(course.uwflow_rating_liked)}
-              {course.uwflow_rating_filled_count != null && (
-                <span style={{ color: '#666', fontSize: '0.9em' }}>
-                  {' '}({course.uwflow_rating_filled_count} responses)
-                </span>
-              )}
-            </p>
-          )}
-          {course.uwflow_rating_easy != null && (
-            <p>
-              <strong>Easy:</strong> {formatRating(course.uwflow_rating_easy)}
-            </p>
-          )}
-          {course.uwflow_rating_useful != null && (
-            <p>
-              <strong>Useful:</strong> {formatRating(course.uwflow_rating_useful)}
-            </p>
-          )}
-          {course.uwflow_url && (
-            <p>
-              <a href={course.uwflow_url} target="_blank" rel="noopener noreferrer" style={{ color: '#0066cc' }}>
-                View on UWFlow →
-              </a>
-            </p>
-          )}
-        </div>
-      )}
+      <div>
+        <h3>UWFlow Ratings</h3>
+        {hasRatings ? (
+          <>
+            {course.uwflow_rating_liked != null && (
+              <p>
+                <strong>Liked:</strong> {formatRating(course.uwflow_rating_liked)}
+                {course.uwflow_rating_filled_count != null && (
+                  <span style={{ color: '#666', fontSize: '0.9em' }}>
+                    {' '}({course.uwflow_rating_filled_count} responses)
+                  </span>
+                )}
+              </p>
+            )}
+            {course.uwflow_rating_easy != null && (
+              <p>
+                <strong>Easy:</strong> {formatRating(course.uwflow_rating_easy)}
+              </p>
+            )}
+            {course.uwflow_rating_useful != null && (
+              <p>
+                <strong>Useful:</strong> {formatRating(course.uwflow_rating_useful)}
+              </p>
+            )}
+            {course.uwflow_url && (
+              <p>
+                <a href={course.uwflow_url} target="_blank" rel="noopener noreferrer" style={{ color: '#0066cc' }}>
+                  View on UWFlow →
+                </a>
+              </p>
+            )}
+          </>
+        ) : (
+          <p style={{ color: '#666', fontStyle: 'italic' }}>
+            No UWFlow ratings available for this course.
+          </p>
+        )}
+      </div>
 
-      {prerequisites.length > 0 && (
-        <div>
-          <h3>Prerequisites:</h3>
+      <div>
+        <h3>Prerequisites:</h3>
+        {prerequisites.length > 0 || prereqGroups.groups.size > 0 ? (
           <ul>
-            {prerequisites.map(p => <li key={p.id}>{p.code} - {p.title}</li>)}
+            {/* Render "one of" groups */}
+            {Array.from(prereqGroups.groups.entries()).map(([groupId, groupItems]) => (
+              <li key={groupId} style={{ marginBottom: '0.5rem' }}>
+                <strong style={{ color: '#4a90e2' }}>One of:</strong>
+                <ul style={{ marginTop: '0.25rem', marginLeft: '1.5rem', listStyle: 'disc' }}>
+                  {groupItems.map((item, idx) => (
+                    <li key={`${groupId}-${idx}`}>
+                      {onViewCourseDetail ? (
+                        <a 
+                          href="#" 
+                          onClick={(e) => {
+                            e.preventDefault();
+                            onViewCourseDetail(item.course.code);
+                          }}
+                          style={{ color: '#0066cc', textDecoration: 'underline', cursor: 'pointer' }}
+                        >
+                          {item.course.code} - {item.course.title}
+                        </a>
+                      ) : (
+                        <span>{item.course.code} - {item.course.title}</span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+            {/* Render ungrouped prerequisites */}
+            {prereqGroups.ungrouped.map(p => (
+              <li key={p.course.id}>
+                {onViewCourseDetail ? (
+                  <a 
+                    href="#" 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onViewCourseDetail(p.course.code);
+                    }}
+                    style={{ color: '#0066cc', textDecoration: 'underline', cursor: 'pointer' }}
+                  >
+                    {p.course.code} - {p.course.title}
+                  </a>
+                ) : (
+                  <span>{p.course.code} - {p.course.title}</span>
+                )}
+              </li>
+            ))}
           </ul>
-        </div>
-      )}
-      {prerequisites.length === 0 && (
-        <div>
-          <h3>Prerequisites:</h3>
-          <p>No prerequisites found</p>
-        </div>
-      )}
+        ) : (
+          <p style={{ color: '#666', fontStyle: 'italic' }}>No prerequisites found</p>
+        )}
+      </div>
 
-      {corequisites.length > 0 && (
-        <div>
-          <h3>Corequisites:</h3>
+      <div>
+        <h3>Corequisites:</h3>
+        {filteredCorequisites.length > 0 || coreqGroups.groups.size > 0 ? (
           <ul>
-            {corequisites.map(c => <li key={c.id}>{c.code} - {c.title}</li>)}
+            {/* Render "one of" groups */}
+            {Array.from(coreqGroups.groups.entries()).map(([groupId, groupItems]) => (
+              <li key={groupId} style={{ marginBottom: '0.5rem' }}>
+                <strong style={{ color: '#4a90e2' }}>One of:</strong>
+                <ul style={{ marginTop: '0.25rem', marginLeft: '1.5rem', listStyle: 'disc' }}>
+                  {groupItems.map((item, idx) => (
+                    <li key={`${groupId}-${idx}`}>
+                      {onViewCourseDetail ? (
+                        <a 
+                          href="#" 
+                          onClick={(e) => {
+                            e.preventDefault();
+                            onViewCourseDetail(item.course.code);
+                          }}
+                          style={{ color: '#0066cc', textDecoration: 'underline', cursor: 'pointer' }}
+                        >
+                          {item.course.code} - {item.course.title}
+                        </a>
+                      ) : (
+                        <span>{item.course.code} - {item.course.title}</span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+            {/* Render ungrouped corequisites */}
+            {coreqGroups.ungrouped.map(c => (
+              <li key={c.course.id}>
+                {onViewCourseDetail ? (
+                  <a 
+                    href="#" 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onViewCourseDetail(c.course.code);
+                    }}
+                    style={{ color: '#0066cc', textDecoration: 'underline', cursor: 'pointer' }}
+                  >
+                    {c.course.code} - {c.course.title}
+                  </a>
+                ) : (
+                  <span>{c.course.code} - {c.course.title}</span>
+                )}
+              </li>
+            ))}
           </ul>
-        </div>
-      )}
+        ) : (
+          <p style={{ color: '#666', fontStyle: 'italic' }}>No corequisites found</p>
+        )}
+      </div>
 
-      {exclusions.length > 0 && (
-        <div>
-          <h3>Antirequisites (Exclusions):</h3>
+      <div>
+        <h3>Antirequisites (Exclusions):</h3>
+        {exclusions.length > 0 ? (
           <ul>
-            {exclusions.map(e => <li key={e.id}>{e.code} - {e.title}</li>)}
+            {/* Antirequisites are always shown as a flat list (no "one of" grouping) */}
+            {exclusions.map(excl => (
+              <li key={excl.course.id}>
+                {onViewCourseDetail ? (
+                  <a 
+                    href="#" 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onViewCourseDetail(excl.course.code);
+                    }}
+                    style={{ color: '#0066cc', textDecoration: 'underline', cursor: 'pointer' }}
+                  >
+                    {excl.course.code} - {excl.course.title}
+                  </a>
+                ) : (
+                  <span>{excl.course.code} - {excl.course.title}</span>
+                )}
+              </li>
+            ))}
           </ul>
-        </div>
-      )}
+        ) : (
+          <p style={{ color: '#666', fontStyle: 'italic' }}>No antirequisites found</p>
+        )}
+      </div>
     </div>
   );
 };

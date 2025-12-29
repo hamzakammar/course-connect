@@ -51,9 +51,26 @@ const ElectiveSelector: React.FC<ElectiveSelectorProps> = ({
       />
       <div className="elective-list">
         {availableElectives.map(course => (
-          <div key={course.id} className="elective-item">
-            <a href="#" onClick={() => onViewCourseDetail(course.code)}>{course.code} - {course.title} ({course.credits} credits)</a>
-            <button onClick={() => onCourseSelect(course.code)}>Add</button>
+          <div 
+            key={course.id} 
+            className="elective-item"
+            onClick={(e) => {
+              e.preventDefault();
+              onViewCourseDetail(course.code);
+            }}
+          >
+            <div className="elective-main">
+              <span>{course.code} - {course.title} ({course.credits} credits)</span>
+            </div>
+            <button 
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onCourseSelect(course.code);
+              }}
+            >
+              Add
+            </button>
             <div className="prerequisites">
               {getPrerequisites(course.code).length > 0 && (
                 <p>Prerequisites: 

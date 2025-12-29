@@ -164,6 +164,12 @@
 .term-course-item {
   padding: 0.5rem 0;
   border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.term-course-item:hover {
+  background-color: #f5f5f5;
 }
 
 .term-course-item:last-child {
@@ -189,10 +195,7 @@
   gap: 0.5rem;
   align-items: flex-start;
   transition: color 0.2s;
-}
-
-.course-link:hover {
-  color: #4a90e2;
+  pointer-events: none; /* Let the parent handle clicks */
 }
 
 .course-code {
@@ -343,6 +346,7 @@
   border-radius: 6px;
   border-left: 3px solid #e0e0e0;
   transition: all 0.2s;
+  cursor: pointer;
 }
 
 .requirement-course-item:hover {
@@ -360,6 +364,7 @@
   align-items: center;
   gap: 0.75rem;
   justify-content: space-between;
+  pointer-events: none; /* Let the parent handle clicks */
 }
 
 .selected-indicator {
@@ -374,6 +379,29 @@
   margin: 0;
   padding: 1rem;
   text-align: center;
+}
+
+/* Elective Selector Styles */
+.elective-item {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: #f9f9f9;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.elective-item:hover {
+  background: #f0f0f0;
+  border-color: #4a90e2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.elective-main {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
 }
 
 /* Course Detail Styles */

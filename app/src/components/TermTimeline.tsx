@@ -95,7 +95,7 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
   return (
     <div className="term-timeline">
       <div className="term-timeline-container">
-        {termOrder.map((term, index) => {
+        {termOrder.map((term) => {
           const termCourses = requiredByTerm[term] || [];
           const anyReq = anyReqMap.get(term);
           const electiveCodesForTerm = Object.entries(electiveAssignments)

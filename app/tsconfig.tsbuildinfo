@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/components/coursedetail.tsx","./src/components/electiveselector.tsx","./src/components/requirementboxes.tsx","./src/components/termcourselist.tsx","./src/components/termtimeline.tsx","./src/context/appdatacontext.tsx"],"version":"5.9.3"}

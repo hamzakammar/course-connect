@@ -102,6 +102,7 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
           const electiveCodesForTerm = Object.entries(electiveAssignments)
             .filter(([_, assignedTerm]) => assignedTerm === term)
             .map(([code]) => code);
+          const electiveRequirement = programInfo?.elective_requirements_by_term?.[term];
           
           // Calculate selected credits for this term
           const selectedCredits = (() => {
@@ -243,8 +244,102 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
                     </div>
                   )}
 
-                  {/* Electives explicitly assigned to this term */}
-                  {electiveCodesForTerm.length > 0 && (
+                  {/* Elective requirements */}
+                  {electiveRequirement && (
+                    <div className="term-section term-section-electives">
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                        <h4 className="term-section-title">
+                          {electiveRequirement.description || 'Approved'} Electives ({electiveCodesForTerm.length}/{electiveRequirement.count})
+                        </h4>
+                        {electiveCodesForTerm.length < electiveRequirement.count && onCourseSelect && (
+                          <button
+                            className="add-elective-btn"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              const input = window.prompt(
+                                `Enter course code for ${electiveRequirement.description || 'approved'} elective:`,
+                                ''
+                              );
+                              if (input && input.trim()) {
+                                const courseCode = input.trim().toUpperCase();
+                                onCourseSelect(courseCode, term);
+                              }
+                            }}
+                            style={{
+                              padding: '0.25rem 0.5rem',
+                              fontSize: '0.85rem',
+                              backgroundColor: '#4CAF50',
+                              color: 'white',
+                              border: 'none',
+                              borderRadius: '4px',
+                              cursor: 'pointer'
+                            }}
+                          >
+                            + Add Elective
+                          </button>
+                        )}
+                      </div>
+                      {electiveCodesForTerm.length < electiveRequirement.count && (
+                        <p style={{ 
+                          fontSize: '0.85rem', 
+                          color: '#666', 
+                          fontStyle: 'italic',
+                          marginBottom: '0.5rem'
+                        }}>
+                          Complete {electiveRequirement.count - electiveCodesForTerm.length} more {electiveRequirement.description || 'approved'} elective{electiveRequirement.count - electiveCodesForTerm.length > 1 ? 's' : ''}
+                        </p>
+                      )}
+                      {electiveCodesForTerm.length > 0 && (
+                        <ul className="term-course-list">
+                          {electiveCodesForTerm.map(code => {
+                            const isSelected = selectedCourses.has(code);
+                            const credits = getCourseCredits(code);
+                            const title = getCourseTitle(code);
+                            return (
+                              <li
+                                key={code}
+                                className={`term-course-item term-course-any ${isSelected ? 'course-selected' : ''}`}
+                              >
+                                <a
+                                  href="#"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    onViewCourseDetail(code);
+                                  }}
+                                  className="course-link"
+                                >
+                                  <span className="course-code">{code}</span>
+                                  <span className="course-title">{title}</span>
+                                  <span className="course-units">{credits.toFixed(2)}</span>
+                                  {isSelected && <span className="selected-indicator">✓</span>}
+                                </a>
+                                {onCourseSelect && onCourseDeselect && (
+                                  <button
+                                    className="course-toggle-btn"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      e.stopPropagation();
+                                      if (isSelected) {
+                                        onCourseDeselect(code, term);
+                                      } else {
+                                        onCourseSelect(code, term);
+                                      }
+                                    }}
+                                  >
+                                    {isSelected ? 'Deselect' : 'Select'}
+                                  </button>
+                                )}
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      )}
+                    </div>
+                  )}
+                  
+                  {/* Legacy: Electives explicitly assigned to this term (if no requirement defined) */}
+                  {!electiveRequirement && electiveCodesForTerm.length > 0 && (
                     <div className="term-section term-section-any">
                       <h4 className="term-section-title">Electives</h4>
                       <ul className="term-course-list">

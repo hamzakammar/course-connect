@@ -1,0 +1,402 @@
+[
+  {
+    "id_hint": "req_term_1a",
+    "mode": "explicit",
+    "title": "Required 1A",
+    "courses": [
+      "CS137",
+      "CHE102",
+      "MATH115",
+      "MATH117",
+      "MATH135",
+      "SE101"
+    ]
+  },
+  {
+    "id_hint": "req_term_1b",
+    "mode": "explicit",
+    "title": "Required 1B",
+    "courses": [
+      "CS138",
+      "ECE124",
+      "ECE140",
+      "ECE192",
+      "MATH119",
+      "SE102"
+    ]
+  },
+  {
+    "id_hint": "req_term_2a",
+    "mode": "explicit",
+    "title": "Required 2A",
+    "courses": [
+      "CS241",
+      "ECE222",
+      "SE201",
+      "SE212",
+      "STAT206"
+    ]
+  },
+  {
+    "id_hint": "req_term_2b",
+    "mode": "explicit",
+    "title": "Required 2B",
+    "courses": [
+      "CS240",
+      "CS247",
+      "CS348",
+      "MATH239",
+      "SE202"
+    ]
+  },
+  {
+    "id_hint": "req_term_3a",
+    "mode": "explicit",
+    "title": "Required 3A",
+    "courses": [
+      "CS341",
+      "MATH213",
+      "SE301",
+      "SE350",
+      "SE464",
+      "SE465"
+    ]
+  },
+  {
+    "id_hint": "req_term_3b",
+    "mode": "explicit",
+    "title": "Required 3B",
+    "courses": [
+      "CS343",
+      "ECE358",
+      "SE302",
+      "SE380",
+      "SE463"
+    ]
+  },
+  {
+    "id_hint": "req_term_4a",
+    "mode": "explicit",
+    "title": "Required 4A",
+    "courses": [
+      "SE401"
+    ]
+  },
+  {
+    "id_hint": "req_term_4b",
+    "mode": "explicit",
+    "title": "Required 4B",
+    "courses": [
+      "SE402"
+    ]
+  },
+  {
+    "id_hint": "course_list_undergraduatecommunicationrequirement",
+    "mode": "explicit",
+    "title": "Undergraduate Communication Requirement",
+    "courses": [
+      "OMMST100",
+      "OMMST223",
+      "EMLS101R",
+      "EMLS102R",
+      "EMLS129R",
+      "ENGL109",
+      "ENGL119",
+      "ENGL129R",
+      "ENGL209",
+      "ENGL210E"
+    ]
+  },
+  {
+    "id_hint": "course_list_naturalsciencelist",
+    "mode": "explicit",
+    "title": "Natural Science List",
+    "courses": [
+      "AMATH382",
+      "BIOL110",
+      "BIOL130",
+      "BIOL130L",
+      "BIOL150",
+      "BIOL165",
+      "BIOL211",
+      "BIOL220",
+      "BIOL239",
+      "BIOL240",
+      "BIOL240L",
+      "BIOL241",
+      "BIOL273",
+      "BIOL280",
+      "BIOL365",
+      "BIOL373",
+      "BIOL373L",
+      "BIOL376",
+      "BIOL382",
+      "BIOL469",
+      "BIOL476",
+      "BIOL489",
+      "CHE161",
+      "CHEM123",
+      "CHEM123L",
+      "CHEM209",
+      "CHEM237",
+      "CHEM237L",
+      "CHEM254",
+      "CHEM262",
+      "CHEM262L",
+      "CHEM266",
+      "CHEM356",
+      "CS482",
+      "EARTH121",
+      "EARTH122",
+      "EARTH123",
+      "EARTH221",
+      "EARTH270",
+      "EARTH281",
+      "ECE106",
+      "ECE231",
+      "ECE305",
+      "ECE403",
+      "ECE404",
+      "ENVE275",
+      "ENVS200",
+      "NE222",
+      "PHYS122",
+      "PHYS124",
+      "PHYS175",
+      "PHYS233",
+      "PHYS234",
+      "PHYS263",
+      "PHYS275",
+      "PHYS280",
+      "PHYS334",
+      "PHYS335",
+      "PHYS375",
+      "PHYS380",
+      "PHYS468",
+      "PSYCH207",
+      "PSYCH261",
+      "PSYCH306",
+      "PSYCH307",
+      "SCI200",
+      "SCI201",
+      "SCI238",
+      "SCI250"
+    ]
+  },
+  {
+    "id_hint": "course_list_technicalelectiveslist",
+    "mode": "explicit",
+    "title": "Technical Electives List",
+    "courses": [
+      "AMATH242",
+      "AMATH449",
+      "CS360",
+      "CS365",
+      "CS370",
+      "CS371",
+      "CS442",
+      "CS444",
+      "CS448",
+      "CS450",
+      "CS451",
+      "CS452",
+      "CS453",
+      "CS454",
+      "CS457",
+      "CS459",
+      "CS462",
+      "CS466",
+      "CS479",
+      "CS480",
+      "CS484",
+      "CS485",
+      "CS486",
+      "CS487",
+      "CS488",
+      "CS489"
+    ]
+  },
+  {
+    "id_hint": "course_list_additionalrequirements",
+    "mode": "explicit",
+    "title": "Additional Requirements",
+    "courses": [
+      "BIOL489",
+      "EARTH270",
+      "ENBUS102",
+      "ENBUS211",
+      "ENGL248",
+      "ENVS105",
+      "ENVS200",
+      "ENVS205",
+      "ENVS220",
+      "ERS215",
+      "ERS225",
+      "ERS253",
+      "ERS270",
+      "ERS294",
+      "ERS310",
+      "ERS316",
+      "ERS320",
+      "ERS328",
+      "ERS361",
+      "ERS370",
+      "ERS372",
+      "ERS404",
+      "GEOG203",
+      "GEOG207",
+      "GEOG225",
+      "GEOG361",
+      "GEOG459",
+      "PACS310",
+      "PHIL224",
+      "PLAN451",
+      "PSCI432",
+      "RCS285",
+      "SCI200",
+      "SCI201",
+      "HPERF374"
+    ]
+  },
+  {
+    "id_hint": "req_term_1a_all",
+    "mode": "explicit",
+    "title": "Required 1A",
+    "selector": null,
+    "courses": [
+      "CS137",
+      "CHE102",
+      "MATH115",
+      "MATH117",
+      "MATH135",
+      "SE101"
+    ]
+  },
+  {
+    "id_hint": "req_term_1b_all",
+    "mode": "explicit",
+    "title": "Required 1B",
+    "selector": null,
+    "courses": [
+      "CS138",
+      "ECE124",
+      "ECE140",
+      "ECE192",
+      "MATH119",
+      "SE102"
+    ]
+  },
+  {
+    "id_hint": "req_term_2a_all",
+    "mode": "explicit",
+    "title": "Required 2A",
+    "selector": null,
+    "courses": [
+      "CS241",
+      "ECE222",
+      "SE201",
+      "SE212",
+      "STAT206"
+    ]
+  },
+  {
+    "id_hint": "req_term_2a_any",
+    "mode": "explicit",
+    "title": "Select one from 2A",
+    "selector": null,
+    "courses": [
+      "ECE105",
+      "PHYS115",
+      "PHYS121"
+    ]
+  },
+  {
+    "id_hint": "req_term_2b_all",
+    "mode": "explicit",
+    "title": "Required 2B",
+    "selector": null,
+    "courses": [
+      "CS240",
+      "CS247",
+      "CS348",
+      "MATH239",
+      "SE202"
+    ]
+  },
+  {
+    "id_hint": "req_term_3a_all",
+    "mode": "explicit",
+    "title": "Required 3A",
+    "selector": null,
+    "courses": [
+      "CS341",
+      "MATH213",
+      "SE301",
+      "SE350",
+      "SE464",
+      "SE465"
+    ]
+  },
+  {
+    "id_hint": "req_term_3b_all",
+    "mode": "explicit",
+    "title": "Required 3B",
+    "selector": null,
+    "courses": [
+      "CS343",
+      "ECE358",
+      "SE302",
+      "SE380",
+      "SE463"
+    ]
+  },
+  {
+    "id_hint": "req_term_3b_any",
+    "mode": "explicit",
+    "title": "Select one from 3B",
+    "selector": null,
+    "courses": [
+      "CS349",
+      "CS449",
+      "MSE343"
+    ]
+  },
+  {
+    "id_hint": "req_term_4a_all",
+    "mode": "explicit",
+    "title": "Required 4A",
+    "selector": null,
+    "courses": [
+      "SE401"
+    ]
+  },
+  {
+    "id_hint": "req_term_4a_any",
+    "mode": "explicit",
+    "title": "Select one from 4A",
+    "selector": null,
+    "courses": [
+      "GENE403",
+      "SE490"
+    ]
+  },
+  {
+    "id_hint": "req_term_4b_all",
+    "mode": "explicit",
+    "title": "Required 4B",
+    "selector": null,
+    "courses": [
+      "SE402"
+    ]
+  },
+  {
+    "id_hint": "req_term_4b_any",
+    "mode": "explicit",
+    "title": "Select one from 4B",
+    "selector": null,
+    "courses": [
+      "GENE404",
+      "SE491"
+    ]
+  }
+]

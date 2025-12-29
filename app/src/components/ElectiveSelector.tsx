@@ -15,7 +15,7 @@ const ElectiveSelector: React.FC<ElectiveSelectorProps> = ({
   edges,
   selectedCourses,
   onCourseSelect,
-  onCourseDeselect,
+  onCourseDeselect: _onCourseDeselect, // Unused but kept for interface compatibility
   onViewCourseDetail,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -57,11 +57,14 @@ const ElectiveSelector: React.FC<ElectiveSelectorProps> = ({
             <div className="prerequisites">
               {getPrerequisites(course.code).length > 0 && (
                 <p>Prerequisites: 
-                  {getPrerequisites(course.code).map(prereq => (
-                    <span key={prereq.id} style={{ color: selectedCourses.has(prereq.code) ? 'green' : 'red' }}>
-                      {prereq.code}{!selectedCourses.has(prereq.code) && ' (Missing)'}
-                    </span>
-                  )).reduce((prev, curr) => [prev, ', ', curr])}
+                  {getPrerequisites(course.code).map((prereq, index, array) => (
+                    <React.Fragment key={prereq.id}>
+                      <span style={{ color: selectedCourses.has(prereq.code) ? 'green' : 'red' }}>
+                        {prereq.code}{!selectedCourses.has(prereq.code) && ' (Missing)'}
+                      </span>
+                      {index < array.length - 1 && ', '}
+                    </React.Fragment>
+                  ))}
                 </p>
               )}
               {!meetsPrerequisites(course.code) && (

@@ -61,6 +61,7 @@ export interface ProgramInfo {
   root_requirement?: ProgramRequirement; // Or adjust if this is flattened
   required_by_term?: Record<string, Array<{ code: string; title: string }>>;
   course_lists?: Record<string, any>;
+  elective_requirements_by_term?: Record<string, { count: number; description?: string }>;
 }
 
 interface AppData {

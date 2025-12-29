@@ -10,7 +10,7 @@ import sys
 import time
 from dataclasses import dataclass, asdict
 from pathlib import Path
-from typing import Dict, List, Optional, Set, Tuple
+from typing import Dict, List, Optional, Set, Tuple, Any
 
 from playwright.async_api import async_playwright
 
@@ -66,6 +66,7 @@ class ProgramResult:
     description: Optional[str]
     required_by_term: Dict[str, List[Dict[str, str]]] # e.g., "1A": [{"code": "CS 137", "title": "Programming Principles"}]
     course_lists: Dict[str, List[Dict[str, str]]] # e.g., "Electives": [{"code": "MATH 100", "title": "Math for Dummies"}]
+    elective_requirements_by_term: Dict[str, Dict[str, Any]] # e.g., "3A": {"count": 1, "description": "approved elective"}
     source_url: str
     json_captured: bool # informational, if any program JSON was captured
 
@@ -143,10 +144,11 @@ DOM_JS_GET_MAIN_CONTENT_TEXT = """
 
 # We are removing DOM_JS_READ_SECTION as its functionality will be handled in Python
 
-DOM_JS_COLLECT_PROGRAM_REQUIREMENTS = """
+DOM_JS_COLLECT_PROGRAM_REQUIREMENTS = r"""
 (() => {
     const programData = {
         required_by_term: {},
+        elective_requirements_by_term: {},
         course_lists: {}
     };
 
@@ -233,6 +235,31 @@ DOM_JS_COLLECT_PROGRAM_REQUIREMENTS = """
                             if (electives.length > 0) {
                                 programData.required_by_term[termName] = [...(programData.required_by_term[termName] || []), ...electives];
                             }
+                        }
+                        
+                        // Extract elective requirements (e.g., "Complete 1 approved elective")
+                        try {
+                            const allTextInSection = section.innerText || section.textContent || '';
+                            const electivePatterns = [
+                                /Complete\s+(\d+)\s+approved\s+electives?/i,
+                                /complete\s+(\d+)\s+approved\s+electives?/i
+                            ];
+                            for (const pattern of electivePatterns) {
+                                const match = allTextInSection.match(pattern);
+                                if (match) {
+                                    const count = parseInt(match[1], 10);
+                                    const termKey = termName.replace(' Term', '').trim();
+                                    if (termKey && !isNaN(count) && count > 0) {
+                                        programData.elective_requirements_by_term[termKey] = {
+                                            count: count,
+                                            description: 'approved elective'
+                                        };
+                                        break;
+                                    }
+                                }
+                            }
+                        } catch (e) {
+                            // Silently ignore errors in elective extraction to not break main flow
                         }
                     }
                 }
@@ -428,6 +455,7 @@ async def scrape_program_details(page, program_url: str, json_seen_flag: Dict[st
         description=description,
         required_by_term=program_structured_data.get("required_by_term", {}),
         course_lists=program_structured_data.get("course_lists", {}),
+        elective_requirements_by_term=program_structured_data.get("elective_requirements_by_term", {}),
         source_url=program_url,
         json_captured=bool(json_seen_flag.get(program_url, False)),
     )

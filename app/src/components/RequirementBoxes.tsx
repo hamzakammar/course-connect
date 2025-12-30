@@ -199,7 +199,7 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
         setCollapsed(prev => ({ ...prev, [req.id]: true }));
       }
     });
-  }, [programLists, selectedCourses, edges, collapsed]);
+  }, [programLists, selectedCourses, edges]);
 
   if (allRequirements.length === 0) {
     return (

@@ -359,6 +359,16 @@
   border-left-color: #4caf50;
 }
 
+.requirement-course-item.course-eligible {
+  border-left-color: #4caf50;
+  background: #f1f8f4;
+}
+
+.requirement-course-item.course-not-eligible {
+  border-left-color: #ff9800;
+  opacity: 0.85;
+}
+
 .requirement-course-item .course-link {
   display: flex;
   align-items: center;
@@ -388,6 +398,7 @@
   background: #f9f9f9;
   border-radius: 6px;
   border: 1px solid #e0e0e0;
+  border-left: 3px solid #e0e0e0;
   transition: all 0.2s;
   cursor: pointer;
 }
@@ -396,6 +407,27 @@
   background: #f0f0f0;
   border-color: #4a90e2;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.elective-eligible {
+  border-left-color: #4caf50 !important;
+  background: #f1f8f4;
+}
+
+.elective-eligible:hover {
+  background: #e8f5e9;
+  border-color: #4caf50;
+}
+
+.elective-not-eligible {
+  opacity: 0.85;
+  border-left-color: #ff9800 !important;
+  background: #fff8f0;
+}
+
+.elective-not-eligible:hover {
+  background: #fff3e0;
+  border-color: #ff9800;
 }
 
 .elective-main {

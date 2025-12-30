@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CourseNode, ProgramLists } from '../context/AppDataContext';
+import { CourseNode, ProgramLists, CourseEdge } from '../context/AppDataContext';
 
 interface RequirementBoxesProps {
   courses: CourseNode[];
@@ -8,6 +8,7 @@ interface RequirementBoxesProps {
   programLists: ProgramLists;
   onCourseSelect?: (courseCode: string, term?: string) => void;
   onCourseDeselect?: (courseCode: string, term?: string) => void;
+  edges?: CourseEdge[]; // Add edges for prerequisite checking
 }
 
 const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
@@ -17,6 +18,7 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
   programLists,
   onCourseSelect,
   onCourseDeselect,
+  edges = [],
 }) => {
   const courseMap = new Map<string, CourseNode>();
   courses.forEach(course => courseMap.set(course.code, course));
@@ -35,7 +37,7 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
     'Additional Requirements': 1, // Usually 1 additional requirement
   };
 
-  const normalizeCode = (code: string) => code.replace(/\s+/g, '');
+  const normalizeCode = (code: string) => code.replace(/\s+/g, '').toUpperCase();
 
   // Build credits and title fallback maps from programLists
   // Handle both formats: Record<string, Array<{code, title}>> and Record<string, {list_name, courses}>
@@ -79,6 +81,44 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
     return titleFallback.get(code) || '';
   };
 
+  // Helper to check if prerequisites are met for a course
+  const meetsPrerequisites = (courseCode: string): boolean => {
+    if (!edges || edges.length === 0) return true; // No edges means no prerequisite info
+    const normalizedTarget = normalizeCode(courseCode);
+    const prereqEdges = edges.filter(edge => {
+      const normalizedEdgeTarget = normalizeCode(edge.target);
+      return normalizedEdgeTarget === normalizedTarget && edge.type === 'PREREQ';
+    });
+    if (prereqEdges.length === 0) return true; // No prerequisites
+    
+    // Check if all prerequisites are selected (for now, simple check - could be enhanced for "one of" logic)
+    return prereqEdges.every(edge => {
+      const normalizedSource = normalizeCode(edge.source);
+      return Array.from(selectedCourses).some(selected => normalizeCode(selected) === normalizedSource);
+    });
+  };
+
+  // Sort courses by eligibility (can take first, then selected)
+  const sortCoursesByEligibility = (codes: string[]): string[] => {
+    return [...codes].sort((a, b) => {
+      const aCanTake = meetsPrerequisites(a);
+      const bCanTake = meetsPrerequisites(b);
+      
+      // Eligible courses first
+      if (aCanTake && !bCanTake) return -1;
+      if (!aCanTake && bCanTake) return 1;
+      
+      // Then by selected status (selected first)
+      const aSelected = selectedCourses.has(a);
+      const bSelected = selectedCourses.has(b);
+      if (aSelected && !bSelected) return -1;
+      if (!aSelected && bSelected) return 1;
+      
+      // Finally, sort alphabetically for consistency
+      return a.localeCompare(b);
+    });
+  };
+
   // Handle both formats: Record<string, Array<{code, title}>> and Record<string, {list_name, courses}>
   const allRequirements = Object.entries(programLists?.course_lists || {}).map(([listName, list]) => {
     // Check if list is an array (direct format) or an object with courses property
@@ -87,6 +127,16 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
       : (list as any)?.courses || [];
     
     const codes = courses.map((c: { code: string }) => normalizeCode(c.code));
+    
+    // Sort courses by eligibility
+    const sortedCodes = sortCoursesByEligibility(codes);
+    
+    // Debug: Log sorting results for first requirement
+    if (listName === 'Natural Science List' && sortedCodes.length > 0) {
+      const eligibleCount = sortedCodes.filter(c => meetsPrerequisites(c)).length;
+      console.log(`[RequirementBoxes] ${listName}: ${eligibleCount}/${sortedCodes.length} eligible, sorted:`, 
+        sortedCodes.slice(0, 5).map(c => `${c}(${meetsPrerequisites(c) ? '✓' : '✗'})`).join(', '));
+    }
     
     // Count how many courses from this list are selected
     const selectedCount = codes.filter((code: string) => selectedCourses.has(code)).length;
@@ -102,7 +152,7 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
     return {
       id: listName,
       title: listName,
-      codes,
+      codes: sortedCodes, // Use sorted codes
       selectedCount,
       requiredCount,
       isFulfilled,
@@ -162,13 +212,14 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
                   <ul className="requirement-course-list">
                     {req.codes.map((code: string) => {
                       const isSelected = selectedCourses.has(code);
+                      const canTake = meetsPrerequisites(code);
                       const credits = getCourseCredits(code);
                       const title = getCourseTitle(code);
 
                       return (
                         <li
                           key={code}
-                          className={`requirement-course-item ${isSelected ? 'course-selected' : ''}`}
+                          className={`requirement-course-item ${isSelected ? 'course-selected' : ''} ${canTake ? 'course-eligible' : 'course-not-eligible'}`}
                           onClick={e => {
                             e.preventDefault();
                             onViewCourseDetail(code);
@@ -179,6 +230,7 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
                             <span className="course-title">{title}</span>
                             <span className="course-units">{credits.toFixed(2)}</span>
                             {isSelected && <span className="selected-indicator">✓</span>}
+                            {canTake && !isSelected && <span style={{ color: '#4caf50', marginLeft: '0.5rem', fontSize: '0.9em' }}>✓ Ready</span>}
                           </div>
                           {onCourseSelect && onCourseDeselect && (
                             <button

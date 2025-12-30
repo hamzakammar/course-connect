@@ -209,6 +209,7 @@ function App() {
             programLists={appData.programLists!}
             onCourseSelect={handleCourseSelect}
             onCourseDeselect={handleCourseDeselect}
+            edges={appData.edges}
           />
         </div>
         

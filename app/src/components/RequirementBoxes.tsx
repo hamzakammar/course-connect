@@ -24,6 +24,7 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
   courses.forEach(course => courseMap.set(course.code, course));
 
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
+  const [searchTerm, setSearchTerm] = useState('');
 
   const toggleCollapsed = (id: string) => {
     setCollapsed(prev => ({ ...prev, [id]: !prev[id] }));
@@ -180,8 +181,35 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
 
   return (
     <div className="requirement-boxes">
+      <div style={{ marginBottom: '1rem' }}>
+        <input
+          type="text"
+          placeholder="Search courses..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{
+            width: '100%',
+            padding: '0.75rem',
+            fontSize: '1rem',
+            border: '1px solid #ddd',
+            borderRadius: '4px',
+            boxSizing: 'border-box'
+          }}
+        />
+      </div>
+      
       <div className="requirement-boxes-grid">
-        {allRequirements.map(req => (
+        {allRequirements.map(req => {
+          // Filter codes by search term
+          const filteredCodes = req.codes.filter(code => {
+            if (!searchTerm.trim()) return true;
+            const title = getCourseTitle(code);
+            const searchLower = searchTerm.toLowerCase();
+            return code.toLowerCase().includes(searchLower) || 
+                   title.toLowerCase().includes(searchLower);
+          });
+          
+          return (
           <div
             key={req.id}
             className={`requirement-box ${req.isFulfilled ? 'requirement-fulfilled' : ''}`}
@@ -208,9 +236,9 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
 
             {!collapsed[req.id] && (
               <div className="requirement-courses">
-                {req.codes.length > 0 ? (
+                {filteredCodes.length > 0 ? (
                   <ul className="requirement-course-list">
-                    {req.codes.map((code: string) => {
+                    {filteredCodes.map((code: string) => {
                       const isSelected = selectedCourses.has(code);
                       const canTake = meetsPrerequisites(code);
                       const credits = getCourseCredits(code);
@@ -257,13 +285,16 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
                       );
                     })}
                   </ul>
+                ) : searchTerm.trim() ? (
+                  <p className="no-courses">No courses match "{searchTerm}"</p>
                 ) : (
                   <p className="no-courses">No courses specified</p>
                 )}
               </div>
             )}
           </div>
-        ))}
+        );
+        })}
       </div>
     </div>
   );

@@ -6,9 +6,10 @@ interface CourseDetailProps {
   edges: CourseEdge[];
   allCourses: CourseNode[]; // For looking up related course details
   onViewCourseDetail?: (courseCode: string) => void; // Optional callback to view related courses
+  selectedCourses?: Set<string>; // Courses that are selected/completed
 }
 
-const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses, onViewCourseDetail }) => {
+const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses, onViewCourseDetail, selectedCourses = new Set() }) => {
   // Show placeholder if no course is selected
   if (!course) {
     return (
@@ -119,7 +120,6 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses, 
 
   const prereqGroups = groupRelatedCourses(prerequisites);
   const coreqGroups = groupRelatedCourses(filteredCorequisites);
-  const antireqGroups = groupRelatedCourses(exclusions);
 
   const formatRating = (rating: number | undefined) => {
     if (rating === undefined || rating === null) return 'N/A';
@@ -186,50 +186,87 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses, 
         {prerequisites.length > 0 || prereqGroups.groups.size > 0 ? (
           <ul>
             {/* Render "one of" groups */}
-            {Array.from(prereqGroups.groups.entries()).map(([groupId, groupItems]) => (
+            {Array.from(prereqGroups.groups.entries()).map(([groupId, groupItems]) => {
+              // Check if any course in this "one of" group is completed
+              const isFulfilled = groupItems.some(item => selectedCourses.has(normalizeCode(item.course.code)));
+              return (
               <li key={groupId} style={{ marginBottom: '0.5rem' }}>
-                <strong style={{ color: '#4a90e2' }}>One of:</strong>
+                <strong style={{ 
+                  color: isFulfilled ? '#4caf50' : '#4a90e2', 
+                  backgroundColor: isFulfilled ? '#e8f5e9' : 'transparent', 
+                  padding: isFulfilled ? '0.2rem 0.5rem' : '0',
+                  borderRadius: isFulfilled ? '4px' : '0',
+                  display: isFulfilled ? 'inline-block' : 'inline',
+                  fontWeight: isFulfilled ? 'bold' : 'normal'
+                }}>
+                  One of:{isFulfilled && ' ✓'}
+                </strong>
                 <ul style={{ marginTop: '0.25rem', marginLeft: '1.5rem', listStyle: 'disc' }}>
-                  {groupItems.map((item, idx) => (
-                    <li key={`${groupId}-${idx}`}>
-                      {onViewCourseDetail ? (
-                        <a 
-                          href="#" 
-                          onClick={(e) => {
-                            e.preventDefault();
-                            onViewCourseDetail(item.course.code);
-                          }}
-                          style={{ color: '#0066cc', textDecoration: 'underline', cursor: 'pointer' }}
-                        >
-                          {item.course.code} - {item.course.title}
-                        </a>
-                      ) : (
-                        <span>{item.course.code} - {item.course.title}</span>
-                      )}
-                    </li>
-                  ))}
+                  {groupItems.map((item, idx) => {
+                    const isCompleted = selectedCourses.has(normalizeCode(item.course.code));
+                    return (
+                      <li key={`${groupId}-${idx}`}>
+                        {onViewCourseDetail ? (
+                          <a 
+                            href="#" 
+                            onClick={(e) => {
+                              e.preventDefault();
+                              onViewCourseDetail(item.course.code);
+                            }}
+                            style={{ 
+                              color: isCompleted ? '#4caf50' : '#0066cc', 
+                              textDecoration: 'underline', 
+                              cursor: 'pointer',
+                              fontWeight: isCompleted ? 'bold' : 'normal'
+                            }}
+                          >
+                            {item.course.code} - {item.course.title}
+                            {isCompleted && ' ✓'}
+                          </a>
+                        ) : (
+                          <span style={{ color: isCompleted ? '#4caf50' : 'inherit', fontWeight: isCompleted ? 'bold' : 'normal' }}>
+                            {item.course.code} - {item.course.title}
+                            {isCompleted && ' ✓'}
+                          </span>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
               </li>
-            ))}
+            )}
+            )}
             {/* Render ungrouped prerequisites */}
-            {prereqGroups.ungrouped.map(p => (
-              <li key={p.course.id}>
-                {onViewCourseDetail ? (
-                  <a 
-                    href="#" 
-                    onClick={(e) => {
-                      e.preventDefault();
-                      onViewCourseDetail(p.course.code);
-                    }}
-                    style={{ color: '#0066cc', textDecoration: 'underline', cursor: 'pointer' }}
-                  >
-                    {p.course.code} - {p.course.title}
-                  </a>
-                ) : (
-                  <span>{p.course.code} - {p.course.title}</span>
-                )}
-              </li>
-            ))}
+            {prereqGroups.ungrouped.map(p => {
+              const isCompleted = selectedCourses.has(normalizeCode(p.course.code));
+              return (
+                <li key={p.course.id}>
+                  {onViewCourseDetail ? (
+                    <a 
+                      href="#" 
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onViewCourseDetail(p.course.code);
+                      }}
+                      style={{ 
+                        color: isCompleted ? '#4caf50' : '#0066cc', 
+                        textDecoration: 'underline', 
+                        cursor: 'pointer',
+                        fontWeight: isCompleted ? 'bold' : 'normal'
+                      }}
+                    >
+                      {p.course.code} - {p.course.title}
+                      {isCompleted && ' ✓'}
+                    </a>
+                  ) : (
+                    <span style={{ color: isCompleted ? '#4caf50' : 'inherit', fontWeight: isCompleted ? 'bold' : 'normal' }}>
+                      {p.course.code} - {p.course.title}
+                      {isCompleted && ' ✓'}
+                    </span>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         ) : (
           <p style={{ color: '#666', fontStyle: 'italic' }}>No prerequisites found</p>
@@ -241,9 +278,21 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses, 
         {filteredCorequisites.length > 0 || coreqGroups.groups.size > 0 ? (
           <ul>
             {/* Render "one of" groups */}
-            {Array.from(coreqGroups.groups.entries()).map(([groupId, groupItems]) => (
+            {Array.from(coreqGroups.groups.entries()).map(([groupId, groupItems]) => {
+              // Check if any course in this "one of" group is completed
+              const isFulfilled = groupItems.some(item => selectedCourses.has(normalizeCode(item.course.code)));
+              return (
               <li key={groupId} style={{ marginBottom: '0.5rem' }}>
-                <strong style={{ color: '#4a90e2' }}>One of:</strong>
+                <strong style={{ 
+                  color: isFulfilled ? '#4caf50' : '#4a90e2', 
+                  backgroundColor: isFulfilled ? '#e8f5e9' : 'transparent', 
+                  padding: isFulfilled ? '0.2rem 0.5rem' : '0',
+                  borderRadius: isFulfilled ? '4px' : '0',
+                  display: isFulfilled ? 'inline-block' : 'inline',
+                  fontWeight: isFulfilled ? 'bold' : 'normal'
+                }}>
+                  One of:{isFulfilled && ' ✓'}
+                </strong>
                 <ul style={{ marginTop: '0.25rem', marginLeft: '1.5rem', listStyle: 'disc' }}>
                   {groupItems.map((item, idx) => (
                     <li key={`${groupId}-${idx}`}>
@@ -265,7 +314,8 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses, 
                   ))}
                 </ul>
               </li>
-            ))}
+            )}
+            )}
             {/* Render ungrouped corequisites */}
             {coreqGroups.ungrouped.map(c => (
               <li key={c.course.id}>

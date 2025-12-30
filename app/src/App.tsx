@@ -218,6 +218,7 @@ function App() {
             edges={appData.edges}
             allCourses={appData.nodes}
             onViewCourseDetail={handleViewCourseDetail}
+            selectedCourses={selectedCourses}
           />
         </div>
       </div>

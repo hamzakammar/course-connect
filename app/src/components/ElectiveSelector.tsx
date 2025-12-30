@@ -102,9 +102,17 @@ const ElectiveSelector: React.FC<ElectiveSelectorProps> = ({
             <div 
               key={course.id} 
               className={`elective-item ${canTake ? 'elective-eligible' : 'elective-not-eligible'}`}
+              role="button"
+              tabIndex={0}
               onClick={(e) => {
                 e.preventDefault();
                 onViewCourseDetail(course.code);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  onViewCourseDetail(course.code);
+                }
               }}
             >
               <div className="elective-main">

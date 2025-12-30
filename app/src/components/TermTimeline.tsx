@@ -154,9 +154,17 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
                             <li 
                               key={course.code} 
                               className={`term-course-item ${selectedCourses.has(course.code) ? 'course-selected' : ''}`}
+                              role="button"
+                              tabIndex={0}
                               onClick={(e) => {
                                 e.preventDefault();
                                 onViewCourseDetail(course.code);
+                              }}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+                                  e.preventDefault();
+                                  onViewCourseDetail(course.code);
+                                }
                               }}
                             >
                               <div className="course-link">
@@ -197,13 +205,21 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
                           const credits = getCourseCredits(courseCode);
                           const title = getCourseTitle(courseCode);
                           return (
-                            <li 
-                              key={courseCode} 
-                              className={`term-course-item term-course-any ${selectedCourses.has(courseCode) ? 'course-selected' : ''}`}
-                              onClick={(e) => {
+                            <li
+                            key={courseCode}
+                            className={`term-course-item term-course-any ${selectedCourses.has(courseCode) ? 'course-selected' : ''}`}
+                            role="button"
+                            tabIndex={0}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              onViewCourseDetail(courseCode);
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' || e.key === ' ') {
                                 e.preventDefault();
                                 onViewCourseDetail(courseCode);
-                              }}
+                              }
+                            }}
                             >
                               <div className="course-link">
                                 <span className="course-code">{courseCode}</span>
@@ -290,9 +306,17 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
                               <li
                                 key={code}
                                 className={`term-course-item term-course-any ${isSelected ? 'course-selected' : ''}`}
+                                role="button"
+                                tabIndex={0}
                                 onClick={(e) => {
                                   e.preventDefault();
                                   onViewCourseDetail(code);
+                                }}
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter' || e.key === ' ') {
+                                    e.preventDefault();
+                                    onViewCourseDetail(code);
+                                  }
                                 }}
                               >
                                 <div className="course-link">

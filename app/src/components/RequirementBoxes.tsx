@@ -93,10 +93,49 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
     if (prereqEdges.length === 0) return true; // No prerequisites
     
     // Check if all prerequisites are selected (for now, simple check - could be enhanced for "one of" logic)
-    return prereqEdges.every(edge => {
-      const normalizedSource = normalizeCode(edge.source);
-      return Array.from(selectedCourses).some(selected => normalizeCode(selected) === normalizedSource);
-    });
+
+    // Helper: check if a given course code is selected (using normalized comparison)
+    const isCourseSelected = (code: string): boolean => {
+      const normalizedCode = normalizeCode(code);
+      return Array.from(selectedCourses).some(
+        selected => normalizeCode(selected) === normalizedCode
+      );
+    };
+    // Separate prerequisites into:
+    // - "ANY" groups (one-of within each group_id)
+    // - mandatory prerequisites (must all be satisfied)
+    const anyGroups = new Map<string, typeof prereqEdges>();
+    const mandatoryEdges: typeof prereqEdges = [];
+    for (const edge of prereqEdges) {
+      const edgeAny = edge as any;
+      const logic = edgeAny.logic as string | undefined;
+      const rawGroupId = edgeAny.group_id ?? edgeAny.groupId;
+      if (logic === 'ANY' && rawGroupId != null) {
+        const groupKey = String(rawGroupId);
+        const existingGroup = anyGroups.get(groupKey) || [];
+        existingGroup.push(edge);
+        anyGroups.set(groupKey, existingGroup);
+      } else {
+        mandatoryEdges.push(edge);
+      }
+    }
+    // All mandatory prerequisites must be satisfied
+    const mandatorySatisfied = mandatoryEdges.every(edge =>
+      isCourseSelected(edge.source)
+    );
+    if (!mandatorySatisfied) {
+      return false;
+    }
+    // For each "ANY" group, at least one prerequisite in the group must be satisfied
+    for (const groupEdges of anyGroups.values()) {
+      const groupSatisfied = groupEdges.some(edge =>
+        isCourseSelected(edge.source)
+      );
+      if (!groupSatisfied) {
+        return false;
+      }
+    }
+    return true;
   };
 
   // Sort courses by eligibility (can take first, then selected)
@@ -132,13 +171,6 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
     // Sort courses by eligibility
     const sortedCodes = sortCoursesByEligibility(codes);
     
-    // Debug: Log sorting results for first requirement
-    if (listName === 'Natural Science List' && sortedCodes.length > 0) {
-      const eligibleCount = sortedCodes.filter(c => meetsPrerequisites(c)).length;
-      console.log(`[RequirementBoxes] ${listName}: ${eligibleCount}/${sortedCodes.length} eligible, sorted:`, 
-        sortedCodes.slice(0, 5).map(c => `${c}(${meetsPrerequisites(c) ? '✓' : '✗'})`).join(', '));
-    }
-    
     // Count how many courses from this list are selected
     const selectedCount = codes.filter((code: string) => selectedCourses.has(code)).length;
     
@@ -167,8 +199,7 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
         setCollapsed(prev => ({ ...prev, [req.id]: true }));
       }
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allRequirements.map(r => `${r.id}:${r.isFulfilled}`).join(',')]);
+  }, [programLists, selectedCourses, edges, collapsed]);
 
   if (allRequirements.length === 0) {
     return (
@@ -248,9 +279,17 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
                         <li
                           key={code}
                           className={`requirement-course-item ${isSelected ? 'course-selected' : ''} ${canTake ? 'course-eligible' : 'course-not-eligible'}`}
+                          role="button"
+                          tabIndex={0}
                           onClick={e => {
                             e.preventDefault();
                             onViewCourseDetail(code);
+                          }}
+                          onKeyDown={e => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              onViewCourseDetail(code);
+                            }
                           }}
                         >
                           <div className="course-link">

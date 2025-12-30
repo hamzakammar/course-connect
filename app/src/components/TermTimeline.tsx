@@ -28,7 +28,7 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
   courses.forEach(course => courseMap.set(course.code, course));
 
   // Build credits and title fallback maps from programLists
-  const normalizeCode = (code: string) => code.replace(/\s+/g, '');
+  const normalizeCode = (code: string) => code.replace(/\s+/g, '').toUpperCase();
   const creditsFallback = new Map<string, number>();
   const titleFallback = new Map<string, string>();
   if (programLists) {

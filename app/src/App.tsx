@@ -58,7 +58,7 @@ function App() {
     }
     // Fallback to programLists if course not found or has 0 credits
     if (appData?.programLists) {
-      const normalizeCode = (code: string) => code.replace(/\s+/g, '');
+      const normalizeCode = (code: string) => code.replace(/\s+/g, '').toUpperCase();
       const normalizedCode = normalizeCode(courseCode);
       for (const list of Object.values(appData.programLists.course_lists || {})) {
         for (const c of list.courses || []) {

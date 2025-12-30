@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CourseNode, ProgramLists } from '../context/AppDataContext';
 
 interface RequirementBoxesProps {
@@ -25,6 +25,14 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
 
   const toggleCollapsed = (id: string) => {
     setCollapsed(prev => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  // Define requirement counts for each list (based on typical SE requirements)
+  const requirementCounts: Record<string, number> = {
+    'Undergraduate Communication Requirement': 1,
+    'Natural Science List': 3,
+    'Technical Electives List': 4, // Typically 4 technical electives
+    'Additional Requirements': 1, // Usually 1 additional requirement
   };
 
   const normalizeCode = (code: string) => code.replace(/\s+/g, '');
@@ -79,15 +87,37 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
       : (list as any)?.courses || [];
     
     const codes = courses.map((c: { code: string }) => normalizeCode(c.code));
-    const isFulfilled = codes.some((code: string) => selectedCourses.has(code));
+    
+    // Count how many courses from this list are selected
+    const selectedCount = codes.filter((code: string) => selectedCourses.has(code)).length;
+    
+    // Get required count (default to 1 if not specified)
+    const requiredCount = requirementCounts[listName] || 1;
+    
+    // Check if requirement is fulfilled
+    const isFulfilled = selectedCount >= requiredCount;
+    
+    // Note: Auto-collapse handled separately below
 
     return {
       id: listName,
       title: listName,
       codes,
+      selectedCount,
+      requiredCount,
       isFulfilled,
     };
   });
+
+  // Auto-collapse fulfilled requirements
+  useEffect(() => {
+    allRequirements.forEach(req => {
+      if (req.isFulfilled && collapsed[req.id] !== true) {
+        setCollapsed(prev => ({ ...prev, [req.id]: true }));
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allRequirements.map(r => `${r.id}:${r.isFulfilled}`).join(',')]);
 
   if (allRequirements.length === 0) {
     return (
@@ -111,7 +141,12 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
               onClick={() => toggleCollapsed(req.id)}
               style={{ cursor: 'pointer' }}
             >
-              <h3 className="requirement-title">{req.title}</h3>
+              <div>
+                <h3 className="requirement-title">{req.title}</h3>
+                <p style={{ fontSize: '0.9em', color: '#666', margin: '0.25rem 0 0 0' }}>
+                  {req.selectedCount} / {req.requiredCount} {req.requiredCount === 1 ? 'course' : 'courses'} selected
+                </p>
+              </div>
               <div className={`requirement-status ${req.isFulfilled ? 'status-fulfilled' : 'status-pending'}`}>
                 {req.isFulfilled ? (
                   <span className="status-icon">✓</span>

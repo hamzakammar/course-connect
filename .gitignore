@@ -1,1 +1,16 @@
 app/node_modules
+app/.env.local
+app/dist/
+app/tsconfig.tsbuildinfo
+app/vite.config.d.ts
+*.jsonl
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/

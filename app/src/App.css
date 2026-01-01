@@ -18,6 +18,33 @@
 .app-header h1 {
   text-align: center;
   margin: 0;
+  flex: 1;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-email {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.sign-out-button {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  background: #f44336;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.sign-out-button:hover {
+  background: #d32f2f;
 }
 
 .main-content {
@@ -207,6 +234,18 @@
 .course-title {
   flex: 1;
   font-size: 0.9rem;
+  color: #666;
+}
+
+.course-toggle-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #ccc;
+  color: #666;
+}
+
+.course-toggle-btn:disabled:hover {
+  background-color: #ccc;
   color: #666;
 }
 

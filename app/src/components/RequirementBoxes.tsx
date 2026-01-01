@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CourseNode, ProgramLists, CourseEdge } from '../context/AppDataContext';
+import { meetsPrerequisites, normalizeCode } from '../utils/prerequisites';
 
 interface RequirementBoxesProps {
   courses: CourseNode[];
@@ -37,8 +38,6 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
     'Technical Electives List': 4, // Typically 4 technical electives
     'Additional Requirements': 1, // Usually 1 additional requirement
   };
-
-  const normalizeCode = (code: string) => code.replace(/\s+/g, '').toUpperCase();
 
   // Build credits and title fallback maps from programLists
   // Handle both formats: Record<string, Array<{code, title}>> and Record<string, {list_name, courses}>
@@ -83,66 +82,15 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
   };
 
   // Helper to check if prerequisites are met for a course
-  const meetsPrerequisites = (courseCode: string): boolean => {
-    if (!edges || edges.length === 0) return true; // No edges means no prerequisite info
-    const normalizedTarget = normalizeCode(courseCode);
-    const prereqEdges = edges.filter(edge => {
-      const normalizedEdgeTarget = normalizeCode(edge.target);
-      return normalizedEdgeTarget === normalizedTarget && edge.type === 'PREREQ';
-    });
-    if (prereqEdges.length === 0) return true; // No prerequisites
-    
-    // Check if all prerequisites are selected (for now, simple check - could be enhanced for "one of" logic)
-
-    // Helper: check if a given course code is selected (using normalized comparison)
-    const isCourseSelected = (code: string): boolean => {
-      const normalizedCode = normalizeCode(code);
-      return Array.from(selectedCourses).some(
-        selected => normalizeCode(selected) === normalizedCode
-      );
-    };
-    // Separate prerequisites into:
-    // - "ANY" groups (one-of within each group_id)
-    // - mandatory prerequisites (must all be satisfied)
-    const anyGroups = new Map<string, typeof prereqEdges>();
-    const mandatoryEdges: typeof prereqEdges = [];
-    for (const edge of prereqEdges) {
-      const edgeAny = edge as any;
-      const logic = edgeAny.logic as string | undefined;
-      const rawGroupId = edgeAny.group_id ?? edgeAny.groupId;
-      if (logic === 'ANY' && rawGroupId != null) {
-        const groupKey = String(rawGroupId);
-        const existingGroup = anyGroups.get(groupKey) || [];
-        existingGroup.push(edge);
-        anyGroups.set(groupKey, existingGroup);
-      } else {
-        mandatoryEdges.push(edge);
-      }
-    }
-    // All mandatory prerequisites must be satisfied
-    const mandatorySatisfied = mandatoryEdges.every(edge =>
-      isCourseSelected(edge.source)
-    );
-    if (!mandatorySatisfied) {
-      return false;
-    }
-    // For each "ANY" group, at least one prerequisite in the group must be satisfied
-    for (const groupEdges of anyGroups.values()) {
-      const groupSatisfied = groupEdges.some(edge =>
-        isCourseSelected(edge.source)
-      );
-      if (!groupSatisfied) {
-        return false;
-      }
-    }
-    return true;
+  const checkMeetsPrerequisites = (courseCode: string): boolean => {
+    return meetsPrerequisites(courseCode, edges, selectedCourses);
   };
 
   // Sort courses by eligibility (can take first, then selected)
   const sortCoursesByEligibility = (codes: string[]): string[] => {
     return [...codes].sort((a, b) => {
-      const aCanTake = meetsPrerequisites(a);
-      const bCanTake = meetsPrerequisites(b);
+      const aCanTake = checkMeetsPrerequisites(a);
+      const bCanTake = checkMeetsPrerequisites(b);
       
       // Eligible courses first
       if (aCanTake && !bCanTake) return -1;
@@ -271,7 +219,7 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
                   <ul className="requirement-course-list">
                     {filteredCodes.map((code: string) => {
                       const isSelected = selectedCourses.has(code);
-                      const canTake = meetsPrerequisites(code);
+                      const canTake = checkMeetsPrerequisites(code);
                       const credits = getCourseCredits(code);
                       const title = getCourseTitle(code);
 
@@ -302,12 +250,13 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
                           {onCourseSelect && onCourseDeselect && (
                             <button
                               className="course-toggle-btn"
+                              disabled={!isSelected && !canTake}
                               onClick={e => {
                                 e.preventDefault();
                                 e.stopPropagation();
                                 if (isSelected) {
                                   onCourseDeselect(code);
-                                } else {
+                                } else if (canTake) {
                                   const input = window.prompt(
                                     'Assign this course to a term (e.g., 2B):',
                                     '2B'
@@ -316,6 +265,7 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
                                   onCourseSelect(code, term);
                                 }
                               }}
+                              title={!isSelected && !canTake ? 'Prerequisites not met' : ''}
                             >
                               {isSelected ? 'Deselect' : 'Select'}
                             </button>

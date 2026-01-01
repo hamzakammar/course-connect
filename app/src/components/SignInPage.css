@@ -1,0 +1,100 @@
+.sign-in-page {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  padding: 2rem;
+  margin: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-sizing: border-box;
+}
+
+.sign-in-container {
+  text-align: center;
+  color: #333;
+  max-width: 500px;
+  width: 100%;
+}
+
+.sign-in-container h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.sign-in-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 3rem;
+  opacity: 0.9;
+}
+
+.sign-in-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  color: #333;
+}
+
+.sign-in-card h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.sign-in-description {
+  margin-bottom: 1.5rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+.error-message {
+  background: #fee;
+  color: #c33;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  border: 1px solid #fcc;
+}
+
+.sign-in-button {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: #4285f4;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  margin-bottom: 1rem;
+}
+
+.sign-in-button:hover:not(:disabled) {
+  background: #357ae8;
+  transform: translateY(-1px);
+}
+
+.sign-in-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.sign-in-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.sign-in-note {
+  font-size: 0.85rem;
+  color: #999;
+  margin: 0;
+  font-style: italic;
+}
+

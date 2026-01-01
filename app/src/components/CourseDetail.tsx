@@ -33,6 +33,14 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses, 
   // Normalize course codes for matching (remove spaces, uppercase)
   const normalizeCode = (code: string) => code.replace(/\s+/g, '').toUpperCase();
   
+  // Helper function to check if a course is selected, normalizing both sides for comparison
+  const isCourseSelected = (courseCode: string): boolean => {
+    const normalizedCode = normalizeCode(courseCode);
+    return Array.from(selectedCourses).some(
+      selected => normalizeCode(selected) === normalizedCode
+    );
+  };
+  
   // Create normalized maps for lookups
   const courseMap = new Map<string, CourseNode>();
   const normalizedCourseMap = new Map<string, CourseNode>();
@@ -188,7 +196,7 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses, 
             {/* Render "one of" groups */}
             {Array.from(prereqGroups.groups.entries()).map(([groupId, groupItems]) => {
               // Check if any course in this "one of" group is completed
-              const isFulfilled = groupItems.some(item => selectedCourses.has(normalizeCode(item.course.code)));
+              const isFulfilled = groupItems.some(item => isCourseSelected(item.course.code));
               return (
               <li key={groupId} style={{ marginBottom: '0.5rem' }}>
                 <strong style={{ 
@@ -203,7 +211,7 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses, 
                 </strong>
                 <ul style={{ marginTop: '0.25rem', marginLeft: '1.5rem', listStyle: 'disc' }}>
                   {groupItems.map((item, idx) => {
-                    const isCompleted = selectedCourses.has(normalizeCode(item.course.code));
+                    const isCompleted = isCourseSelected(item.course.code);
                     return (
                       <li key={`${groupId}-${idx}`}>
                         {onViewCourseDetail ? (
@@ -238,7 +246,7 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses, 
             )}
             {/* Render ungrouped prerequisites */}
             {prereqGroups.ungrouped.map(p => {
-              const isCompleted = selectedCourses.has(normalizeCode(p.course.code));
+              const isCompleted = isCourseSelected(p.course.code);
               return (
                 <li key={p.course.id}>
                   {onViewCourseDetail ? (
@@ -280,7 +288,7 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses, 
             {/* Render "one of" groups */}
             {Array.from(coreqGroups.groups.entries()).map(([groupId, groupItems]) => {
               // Check if any course in this "one of" group is completed
-              const isFulfilled = groupItems.some(item => selectedCourses.has(normalizeCode(item.course.code)));
+              const isFulfilled = groupItems.some(item => isCourseSelected(item.course.code));
               return (
               <li key={groupId} style={{ marginBottom: '0.5rem' }}>
                 <strong style={{ 

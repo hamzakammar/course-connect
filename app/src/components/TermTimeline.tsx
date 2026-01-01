@@ -1,5 +1,6 @@
 import React from 'react';
-import { CourseNode, ProgramInfo, CourseSet, ProgramLists } from '../context/AppDataContext';
+import { CourseNode, ProgramInfo, CourseSet, ProgramLists, CourseEdge } from '../context/AppDataContext';
+import { meetsPrerequisites, normalizeCode } from '../utils/prerequisites';
 
 interface TermTimelineProps {
   courses: CourseNode[];
@@ -11,6 +12,7 @@ interface TermTimelineProps {
   onCourseDeselect?: (courseCode: string, term?: string) => void;
   electiveAssignments: Record<string, string | undefined>;
   programLists: ProgramLists | null;
+  edges?: CourseEdge[];
 }
 
 const TermTimeline: React.FC<TermTimelineProps> = ({ 
@@ -22,13 +24,13 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
   onCourseSelect,
   onCourseDeselect,
   electiveAssignments,
-  programLists
+  programLists,
+  edges = []
 }) => {
   const courseMap = new Map<string, CourseNode>();
   courses.forEach(course => courseMap.set(course.code, course));
 
   // Build credits and title fallback maps from programLists
-  const normalizeCode = (code: string) => code.replace(/\s+/g, '');
   const creditsFallback = new Map<string, number>();
   const titleFallback = new Map<string, string>();
   if (programLists) {
@@ -150,38 +152,48 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
                         {termCourses.map((course: { code: string; title: string }) => {
                           const credits = getCourseCredits(course.code);
                           const title = getCourseTitle(course.code) || course.title;
+                          const isSelected = selectedCourses.has(course.code);
+                          const canTake = meetsPrerequisites(course.code, edges, selectedCourses);
                           return (
                             <li 
                               key={course.code} 
-                              className={`term-course-item ${selectedCourses.has(course.code) ? 'course-selected' : ''}`}
-                            >
-                              <a 
-                                href="#" 
-                                onClick={(e) => {
+                              className={`term-course-item ${isSelected ? 'course-selected' : ''} ${canTake ? 'course-eligible' : 'course-not-eligible'}`}
+                              role="button"
+                              tabIndex={0}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                onViewCourseDetail(course.code);
+                              }}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
                                   e.preventDefault();
                                   onViewCourseDetail(course.code);
-                                }}
-                                className="course-link"
-                              >
+                                }
+                              }}
+                            >
+                              <div className="course-link">
                                 <span className="course-code">{course.code}</span>
                                 <span className="course-title">{title}</span>
                                 <span className="course-units">{credits.toFixed(2)}</span>
-                                {selectedCourses.has(course.code) && <span className="selected-indicator">✓</span>}
-                              </a>
+                                {isSelected && <span className="selected-indicator">✓</span>}
+                                {canTake && !isSelected && <span style={{ color: '#4caf50', marginLeft: '0.5rem', fontSize: '0.9em' }}>✓ Ready</span>}
+                              </div>
                               {onCourseSelect && onCourseDeselect && (
                                 <button
                                   className="course-toggle-btn"
+                                  disabled={!isSelected && !canTake}
                                   onClick={(e) => {
                                     e.preventDefault();
                                     e.stopPropagation();
-                                    if (selectedCourses.has(course.code)) {
+                                    if (isSelected) {
                                       onCourseDeselect(course.code, term);
-                                    } else {
+                                    } else if (canTake) {
                                       onCourseSelect(course.code, term);
                                     }
                                   }}
+                                  title={!isSelected && !canTake ? 'Prerequisites not met' : ''}
                                 >
-                                  {selectedCourses.has(course.code) ? 'Deselect' : 'Select'}
+                                  {isSelected ? 'Deselect' : 'Select'}
                                 </button>
                               )}
                             </li>
@@ -199,38 +211,48 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
                         {anyReq.courses.map((courseCode: string) => {
                           const credits = getCourseCredits(courseCode);
                           const title = getCourseTitle(courseCode);
+                          const isSelected = selectedCourses.has(courseCode);
+                          const canTake = meetsPrerequisites(courseCode, edges, selectedCourses);
                           return (
-                            <li 
-                              key={courseCode} 
-                              className={`term-course-item term-course-any ${selectedCourses.has(courseCode) ? 'course-selected' : ''}`}
+                            <li
+                            key={courseCode}
+                            className={`term-course-item term-course-any ${isSelected ? 'course-selected' : ''} ${canTake ? 'course-eligible' : 'course-not-eligible'}`}
+                            role="button"
+                            tabIndex={0}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              onViewCourseDetail(courseCode);
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                onViewCourseDetail(courseCode);
+                              }
+                            }}
                             >
-                              <a 
-                                href="#" 
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  onViewCourseDetail(courseCode);
-                                }}
-                                className="course-link"
-                              >
+                              <div className="course-link">
                                 <span className="course-code">{courseCode}</span>
                                 <span className="course-title">{title}</span>
                                 <span className="course-units">{credits.toFixed(2)}</span>
-                                {selectedCourses.has(courseCode) && <span className="selected-indicator">✓</span>}
-                              </a>
+                                {isSelected && <span className="selected-indicator">✓</span>}
+                                {canTake && !isSelected && <span style={{ color: '#4caf50', marginLeft: '0.5rem', fontSize: '0.9em' }}>✓ Ready</span>}
+                              </div>
                               {onCourseSelect && onCourseDeselect && (
                                 <button
                                   className="course-toggle-btn"
+                                  disabled={!isSelected && !canTake}
                                   onClick={(e) => {
                                     e.preventDefault();
                                     e.stopPropagation();
-                                    if (selectedCourses.has(courseCode)) {
+                                    if (isSelected) {
                                       onCourseDeselect(courseCode, term);
-                                    } else {
+                                    } else if (canTake) {
                                       onCourseSelect(courseCode, term);
                                     }
                                   }}
+                                  title={!isSelected && !canTake ? 'Prerequisites not met' : ''}
                                 >
-                                  {selectedCourses.has(courseCode) ? 'Deselect' : 'Select'}
+                                  {isSelected ? 'Deselect' : 'Select'}
                                 </button>
                               )}
                             </li>
@@ -296,20 +318,25 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
                               <li
                                 key={code}
                                 className={`term-course-item term-course-any ${isSelected ? 'course-selected' : ''}`}
-                              >
-                                <a
-                                  href="#"
-                                  onClick={(e) => {
+                                role="button"
+                                tabIndex={0}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  onViewCourseDetail(code);
+                                }}
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter' || e.key === ' ') {
                                     e.preventDefault();
                                     onViewCourseDetail(code);
-                                  }}
-                                  className="course-link"
-                                >
+                                  }
+                                }}
+                              >
+                                <div className="course-link">
                                   <span className="course-code">{code}</span>
                                   <span className="course-title">{title}</span>
                                   <span className="course-units">{credits.toFixed(2)}</span>
                                   {isSelected && <span className="selected-indicator">✓</span>}
-                                </a>
+                                </div>
                                 {onCourseSelect && onCourseDeselect && (
                                   <button
                                     className="course-toggle-btn"

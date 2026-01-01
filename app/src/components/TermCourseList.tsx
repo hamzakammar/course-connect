@@ -43,8 +43,15 @@ const TermCourseList: React.FC<TermCourseListProps> = ({ courses, programInfo, p
                     <li>No courses found for this term.</li>
                   ) : (
                     termCourses.map(course => (
-                      <li key={course.id}>
-                        <a href="#" onClick={() => onViewCourseDetail(course.code)}>{course.code} - {course.title} ({course.credits} credits)</a>
+                      <li 
+                        key={course.id}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          onViewCourseDetail(course.code);
+                        }}
+                        className="term-course-list-item"
+                      >
+                        {course.code} - {course.title} ({course.credits} credits)
                       </li>
                     ))
                   )}

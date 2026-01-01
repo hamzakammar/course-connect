@@ -1323,13 +1323,6 @@
     "group_id": "AMATH382_prereq_oneof_1"
   },
   {
-    "source": "BIOL130",
-    "target": "BIOL130L",
-    "type": "PREREQ",
-    "logic": "ANY",
-    "group_id": "BIOL130L_prereq_structured"
-  },
-  {
     "source": "BIOL230",
     "target": "BIOL130L",
     "type": "ANTIREQ",
@@ -1356,20 +1349,6 @@
     "type": "ANTIREQ",
     "logic": "ANY",
     "group_id": "BIOL220_antireq_1"
-  },
-  {
-    "source": "BIOL140",
-    "target": "BIOL240L",
-    "type": "PREREQ",
-    "logic": "ANY",
-    "group_id": "BIOL240L_prereq_structured"
-  },
-  {
-    "source": "BIOL240",
-    "target": "BIOL240L",
-    "type": "PREREQ",
-    "logic": "ANY",
-    "group_id": "BIOL240L_prereq_structured"
   },
   {
     "source": "BIOL140",
@@ -1456,13 +1435,6 @@
     "group_id": "BIOL373_prereq_all_1"
   },
   {
-    "source": "BIOL373",
-    "target": "BIOL373L",
-    "type": "PREREQ",
-    "logic": "ANY",
-    "group_id": "BIOL373L_prereq_structured"
-  },
-  {
     "source": "BIOL273L",
     "target": "BIOL373L",
     "type": "ANTIREQ",
@@ -1475,13 +1447,6 @@
     "type": "COREQ",
     "logic": "ANY",
     "group_id": "BIOL373L_coreq_1"
-  },
-  {
-    "source": "BIOL273",
-    "target": "BIOL273L",
-    "type": "PREREQ",
-    "logic": "ANY",
-    "group_id": "BIOL273L_prereq_structured"
   },
   {
     "source": "BIOL301A",
@@ -1773,13 +1738,6 @@
   {
     "source": "CHEM237",
     "target": "CHEM237L",
-    "type": "PREREQ",
-    "logic": "ANY",
-    "group_id": "CHEM237L_prereq_structured"
-  },
-  {
-    "source": "CHEM237",
-    "target": "CHEM237L",
     "type": "COREQ",
     "logic": "ANY",
     "group_id": "CHEM237L_coreq_1"
@@ -1888,13 +1846,6 @@
     "type": "COREQ",
     "logic": "ANY",
     "group_id": "CHEM262_coreq_1"
-  },
-  {
-    "source": "CHEM262",
-    "target": "CHEM262L",
-    "type": "PREREQ",
-    "logic": "ANY",
-    "group_id": "CHEM262L_prereq_structured"
   },
   {
     "source": "CHEM262",
@@ -8923,13 +8874,6 @@
     "type": "ANTIREQ",
     "logic": "ANY",
     "group_id": "PHYS112_antireq_1"
-  },
-  {
-    "source": "PHYS112",
-    "target": "PHYS112L",
-    "type": "PREREQ",
-    "logic": "ANY",
-    "group_id": "PHYS112L_prereq_structured"
   },
   {
     "source": "PHYS122L",

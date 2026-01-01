@@ -130,7 +130,11 @@ def parse_antireqs_text(antireqs_text: str, course_id: str) -> List[Dict[str, An
     return edges
 
 def parse_coreqs_text(coreqs_text: str, course_id: str) -> List[Dict[str, Any]]:
-    """Parse corequisites from text"""
+    """
+    Parse corequisites from text.
+    Corequisites are bidirectional - if A is a corequisite of B, then B is also a corequisite of A.
+    So we create edges in both directions.
+    """
     if not coreqs_text:
         return []
     
@@ -139,13 +143,24 @@ def parse_coreqs_text(coreqs_text: str, course_id: str) -> List[Dict[str, Any]]:
     if codes:
         gid = f"{course_id}_coreq_1"
         for code in codes:
-            if code != course_id.upper():
+            code_upper = code.upper()
+            course_id_upper = course_id.upper()
+            if code_upper != course_id_upper:
+                # Create edge: code -> course_id (code is corequisite of course_id)
                 edges.append({
-                    "source": code,
-                    "target": course_id.upper(),
+                    "source": code_upper,
+                    "target": course_id_upper,
                     "type": "COREQ",
                     "logic": "ANY",
                     "group_id": gid
+                })
+                # Create reverse edge: course_id -> code (course_id is corequisite of code)
+                edges.append({
+                    "source": course_id_upper,
+                    "target": code_upper,
+                    "type": "COREQ",
+                    "logic": "ANY",
+                    "group_id": f"{code_upper}_coreq_1"
                 })
     return edges
 
@@ -203,6 +218,7 @@ def generate_edges_from_uwflow(uwflow_jsonl_path: Path) -> List[Dict[str, Any]]:
                         seen_edges.add(edge_key)
             
             # Parse corequisites
+            # Note: Corequisites are bidirectional, so parse_coreqs_text creates edges in both directions
             coreqs_text = course_data.get("coreqs")
             if coreqs_text:
                 coreq_edges = parse_coreqs_text(coreqs_text, course_code)

@@ -1,14 +1,18 @@
 import {useState, useEffect } from 'react';
 import './App.css';
 import { useAppData } from './context/AppDataContext.tsx';
+import { useAuth } from './context/AuthContext.tsx';
 import TermTimeline from './components/TermTimeline.tsx';
 import RequirementBoxes from './components/RequirementBoxes.tsx';
 import CourseDetail from './components/CourseDetail.tsx';
+import SignInPage from './components/SignInPage.tsx';
 // import CourseGraph from './components/CourseGraph.tsx';
 import { CourseNode } from './context/AppDataContext.tsx';
+import { meetsPrerequisites, getMissingPrerequisites } from './utils/prerequisites.ts';
 
 function App() {
-  const { appData, loading, error } = useAppData();
+  const { user, loading: authLoading, signOut } = useAuth();
+  const { appData, loading: dataLoading, error } = useAppData();
   const [selectedCourses, setSelectedCourses] = useState<Set<string>>(new Set());
   const [courseDetail, setCourseDetail] = useState<CourseNode | null>(null);
   const [electiveAssignments, setElectiveAssignments] = useState<Record<string, string | undefined>>({});
@@ -39,7 +43,16 @@ function App() {
     });
   }, [appData]);
 
-  if (loading) {
+  // Show sign in page if not authenticated
+  if (authLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!user) {
+    return <SignInPage />;
+  }
+
+  if (dataLoading) {
     return <div>Loading application data...</div>;
   }
 
@@ -58,7 +71,7 @@ function App() {
     }
     // Fallback to programLists if course not found or has 0 credits
     if (appData?.programLists) {
-      const normalizeCode = (code: string) => code.replace(/\s+/g, '');
+      const normalizeCode = (code: string) => code.replace(/\s+/g, '').toUpperCase();
       const normalizedCode = normalizeCode(courseCode);
       for (const list of Object.values(appData.programLists.course_lists || {})) {
         for (const c of list.courses || []) {
@@ -109,6 +122,18 @@ function App() {
   };
 
   const handleCourseSelect = (courseCode: string, term?: string) => {
+    // Check prerequisites before allowing selection
+    if (!meetsPrerequisites(courseCode, appData.edges, selectedCourses)) {
+      const missing = getMissingPrerequisites(courseCode, appData.edges, selectedCourses);
+      const missingList = missing.length > 0 
+        ? missing.slice(0, 5).join(', ') + (missing.length > 5 ? '...' : '')
+        : 'prerequisites';
+      window.alert(
+        `Cannot select ${courseCode}: Prerequisites not met.\n\nMissing: ${missingList}\n\nPlease select the required prerequisites first.`
+      );
+      return;
+    }
+
     setSelectedCourses(prev => {
       const next = new Set(prev);
       if (next.has(courseCode)) return prev;
@@ -184,6 +209,12 @@ function App() {
     <div className="App">
       <div className="app-header">
         <h1>Course Connect Planner</h1>
+        <div className="user-info">
+          <span className="user-email">{user.email}</span>
+          <button className="sign-out-button" onClick={signOut}>
+            Sign Out
+          </button>
+        </div>
       </div>
       
       <div className="main-content">
@@ -198,6 +229,7 @@ function App() {
             onCourseDeselect={handleCourseDeselect}
             electiveAssignments={electiveAssignments}
             programLists={appData.programLists}
+            edges={appData.edges}
           />
         </div>
         
@@ -209,6 +241,7 @@ function App() {
             programLists={appData.programLists!}
             onCourseSelect={handleCourseSelect}
             onCourseDeselect={handleCourseDeselect}
+            edges={appData.edges}
           />
         </div>
         
@@ -217,6 +250,8 @@ function App() {
             course={courseDetail}
             edges={appData.edges}
             allCourses={appData.nodes}
+            onViewCourseDetail={handleViewCourseDetail}
+            selectedCourses={selectedCourses}
           />
         </div>
       </div>

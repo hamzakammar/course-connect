@@ -179,13 +179,20 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
       
       <div className="requirement-boxes-grid">
         {allRequirements.map(req => {
-          // Filter codes by search term
+          // Filter codes by search term (searches both code and title, handles spaces)
           const filteredCodes = req.codes.filter(code => {
             if (!searchTerm.trim()) return true;
             const title = getCourseTitle(code);
-            const searchLower = searchTerm.toLowerCase();
-            return code.toLowerCase().includes(searchLower) || 
-                   title.toLowerCase().includes(searchLower);
+            const searchLower = searchTerm.toLowerCase().trim();
+            // Normalize both search term and course code for better matching (remove spaces)
+            const normalizedSearch = searchLower.replace(/\s+/g, '');
+            const normalizedCode = normalizeCode(code);
+            const normalizedTitle = title.toLowerCase();
+            
+            // Search in: normalized code, original code, and title
+            return normalizedCode.includes(normalizedSearch) ||
+                   code.toLowerCase().includes(searchLower) || 
+                   normalizedTitle.includes(searchLower);
           });
           
           return (

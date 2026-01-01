@@ -43,13 +43,23 @@ const ElectiveSelector: React.FC<ElectiveSelectorProps> = ({
   const availableElectives = courses.filter(course => {
     // For simplicity, consider any course not in the program plan as a potential elective initially.
     // A more sophisticated approach would involve specific elective course sets from programPlan.
-    // Also, filter by search term.
+    // Also, filter by search term (searches both code and title, handles spaces).
     const normalizedCourseCode = normalizeCode(course.code);
     const isSelected = Array.from(selectedCourses).some(selected => normalizeCode(selected) === normalizedCourseCode);
     
-    return !isSelected &&
-           (course.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            course.title.toLowerCase().includes(searchTerm.toLowerCase()));
+    if (isSelected) return false;
+    
+    if (!searchTerm.trim()) return true;
+    
+    const searchLower = searchTerm.toLowerCase().trim();
+    // Normalize search term (remove spaces) for better matching
+    const normalizedSearch = searchLower.replace(/\s+/g, '');
+    const normalizedTitle = course.title.toLowerCase();
+    
+    // Search in: normalized code, original code, and title
+    return normalizedCourseCode.includes(normalizedSearch) ||
+           course.code.toLowerCase().includes(searchLower) ||
+           normalizedTitle.includes(searchLower);
   });
 
   // Sort courses by eligibility (can take first, then by number of missing prerequisites)

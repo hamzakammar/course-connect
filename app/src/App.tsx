@@ -2,16 +2,20 @@ import {useState, useEffect } from 'react';
 import './App.css';
 import { useAppData } from './context/AppDataContext.tsx';
 import { useAuth } from './context/AuthContext.tsx';
+import { useUser } from './hooks/useUser.ts';
 import TermTimeline from './components/TermTimeline.tsx';
 import RequirementBoxes from './components/RequirementBoxes.tsx';
 import CourseDetail from './components/CourseDetail.tsx';
 import SignInPage from './components/SignInPage.tsx';
+import PlanManager from './components/PlanManager.tsx';
+import { SavedPlan } from './hooks/usePlans.ts';
 // import CourseGraph from './components/CourseGraph.tsx';
 import { CourseNode } from './context/AppDataContext.tsx';
 import { meetsPrerequisites, getMissingPrerequisites } from './utils/prerequisites.ts';
 
 function App() {
   const { user, loading: authLoading, signOut } = useAuth();
+  const { profile } = useUser();
   const { appData, loading: dataLoading, error } = useAppData();
   const [selectedCourses, setSelectedCourses] = useState<Set<string>>(new Set());
   const [courseDetail, setCourseDetail] = useState<CourseNode | null>(null);
@@ -45,7 +49,12 @@ function App() {
 
   // Show sign in page if not authenticated
   if (authLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Loading...</p>
+      </div>
+    );
   }
 
   if (!user) {
@@ -53,15 +62,30 @@ function App() {
   }
 
   if (dataLoading) {
-    return <div>Loading application data...</div>;
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Loading course data...</p>
+      </div>
+    );
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return (
+      <div className="error-container">
+        <h2>Error Loading Data</h2>
+        <p>{error}</p>
+      </div>
+    );
   }
 
   if (!appData) {
-    return <div>No application data available.</div>
+    return (
+      <div className="error-container">
+        <h2>No Data Available</h2>
+        <p>No application data available. Please refresh the page.</p>
+      </div>
+    );
   }
 
   const getCourseCredits = (courseCode: string): number => {
@@ -205,20 +229,43 @@ function App() {
     }
   };
 
+  const handleLoadPlan = (plan: SavedPlan) => {
+    setSelectedCourses(new Set(plan.selected_courses));
+    // Convert to Record<string, string | undefined> format
+    const converted: Record<string, string | undefined> = {};
+    Object.entries(plan.elective_assignments).forEach(([key, value]) => {
+      converted[key] = value;
+    });
+    setElectiveAssignments(converted);
+  };
+
   return (
     <div className="App">
       <div className="app-header">
         <h1>Course Connect Planner</h1>
-        <div className="user-info">
-          <span className="user-email">{user.email}</span>
-          <button className="sign-out-button" onClick={signOut}>
-            Sign Out
-          </button>
+        <div className="header-right">
+          <div className="plan-manager-compact">
+            <PlanManager
+              selectedCourses={selectedCourses}
+              electiveAssignments={electiveAssignments}
+              onLoadPlan={handleLoadPlan}
+            />
+          </div>
+          <div className="user-info">
+            {profile && profile.name && (
+              <span className="user-name">{profile.name}</span>
+            )}
+            <span className="user-email">{user.email}</span>
+            <button className="sign-out-button" onClick={signOut}>
+              Sign Out
+            </button>
+          </div>
         </div>
       </div>
       
       <div className="main-content">
-        <div className="left-panel">
+        <div className="content-panels">
+          <div className="left-panel">
           <TermTimeline
             courses={appData.nodes}
             programInfo={appData.programInfo}
@@ -231,28 +278,29 @@ function App() {
             programLists={appData.programLists}
             edges={appData.edges}
           />
-        </div>
-        
-        <div className="middle-panel">
-          <RequirementBoxes
-            courses={appData.nodes}
-            selectedCourses={selectedCourses}
-            onViewCourseDetail={handleViewCourseDetail}
-            programLists={appData.programLists!}
-            onCourseSelect={handleCourseSelect}
-            onCourseDeselect={handleCourseDeselect}
-            edges={appData.edges}
-          />
-        </div>
-        
-        <div className="rightmost-panel">
-          <CourseDetail
-            course={courseDetail}
-            edges={appData.edges}
-            allCourses={appData.nodes}
-            onViewCourseDetail={handleViewCourseDetail}
-            selectedCourses={selectedCourses}
-          />
+          </div>
+          
+          <div className="middle-panel">
+            <RequirementBoxes
+              courses={appData.nodes}
+              selectedCourses={selectedCourses}
+              onViewCourseDetail={handleViewCourseDetail}
+              programLists={appData.programLists!}
+              onCourseSelect={handleCourseSelect}
+              onCourseDeselect={handleCourseDeselect}
+              edges={appData.edges}
+            />
+          </div>
+          
+          <div className="rightmost-panel">
+            <CourseDetail
+              course={courseDetail}
+              edges={appData.edges}
+              allCourses={appData.nodes}
+              onViewCourseDetail={handleViewCourseDetail}
+              selectedCourses={selectedCourses}
+            />
+          </div>
         </div>
       </div>
       

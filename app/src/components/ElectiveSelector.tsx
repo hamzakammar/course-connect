@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { CourseNode, CourseEdge } from '../context/AppDataContext';
+import { meetsPrerequisites as meetsPrerequisitesUtil, getMissingPrerequisites, normalizeCode } from '../utils/prerequisites';
 
 interface ElectiveSelectorProps {
   courses: CourseNode[];
@@ -20,10 +21,7 @@ const ElectiveSelector: React.FC<ElectiveSelectorProps> = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Normalize course codes for matching (remove spaces, uppercase)
-  const normalizeCode = (code: string) => code.replace(/\s+/g, '').toUpperCase();
-
-  // Helper functions for prerequisites (must be defined before use)
+  // Helper function to get prerequisite courses for display
   const getPrerequisites = (courseCode: string): CourseNode[] => {
     const normalizedTarget = normalizeCode(courseCode);
     const prereqEdges = edges.filter(edge => {
@@ -37,13 +35,9 @@ const ElectiveSelector: React.FC<ElectiveSelectorProps> = ({
     }).filter(Boolean) as CourseNode[];
   };
 
+  // Use the utility function that properly handles "ANY" logic groups
   const meetsPrerequisites = (courseCode: string): boolean => {
-    const prereqs = getPrerequisites(courseCode);
-    if (prereqs.length === 0) return true; // No prerequisites
-    return prereqs.every(prereq => {
-      const normalizedPrereq = normalizeCode(prereq.code);
-      return Array.from(selectedCourses).some(selected => normalizeCode(selected) === normalizedPrereq);
-    });
+    return meetsPrerequisitesUtil(courseCode, edges, selectedCourses);
   };
 
   const availableElectives = courses.filter(course => {
@@ -69,16 +63,9 @@ const ElectiveSelector: React.FC<ElectiveSelectorProps> = ({
       if (!aCanTake && bCanTake) return 1;
       
       // If both have same eligibility, sort by number of missing prerequisites
-      const aPrereqs = getPrerequisites(a.code);
-      const bPrereqs = getPrerequisites(b.code);
-      const aMissing = aPrereqs.filter(p => {
-        const normalizedPrereq = normalizeCode(p.code);
-        return !Array.from(selectedCourses).some(selected => normalizeCode(selected) === normalizedPrereq);
-      }).length;
-      const bMissing = bPrereqs.filter(p => {
-        const normalizedPrereq = normalizeCode(p.code);
-        return !Array.from(selectedCourses).some(selected => normalizeCode(selected) === normalizedPrereq);
-      }).length;
+      // Use getMissingPrerequisites for accurate counting (handles ANY groups properly)
+      const aMissing = getMissingPrerequisites(a.code, edges, selectedCourses).length;
+      const bMissing = getMissingPrerequisites(b.code, edges, selectedCourses).length;
       
       return aMissing - bMissing;
     });

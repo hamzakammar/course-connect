@@ -17,15 +17,6 @@ function App() {
   const [courseDetail, setCourseDetail] = useState<CourseNode | null>(null);
   const [electiveAssignments, setElectiveAssignments] = useState<Record<string, string | undefined>>({});
 
-  // Show sign in page if not authenticated
-  if (authLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!user) {
-    return <SignInPage />;
-  }
-
   // On initial load, pre-select all required courses from the program plan
   useEffect(() => {
     if (!appData || !appData.programInfo) return;
@@ -51,6 +42,15 @@ function App() {
       return next;
     });
   }, [appData]);
+
+  // Show sign in page if not authenticated
+  if (authLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!user) {
+    return <SignInPage />;
+  }
 
   if (dataLoading) {
     return <div>Loading application data...</div>;
@@ -229,6 +229,7 @@ function App() {
             onCourseDeselect={handleCourseDeselect}
             electiveAssignments={electiveAssignments}
             programLists={appData.programLists}
+            edges={appData.edges}
           />
         </div>
         

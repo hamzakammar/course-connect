@@ -108,10 +108,12 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses, 
   const filteredCorequisites = corequisites;
 
   // Group related courses by group_id when logic is "ANY" (one of)
+  // Also handle "ALL" groups that should be split (e.g., CS349 with CS241/CS241E and MATH options)
   const groupRelatedCourses = (relatedCourses: RelatedCourseWithEdge[]) => {
     const groups: Map<string, RelatedCourseWithEdge[]> = new Map();
     const ungrouped: RelatedCourseWithEdge[] = [];
     
+    // First pass: group by "ANY" logic
     for (const item of relatedCourses) {
       if (item.logic === 'ANY' && item.groupId) {
         if (!groups.has(item.groupId)) {
@@ -122,6 +124,70 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses, 
         ungrouped.push(item);
       }
     }
+    
+    // Second pass: detect "ALL" groups that should be split into "ANY" subgroups
+    // This handles cases like CS349 where prerequisites are incorrectly all in one "ALL" group
+    // Pattern: if an "ALL" group has courses with similar codes (e.g., CS241/CS241E, MATH115/MATH136/MATH146),
+    // split them into logical "ANY" groups
+    const allGroups = new Map<string, RelatedCourseWithEdge[]>();
+    for (const item of ungrouped) {
+      if (item.logic === 'ALL' && item.groupId) {
+        if (!allGroups.has(item.groupId)) {
+          allGroups.set(item.groupId, []);
+        }
+        allGroups.get(item.groupId)!.push(item);
+      }
+    }
+    
+      // Try to intelligently split "ALL" groups
+      for (const [groupId, items] of allGroups.entries()) {
+        // Group by subject code prefix (e.g., CS, MATH)
+        const bySubject = new Map<string, RelatedCourseWithEdge[]>();
+        for (const item of items) {
+          const subject = item.course.code.match(/^[A-Z]+/)?.[0] || 'OTHER';
+          if (!bySubject.has(subject)) {
+            bySubject.set(subject, []);
+          }
+          bySubject.get(subject)!.push(item);
+        }
+        
+        // If we have multiple subjects or courses that look like alternatives (similar numbers),
+        // create "ANY" groups for each subject set
+        if (bySubject.size > 1) {
+          // Multiple subjects - create separate "ANY" groups
+          let groupIndex = 0;
+          const itemsToRemove = new Set<RelatedCourseWithEdge>();
+          for (const [, subjectItems] of bySubject.entries()) {
+            if (subjectItems.length > 1) {
+              // Multiple courses in same subject - likely alternatives
+              const newGroupId = `${groupId}_any_${groupIndex++}`;
+              groups.set(newGroupId, subjectItems);
+              subjectItems.forEach(item => itemsToRemove.add(item));
+            }
+          }
+          // Remove grouped items from ungrouped
+          itemsToRemove.forEach(item => {
+            const idx = ungrouped.indexOf(item);
+            if (idx >= 0) ungrouped.splice(idx, 1);
+          });
+        } else if (items.length > 2) {
+          // Same subject but multiple courses - check if they look like alternatives
+          // (e.g., CS241/CS241E or MATH115/136/146)
+          const numbers = items.map(item => item.course.code.match(/\d+/)?.[0]).filter(Boolean);
+          const uniqueNumbers = new Set(numbers);
+          
+          // If all have same number base or are sequential, treat as "ANY" group
+          if (uniqueNumbers.size <= 2 || numbers.length > 2) {
+            const newGroupId = `${groupId}_any_0`;
+            groups.set(newGroupId, items);
+            // Remove from ungrouped
+            items.forEach(item => {
+              const idx = ungrouped.indexOf(item);
+              if (idx >= 0) ungrouped.splice(idx, 1);
+            });
+          }
+        }
+      }
     
     return { groups, ungrouped };
   };

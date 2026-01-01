@@ -221,7 +221,39 @@ function App() {
   const handleViewCourseDetail = (courseCode: string) => {
     const normalizeCode = (code: string) => code.replace(/\s+/g, '').toUpperCase();
     const normalizedCode = normalizeCode(courseCode);
-    const course = appData?.nodes.find(node => normalizeCode(node.code) === normalizedCode);
+    
+    // First, try to find in nodes
+    let course = appData?.nodes.find(node => normalizeCode(node.code) === normalizedCode);
+    
+    // If not found, try to create from programLists
+    if (!course && appData?.programLists) {
+      const courseLists = appData.programLists.course_lists || {};
+      for (const list of Object.values(courseLists)) {
+        const courses = Array.isArray(list) ? list : (list as any)?.courses || [];
+        const foundCourse = courses.find((c: { code: string }) => 
+          normalizeCode(c.code) === normalizedCode
+        );
+        
+        if (foundCourse) {
+          // Create a minimal CourseNode from programLists data
+          const subjectMatch = foundCourse.code.match(/^([A-Z]+)/);
+          const levelMatch = foundCourse.code.match(/(\d+)/);
+          const credits = foundCourse.units ? parseFloat(foundCourse.units) : 0.5;
+          
+          course = {
+            id: foundCourse.course_id || foundCourse.code,
+            code: foundCourse.code,
+            title: foundCourse.title || foundCourse.code,
+            credits: credits,
+            description: null,
+            subject: subjectMatch ? subjectMatch[1] : 'UNKNOWN',
+            level: levelMatch ? parseInt(levelMatch[1], 10) : 0,
+          };
+          break;
+        }
+      }
+    }
+    
     if (course) {
       setCourseDetail(course);
     } else {
@@ -251,21 +283,21 @@ function App() {
               onLoadPlan={handleLoadPlan}
             />
           </div>
-          <div className="user-info">
+        <div className="user-info">
             {profile && profile.name && (
               <span className="user-name">{profile.name}</span>
             )}
-            <span className="user-email">{user.email}</span>
-            <button className="sign-out-button" onClick={signOut}>
-              Sign Out
-            </button>
+          <span className="user-email">{user.email}</span>
+          <button className="sign-out-button" onClick={signOut}>
+            Sign Out
+          </button>
           </div>
         </div>
       </div>
       
       <div className="main-content">
         <div className="content-panels">
-          <div className="left-panel">
+        <div className="left-panel">
           <TermTimeline
             courses={appData.nodes}
             programInfo={appData.programInfo}
@@ -278,28 +310,28 @@ function App() {
             programLists={appData.programLists}
             edges={appData.edges}
           />
-          </div>
-          
-          <div className="middle-panel">
-            <RequirementBoxes
-              courses={appData.nodes}
-              selectedCourses={selectedCourses}
-              onViewCourseDetail={handleViewCourseDetail}
-              programLists={appData.programLists!}
-              onCourseSelect={handleCourseSelect}
-              onCourseDeselect={handleCourseDeselect}
-              edges={appData.edges}
-            />
-          </div>
-          
-          <div className="rightmost-panel">
-            <CourseDetail
-              course={courseDetail}
-              edges={appData.edges}
-              allCourses={appData.nodes}
-              onViewCourseDetail={handleViewCourseDetail}
-              selectedCourses={selectedCourses}
-            />
+        </div>
+        
+        <div className="middle-panel">
+          <RequirementBoxes
+            courses={appData.nodes}
+            selectedCourses={selectedCourses}
+            onViewCourseDetail={handleViewCourseDetail}
+            programLists={appData.programLists!}
+            onCourseSelect={handleCourseSelect}
+            onCourseDeselect={handleCourseDeselect}
+            edges={appData.edges}
+          />
+        </div>
+        
+        <div className="rightmost-panel">
+          <CourseDetail
+            course={courseDetail}
+            edges={appData.edges}
+            allCourses={appData.nodes}
+            onViewCourseDetail={handleViewCourseDetail}
+            selectedCourses={selectedCourses}
+          />
           </div>
         </div>
       </div>

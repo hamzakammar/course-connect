@@ -100,6 +100,13 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
         {termOrder.map((term) => {
           const termCourses = requiredByTerm[term] || [];
           const anyReq = anyReqMap.get(term);
+          
+          // Filter out courses from termCourses that are in the ANY requirement (they should only appear in "Select One")
+          const anyReqCourseCodes = new Set(anyReq?.courses.map((code: string) => normalizeCode(code)) || []);
+          const filteredTermCourses = termCourses.filter((course: { code: string }) => 
+            !anyReqCourseCodes.has(normalizeCode(course.code))
+          );
+          
           const electiveCodesForTerm = Object.entries(electiveAssignments)
             .filter(([_, assignedTerm]) => assignedTerm === term)
             .map(([code]) => code);
@@ -109,8 +116,8 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
           const selectedCredits = (() => {
             let total: number = 0.0;
             
-            // Count credits from selected required courses
-            termCourses.forEach(course => {
+            // Count credits from selected required courses (excluding ANY courses)
+            filteredTermCourses.forEach(course => {
               if (selectedCourses.has(course.code)) {
                 total += getCourseCredits(course.code);
               }
@@ -145,11 +152,11 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
                 
                 <div className="term-content">
                   {/* Required courses */}
-                  {termCourses.length > 0 && (
+                  {filteredTermCourses.length > 0 && (
                     <div className="term-section">
                       <h4 className="term-section-title">Required</h4>
                       <ul className="term-course-list">
-                        {termCourses.map((course: { code: string; title: string }) => {
+                        {filteredTermCourses.map((course: { code: string; title: string }) => {
                           const credits = getCourseCredits(course.code);
                           const title = getCourseTitle(course.code) || course.title;
                           const isSelected = selectedCourses.has(course.code);
@@ -370,36 +377,45 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
                           const isSelected = selectedCourses.has(code);
                           const credits = getCourseCredits(code);
                           const title = getCourseTitle(code);
+                          const canTake = meetsPrerequisites(code, edges, selectedCourses);
                           return (
                             <li
                               key={code}
-                              className={`term-course-item term-course-any ${isSelected ? 'course-selected' : ''}`}
-                            >
-                              <a
-                                href="#"
-                                onClick={(e) => {
+                              className={`term-course-item term-course-any ${isSelected ? 'course-selected' : ''} ${canTake ? 'course-eligible' : 'course-not-eligible'}`}
+                              role="button"
+                              tabIndex={0}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                onViewCourseDetail(code);
+                              }}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
                                   e.preventDefault();
                                   onViewCourseDetail(code);
-                                }}
-                                className="course-link"
-                              >
+                                }
+                              }}
+                            >
+                              <div className="course-link">
                                 <span className="course-code">{code}</span>
                                 <span className="course-title">{title}</span>
                                 <span className="course-units">{credits.toFixed(2)}</span>
                                 {isSelected && <span className="selected-indicator">✓</span>}
-                              </a>
+                                {canTake && !isSelected && <span style={{ color: '#4caf50', marginLeft: '0.5rem', fontSize: '0.9em' }}>✓ Ready</span>}
+                              </div>
                               {onCourseSelect && onCourseDeselect && (
                                 <button
                                   className="course-toggle-btn"
+                                  disabled={!isSelected && !canTake}
                                   onClick={(e) => {
                                     e.preventDefault();
                                     e.stopPropagation();
                                     if (isSelected) {
                                       onCourseDeselect(code, term);
-                                    } else {
+                                    } else if (canTake) {
                                       onCourseSelect(code, term);
                                     }
                                   }}
+                                  title={!isSelected && !canTake ? 'Prerequisites not met' : ''}
                                 >
                                   {isSelected ? 'Deselect' : 'Select'}
                                 </button>

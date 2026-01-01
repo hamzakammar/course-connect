@@ -230,17 +230,37 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
                           role="button"
                           tabIndex={0}
                           onClick={e => {
+                            // Only handle click if not clicking on the button
+                            if ((e.target as HTMLElement).closest('.course-toggle-btn')) {
+                              return;
+                            }
                             e.preventDefault();
-                            onViewCourseDetail(code);
+                            e.stopPropagation();
+                            if (onViewCourseDetail) {
+                              onViewCourseDetail(code);
+                            }
                           }}
                           onKeyDown={e => {
                             if (e.key === 'Enter' || e.key === ' ') {
                               e.preventDefault();
-                              onViewCourseDetail(code);
+                              if (onViewCourseDetail) {
+                                onViewCourseDetail(code);
+                              }
                             }
                           }}
+                          style={{ cursor: 'pointer' }}
                         >
-                          <div className="course-link">
+                          <div className="course-link" style={{ pointerEvents: 'auto' }} onClick={e => {
+                            // Ensure the div click also triggers view
+                            const target = e.target as HTMLElement;
+                            if (!target.closest('.course-toggle-btn')) {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              if (onViewCourseDetail) {
+                                onViewCourseDetail(code);
+                              }
+                            }
+                          }}>
                             <span className="course-code">{code}</span>
                             <span className="course-title">{title}</span>
                             <span className="course-units">{credits.toFixed(2)}</span>

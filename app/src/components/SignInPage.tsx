@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import './SignInPage.css';
 
 const SignInPage: React.FC = () => {
-  const { signInWithGoogle } = useAuth();
+  const { signInWithGoogle, signInDemo } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -45,6 +45,18 @@ const SignInPage: React.FC = () => {
             >
               {loading ? 'Signing in...' : 'Sign in with Google'}
             </button>
+
+            <div className="demo-divider">
+              <span>or</span>
+            </div>
+
+            <button
+              className="demo-button"
+              onClick={signInDemo}
+            >
+              Try Demo Mode
+            </button>
+            <p className="demo-note">No account needed. Plans won't be saved.</p>
           </div>
         </div>
       </div>
@@ -53,4 +65,3 @@ const SignInPage: React.FC = () => {
 };
 
 export default SignInPage;
-

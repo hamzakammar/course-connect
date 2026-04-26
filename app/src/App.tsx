@@ -14,7 +14,7 @@ import { CourseNode } from './context/AppDataContext.tsx';
 import { meetsPrerequisites, getMissingPrerequisites } from './utils/prerequisites.ts';
 
 function App() {
-  const { user, loading: authLoading, signOut } = useAuth();
+  const { user, loading: authLoading, signOut, isDemo } = useAuth();
   const { profile } = useUser();
   const { appData, loading: dataLoading, error } = useAppData();
   const [selectedCourses, setSelectedCourses] = useState<Set<string>>(new Set());
@@ -284,12 +284,21 @@ function App() {
             />
           </div>
         <div className="user-info">
-            {profile && profile.name && (
-              <span className="user-name">{profile.name}</span>
+            {isDemo ? (
+              <>
+                <span className="demo-badge">Demo Mode</span>
+                <span className="user-email">Plans won't be saved</span>
+              </>
+            ) : (
+              <>
+                {profile && profile.name && (
+                  <span className="user-name">{profile.name}</span>
+                )}
+                <span className="user-email">{user.email}</span>
+              </>
             )}
-          <span className="user-email">{user.email}</span>
           <button className="sign-out-button" onClick={signOut}>
-            Sign Out
+            {isDemo ? 'Exit Demo' : 'Sign Out'}
           </button>
           </div>
         </div>

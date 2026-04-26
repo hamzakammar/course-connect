@@ -13,13 +13,13 @@ export interface SavedPlan {
 }
 
 export const usePlans = () => {
-  const { user } = useAuth();
+  const { user, isDemo } = useAuth();
   const [plans, setPlans] = useState<SavedPlan[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    if (!user) {
+    if (!user || isDemo) {
       setPlans([]);
       setLoading(false);
       return;
@@ -74,14 +74,12 @@ export const usePlans = () => {
     if (!user) {
       throw new Error('Must be logged in to save plans');
     }
+    if (isDemo) {
+      throw new Error('Plans cannot be saved in demo mode. Sign in to save your plan.');
+    }
 
     try {
       const { data, error: insertError } = await supabase
-        .from('user_plans')
-        .insert({
-          user_id: user.id,
-          plan_name: planName,
-          selected_courses: Array.from(selectedCourses),
           elective_assignments: cleaned,
         })
         .select()

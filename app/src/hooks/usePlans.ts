@@ -38,7 +38,6 @@ export const usePlans = () => {
 
         if (fetchError) {
           console.error('Supabase fetch error:', fetchError);
-          // Don't throw on 42P01 (table doesn't exist) - just return empty array
           if (fetchError.code === '42P01') {
             console.warn('Table "user_plans" does not exist. Run the migration.');
             setPlans([]);
@@ -57,29 +56,28 @@ export const usePlans = () => {
     };
 
     fetchPlans();
-  }, [user]);
+  }, [user, isDemo]);
 
   const savePlan = async (
     planName: string,
     selectedCourses: Set<string>,
     electiveAssignments: Record<string, string | undefined>
   ): Promise<SavedPlan | null> => {
-    // Filter out undefined values before saving
     const cleaned: Record<string, string> = {};
     Object.entries(electiveAssignments).forEach(([key, value]) => {
-      if (value !== undefined) {
-        cleaned[key] = value;
-      }
+      if (value !== undefined) cleaned[key] = value;
     });
-    if (!user) {
-      throw new Error('Must be logged in to save plans');
-    }
-    if (isDemo) {
-      throw new Error('Plans cannot be saved in demo mode. Sign in to save your plan.');
-    }
+
+    if (!user) throw new Error('Must be logged in to save plans');
+    if (isDemo) throw new Error('Plans cannot be saved in demo mode. Sign in to save your plan.');
 
     try {
       const { data, error: insertError } = await supabase
+        .from('user_plans')
+        .insert({
+          user_id: user.id,
+          plan_name: planName,
+          selected_courses: Array.from(selectedCourses),
           elective_assignments: cleaned,
         })
         .select()
@@ -87,7 +85,6 @@ export const usePlans = () => {
 
       if (insertError) {
         console.error('Supabase insert error:', insertError);
-        // Provide more helpful error messages
         if (insertError.code === '42P01') {
           throw new Error('Table "user_plans" does not exist. Run the migration: migrations/create_user_plans.sql');
         } else if (insertError.code === '42501') {
@@ -112,16 +109,13 @@ export const usePlans = () => {
     selectedCourses: Set<string>,
     electiveAssignments: Record<string, string | undefined>
   ): Promise<SavedPlan | null> => {
-    // Filter out undefined values before saving
     const cleaned: Record<string, string> = {};
     Object.entries(electiveAssignments).forEach(([key, value]) => {
-      if (value !== undefined) {
-        cleaned[key] = value;
-      }
+      if (value !== undefined) cleaned[key] = value;
     });
-    if (!user) {
-      throw new Error('Must be logged in to update plans');
-    }
+
+    if (!user) throw new Error('Must be logged in to update plans');
+    if (isDemo) throw new Error('Plans cannot be saved in demo mode. Sign in to save your plan.');
 
     try {
       const { data, error: updateError } = await supabase
@@ -158,9 +152,8 @@ export const usePlans = () => {
   };
 
   const deletePlan = async (planId: string): Promise<void> => {
-    if (!user) {
-      throw new Error('Must be logged in to delete plans');
-    }
+    if (!user) throw new Error('Must be logged in to delete plans');
+    if (isDemo) throw new Error('Cannot delete plans in demo mode.');
 
     try {
       const { error: deleteError } = await supabase
@@ -169,9 +162,7 @@ export const usePlans = () => {
         .eq('id', planId)
         .eq('user_id', user.id);
 
-      if (deleteError) {
-        throw deleteError;
-      }
+      if (deleteError) throw deleteError;
 
       setPlans(prev => prev.filter(p => p.id !== planId));
     } catch (err) {
@@ -182,4 +173,3 @@ export const usePlans = () => {
 
   return { plans, loading, error, savePlan, updatePlan, deletePlan };
 };
-

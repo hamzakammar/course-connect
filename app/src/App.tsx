@@ -1,4 +1,4 @@
-import {useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Button, Spinner, ThemeToggle } from './components/ui';
 import { useAppData } from './context/AppDataContext.tsx';
 import { useAuth } from './context/AuthContext.tsx';
@@ -12,7 +12,7 @@ import PlanManager from './components/PlanManager.tsx';
 import { SavedPlan } from './hooks/usePlans.ts';
 // import CourseGraph from './components/CourseGraph.tsx';
 import { CourseNode } from './context/AppDataContext.tsx';
-import { meetsPrerequisites, getMissingPrerequisites } from './utils/prerequisites.ts';
+import { meetsPrerequisites, getMissingPrerequisites, normalizeCode } from './utils/prerequisites.ts';
 
 function App() {
   const { user, guest, isConfigured, loading: authLoading, signOut, signInWithGoogle } = useAuth();
@@ -23,6 +23,19 @@ function App() {
   const [electiveAssignments, setElectiveAssignments] = useState<Record<string, string | undefined>>({});
   // Off-term courses taken during a co-op/work term, keyed by work-term id (e.g. "W1").
   const [offTermCourses, setOffTermCourses] = useState<Record<string, string[]>>({});
+
+  // Catalog of real courses, indexed normalized-code -> canonical code. Used to
+  // gate every "add course" path so only courses that actually exist can be added.
+  const codeCatalog = useMemo(() => {
+    const map = new Map<string, string>();
+    (appData?.nodes || []).forEach((n: CourseNode) => map.set(normalizeCode(n.code), n.code));
+    return map;
+  }, [appData]);
+
+  // Returns the canonical catalog code for a typed/passed code, or null if it
+  // isn't a real course.
+  const resolveCourseCode = (raw: string): string | null =>
+    codeCatalog.get(normalizeCode(raw)) ?? null;
 
   // On initial load, pre-select all required courses from the program plan
   useEffect(() => {
@@ -134,6 +147,16 @@ function App() {
   };
 
   const handleCourseSelect = (courseCode: string, term?: string) => {
+    // Gate: only real catalog courses can be added. Resolve to the canonical
+    // code so downstream matching (prereqs, requirements) works regardless of
+    // how the code was typed.
+    const resolved = resolveCourseCode(courseCode);
+    if (!resolved) {
+      window.alert(`"${courseCode}" isn't a course in the catalog. Please pick an existing course.`);
+      return;
+    }
+    courseCode = resolved;
+
     // Check prerequisites before allowing selection
     if (!meetsPrerequisites(courseCode, appData.edges, selectedCourses)) {
       const missing = getMissingPrerequisites(courseCode, appData.edges, selectedCourses);
@@ -207,10 +230,16 @@ function App() {
   };
 
   const handleAddOffTermCourse = (term: string, courseCode: string) => {
+    // Gate: only real catalog courses can be added off-term.
+    const resolved = resolveCourseCode(courseCode);
+    if (!resolved) {
+      window.alert(`"${courseCode}" isn't a course in the catalog. Please enter an existing course code.`);
+      return;
+    }
     setOffTermCourses(prev => {
       const existing = prev[term] || [];
-      if (existing.includes(courseCode)) return prev;
-      return { ...prev, [term]: [...existing, courseCode] };
+      if (existing.includes(resolved)) return prev;
+      return { ...prev, [term]: [...existing, resolved] };
     });
   };
 

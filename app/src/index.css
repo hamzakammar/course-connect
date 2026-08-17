@@ -1,77 +1,326 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Course Connect — Design System
+   Identity: "Cobalt & Coral on warm paper"
+   - Original palette: warm off-white paper, cobalt primary,
+     coral accent, and distinct semantic requirement states.
+   - Type: Sora (UI/display) + JetBrains Mono (course codes).
+   - Theming: semantic tokens switched via [data-theme] on <html>,
+     with a system fallback via prefers-color-scheme.
+   ============================================================ */
+
+/* ---------- Light theme (default) ---------- */
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  color-scheme: light;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  /* Surfaces & structure */
+  --bg: #f7f5f0;
+  --surface: #ffffff;
+  --surface-2: #f1eee7;
+  --surface-3: #e9e5db;
+  --border: #e5e0d5;
+  --border-strong: #d3ccbc;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+  /* Text */
+  --text: #211d17;
+  --muted: #6d6658;
+  --faint: #948c7c;
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
+  /* Brand — cobalt */
+  --primary: #2f57d6;
+  --primary-hover: #2545b8;
+  --primary-fg: #ffffff;
+  --primary-soft: #e7ecfb;
+  --primary-soft-fg: #23409e;
 
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  overflow-x: hidden;
-}
+  /* Accent — coral */
+  --accent: #f0603a;
+  --accent-hover: #d94d29;
+  --accent-fg: #ffffff;
+  --accent-soft: #fde8e1;
+  --accent-soft-fg: #b53d1f;
 
-body {
-  min-width: 320px;
-  min-height: 100vh;
-}
+  /* Semantic requirement states */
+  --met: #17935a;
+  --met-fg: #0f6b41;
+  --met-soft: #e2f4ea;
+  --met-border: #b6e0c8;
 
-#root {
-  width: 100%;
-  overflow-x: hidden;
-}
+  --partial: #cf8321;
+  --partial-fg: #9a5f11;
+  --partial-soft: #fbeed6;
+  --partial-border: #eccf9b;
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
+  --unmet: #d8483f;
+  --unmet-fg: #a8342d;
+  --unmet-soft: #fbe7e5;
+  --unmet-border: #efc0bb;
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus, 
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  /* Focus ring */
+  --ring: #6b86e6;
+
+  /* Elevation (theme-aware) */
+  --elev-1: 0 1px 2px rgba(33, 29, 23, 0.06), 0 1px 3px rgba(33, 29, 23, 0.08);
+  --elev-2: 0 4px 12px rgba(33, 29, 23, 0.08), 0 2px 4px rgba(33, 29, 23, 0.06);
+  --elev-3: 0 12px 32px rgba(33, 29, 23, 0.14), 0 6px 12px rgba(33, 29, 23, 0.08);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+/* ---------- Dark theme ---------- */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #14131a;
+  --surface: #1c1b24;
+  --surface-2: #23222d;
+  --surface-3: #2c2b38;
+  --border: #322f3d;
+  --border-strong: #45414f;
+
+  --text: #f3f0ea;
+  --muted: #a8a2b3;
+  --faint: #7c7787;
+
+  --primary: #7d92ff;
+  --primary-hover: #93a4ff;
+  --primary-fg: #10121f;
+  --primary-soft: #232744;
+  --primary-soft-fg: #b9c4ff;
+
+  --accent: #ff7a54;
+  --accent-hover: #ff8f6e;
+  --accent-fg: #1a120f;
+  --accent-soft: #33211b;
+  --accent-soft-fg: #ffb59e;
+
+  --met: #3ccb84;
+  --met-fg: #6fdaa2;
+  --met-soft: #16281f;
+  --met-border: #23503a;
+
+  --partial: #edad55;
+  --partial-fg: #f2c37f;
+  --partial-soft: #2b2113;
+  --partial-border: #4d3c1e;
+
+  --unmet: #f27167;
+  --unmet-fg: #f79389;
+  --unmet-soft: #2c1917;
+  --unmet-border: #522f2b;
+
+  --ring: #7d92ff;
+
+  --elev-1: 0 1px 2px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.5);
+  --elev-2: 0 6px 16px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.4);
+  --elev-3: 0 16px 40px rgba(0, 0, 0, 0.55), 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* System preference fallback when no explicit theme is chosen */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+
+    --bg: #14131a;
+    --surface: #1c1b24;
+    --surface-2: #23222d;
+    --surface-3: #2c2b38;
+    --border: #322f3d;
+    --border-strong: #45414f;
+
+    --text: #f3f0ea;
+    --muted: #a8a2b3;
+    --faint: #7c7787;
+
+    --primary: #7d92ff;
+    --primary-hover: #93a4ff;
+    --primary-fg: #10121f;
+    --primary-soft: #232744;
+    --primary-soft-fg: #b9c4ff;
+
+    --accent: #ff7a54;
+    --accent-hover: #ff8f6e;
+    --accent-fg: #1a120f;
+    --accent-soft: #33211b;
+    --accent-soft-fg: #ffb59e;
+
+    --met: #3ccb84;
+    --met-fg: #6fdaa2;
+    --met-soft: #16281f;
+    --met-border: #23503a;
+
+    --partial: #edad55;
+    --partial-fg: #f2c37f;
+    --partial-soft: #2b2113;
+    --partial-border: #4d3c1e;
+
+    --unmet: #f27167;
+    --unmet-fg: #f79389;
+    --unmet-soft: #2c1917;
+    --unmet-border: #522f2b;
+
+    --ring: #7d92ff;
+
+    --elev-1: 0 1px 2px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.5);
+    --elev-2: 0 6px 16px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.4);
+    --elev-3: 0 16px 40px rgba(0, 0, 0, 0.55), 0 8px 16px rgba(0, 0, 0, 0.4);
   }
-  a:hover {
-    color: #747bff;
+}
+
+/* ---------- Wire tokens into Tailwind's theme ----------
+   `inline` makes utilities reference the CSS variables directly
+   so they track the [data-theme] cascade at runtime. */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-fg: var(--primary-fg);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-soft-fg: var(--primary-soft-fg);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-soft-fg: var(--accent-soft-fg);
+
+  --color-met: var(--met);
+  --color-met-fg: var(--met-fg);
+  --color-met-soft: var(--met-soft);
+  --color-met-border: var(--met-border);
+
+  --color-partial: var(--partial);
+  --color-partial-fg: var(--partial-fg);
+  --color-partial-soft: var(--partial-soft);
+  --color-partial-border: var(--partial-border);
+
+  --color-unmet: var(--unmet);
+  --color-unmet-fg: var(--unmet-fg);
+  --color-unmet-soft: var(--unmet-soft);
+  --color-unmet-border: var(--unmet-border);
+
+  --color-ring: var(--ring);
+
+  --font-sans: "Sora", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+  --font-display: "Sora", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", "Menlo",
+    monospace;
+
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-2xl: 28px;
+
+  --shadow-e1: var(--elev-1);
+  --shadow-e2: var(--elev-2);
+  --shadow-e3: var(--elev-3);
+}
+
+/* ---------- Base layer ---------- */
+@layer base {
+  * {
+    border-color: var(--border);
   }
-  button {
-    background-color: #f9f9f9;
+
+  html {
+    font-family: var(--font-sans);
+    -webkit-text-size-adjust: 100%;
   }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    line-height: 1.55;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin: 0;
+  }
+
+  ::selection {
+    background: var(--primary);
+    color: var(--primary-fg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  /* Custom scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background: var(--muted);
+    background-clip: padding-box;
+  }
+}
+
+/* ---------- Reusable component classes ---------- */
+@layer components {
+  .cc-shimmer {
+    background: linear-gradient(
+      100deg,
+      var(--surface-2) 30%,
+      var(--surface-3) 50%,
+      var(--surface-2) 70%
+    );
+    background-size: 200% 100%;
+    animation: cc-shimmer 1.4s ease-in-out infinite;
+  }
+}
+
+@keyframes cc-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+@keyframes cc-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes cc-pop-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes cc-spin {
+  to { transform: rotate(360deg); }
 }

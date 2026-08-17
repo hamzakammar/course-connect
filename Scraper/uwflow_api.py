@@ -6,6 +6,7 @@ Fetches course data including prerequisites and ratings from uwflow.com/graphql
 """
 
 import json
+import re
 import requests
 from dataclasses import dataclass, asdict
 from pathlib import Path
@@ -122,6 +123,74 @@ def fetch_course(course_code: str) -> Optional[UWFlowCourseResult]:
         prerequisite_courses=prerequisite_courses,
         source_url=f"https://uwflow.com/course/{course_data.get('code', course_code).lower()}"
     )
+
+def fetch_all_courses(page_size: int = 2000, max_pages: int = 50) -> Dict[str, Dict[str, Any]]:
+    """Fetch every course from UWFlow in a few paginated GraphQL calls.
+
+    Returns a dict keyed by normalized (uppercase, no-space) course code, with
+    the same fields the per-course path exposes (ratings + prereq/antireq/coreq
+    prose). This is far cheaper than one request per course when enriching the
+    whole catalog. Codes that don't look like UW course codes (e.g. WLU
+    cross-registrations "bus283w") are skipped.
+    """
+    query = """
+    query allCourses($limit: Int!, $offset: Int!) {
+      course(limit: $limit, offset: $offset, order_by: {id: asc}) {
+        code
+        name
+        description
+        prereqs
+        coreqs
+        antireqs
+        rating { liked easy useful filled_count comment_count }
+      }
+    }
+    """
+    out: Dict[str, Dict[str, Any]] = {}
+    for page in range(max_pages):
+        variables = {"limit": page_size, "offset": page * page_size}
+        try:
+            resp = requests.post(
+                UWFLOW_GRAPHQL_URL,
+                json={"query": query, "variables": variables},
+                headers={"Content-Type": "application/json"},
+                timeout=60,
+            )
+            resp.raise_for_status()
+            data = resp.json()
+        except Exception as e:
+            print(f"UWFlow bulk fetch error on page {page}: {e}")
+            break
+        if "errors" in data:
+            print(f"UWFlow bulk GraphQL errors: {data['errors']}")
+            break
+        batch = data.get("data", {}).get("course", []) or []
+        if not batch:
+            break
+        for c in batch:
+            code = (c.get("code") or "").upper().replace(" ", "")
+            if not re.match(r"^[A-Z]{2,6}\d{2,4}[A-Z]?$", code):
+                continue
+            rating = c.get("rating") or {}
+            out[code] = {
+                "code": code,
+                "name": c.get("name"),
+                "description": c.get("description"),
+                "prereqs": c.get("prereqs"),
+                "coreqs": c.get("coreqs"),
+                "antireqs": c.get("antireqs"),
+                "rating_liked": rating.get("liked"),
+                "rating_easy": rating.get("easy"),
+                "rating_useful": rating.get("useful"),
+                "rating_filled_count": rating.get("filled_count"),
+                "rating_comment_count": rating.get("comment_count"),
+                "source_url": f"https://uwflow.com/course/{code.lower()}",
+            }
+        if len(batch) < page_size:
+            break
+    print(f"UWFlow: fetched {len(out)} courses (bulk).")
+    return out
+
 
 def fetch_multiple_courses(course_codes: List[str], output_path: Path):
     """Fetch multiple courses from UWFlow"""

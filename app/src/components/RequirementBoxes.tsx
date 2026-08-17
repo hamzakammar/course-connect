@@ -1,7 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { CourseNode, ProgramLists, CourseEdge } from '../context/AppDataContext';
-import { meetsPrerequisites, normalizeCode } from '../utils/prerequisites';
+import { meetsPrerequisites, normalizeCode, buildPrereqIndex } from '../utils/prerequisites';
 import { Input, Button, CourseCode, Badge, cn } from './ui';
+
+// Required course counts per list (based on typical SE requirements).
+// Module-scoped so it's a stable reference for memoization.
+const requirementCounts: Record<string, number> = {
+  'Undergraduate Communication Requirement': 1,
+  'Natural Science List': 3,
+  'Technical Electives List': 4, // Typically 4 technical electives
+  'Additional Requirements': 1, // Usually 1 additional requirement
+};
 
 interface RequirementBoxesProps {
   courses: CourseNode[];
@@ -22,9 +31,6 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
   onCourseDeselect,
   edges = [],
 }) => {
-  const courseMap = new Map<string, CourseNode>();
-  courses.forEach(course => courseMap.set(course.code, course));
-
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -32,37 +38,33 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
     setCollapsed(prev => ({ ...prev, [id]: !prev[id] }));
   };
 
-  // Define requirement counts for each list (based on typical SE requirements)
-  const requirementCounts: Record<string, number> = {
-    'Undergraduate Communication Requirement': 1,
-    'Natural Science List': 3,
-    'Technical Electives List': 4, // Typically 4 technical electives
-    'Additional Requirements': 1, // Usually 1 additional requirement
-  };
+  const courseMap = useMemo(() => {
+    const map = new Map<string, CourseNode>();
+    courses.forEach(course => map.set(course.code, course));
+    return map;
+  }, [courses]);
 
-  // Build credits and title fallback maps from programLists
+  // Index prereq edges once so eligibility checks are O(prereqs), not O(all edges).
+  const prereqIndex = useMemo(() => buildPrereqIndex(edges), [edges]);
+
+  // Build credits and title fallback maps from programLists (memoized).
   // Handle both formats: Record<string, Array<{code, title}>> and Record<string, {list_name, courses}>
-  const creditsFallback = new Map<string, number>();
-  const titleFallback = new Map<string, string>();
-  Object.values(programLists?.course_lists || {}).forEach(list => {
-    // Check if list is an array (direct format) or an object with courses property
-    const courses = Array.isArray(list)
-      ? list
-      : (list as any)?.courses || [];
-
-    courses.forEach((c: { code: string; units?: string; title?: string | null }) => {
-      const normalizedCode = normalizeCode(c.code);
-      if (c.units) {
-        const units = parseFloat(c.units);
-        if (!isNaN(units) && units > 0) {
-          creditsFallback.set(normalizedCode, units);
+  const { creditsFallback, titleFallback } = useMemo(() => {
+    const credits = new Map<string, number>();
+    const titles = new Map<string, string>();
+    Object.values(programLists?.course_lists || {}).forEach(list => {
+      const listCourses = Array.isArray(list) ? list : (list as any)?.courses || [];
+      listCourses.forEach((c: { code: string; units?: string; title?: string | null }) => {
+        const normalizedCode = normalizeCode(c.code);
+        if (c.units) {
+          const units = parseFloat(c.units);
+          if (!isNaN(units) && units > 0) credits.set(normalizedCode, units);
         }
-      }
-      if (c.title) {
-        titleFallback.set(normalizedCode, c.title);
-      }
+        if (c.title) titles.set(normalizedCode, c.title);
+      });
     });
-  });
+    return { creditsFallback: credits, titleFallback: titles };
+  }, [programLists]);
 
   // Helper to get credits with fallback
   const getCourseCredits = (code: string): number => {
@@ -82,64 +84,47 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
     return titleFallback.get(code) || '';
   };
 
-  // Helper to check if prerequisites are met for a course
-  const checkMeetsPrerequisites = (courseCode: string): boolean => {
-    return meetsPrerequisites(courseCode, edges, selectedCourses);
-  };
-
-  // Sort courses by eligibility (can take first, then selected)
-  const sortCoursesByEligibility = (codes: string[]): string[] => {
-    return [...codes].sort((a, b) => {
-      const aCanTake = checkMeetsPrerequisites(a);
-      const bCanTake = checkMeetsPrerequisites(b);
-
-      // Eligible courses first
-      if (aCanTake && !bCanTake) return -1;
-      if (!aCanTake && bCanTake) return 1;
-
-      // Then by selected status (selected first)
-      const aSelected = selectedCourses.has(a);
-      const bSelected = selectedCourses.has(b);
-      if (aSelected && !bSelected) return -1;
-      if (!aSelected && bSelected) return 1;
-
-      // Finally, sort alphabetically for consistency
-      return a.localeCompare(b);
-    });
-  };
-
-  // Handle both formats: Record<string, Array<{code, title}>> and Record<string, {list_name, courses}>
-  const allRequirements = Object.entries(programLists?.course_lists || {}).map(([listName, list]) => {
-    // Check if list is an array (direct format) or an object with courses property
-    const courses = Array.isArray(list)
-      ? list
-      : (list as any)?.courses || [];
-
-    const codes = courses.map((c: { code: string }) => normalizeCode(c.code));
-
-    // Sort courses by eligibility
-    const sortedCodes = sortCoursesByEligibility(codes);
-
-    // Count how many courses from this list are selected
-    const selectedCount = codes.filter((code: string) => selectedCourses.has(code)).length;
-
-    // Get required count (default to 1 if not specified)
-    const requiredCount = requirementCounts[listName] || 1;
-
-    // Check if requirement is fulfilled
-    const isFulfilled = selectedCount >= requiredCount;
-
-    // Note: Auto-collapse handled separately below
-
-    return {
-      id: listName,
-      title: listName,
-      codes: sortedCodes, // Use sorted codes
-      selectedCount,
-      requiredCount,
-      isFulfilled,
+  // Precompute eligibility for every listed code exactly once, and build the
+  // sorted requirement lists — memoized on the inputs that actually affect them
+  // (NOT the search term). This is the key perf fix: typing no longer re-runs
+  // the eligibility sort (each check used to rescan all edges); the search only
+  // re-filters the already-sorted codes in render below.
+  const { requirements: allRequirements, canTakeByCode } = useMemo(() => {
+    const canTake = new Map<string, boolean>();
+    const computeCanTake = (code: string): boolean => {
+      let v = canTake.get(code);
+      if (v === undefined) {
+        v = meetsPrerequisites(code, edges, selectedCourses, prereqIndex);
+        canTake.set(code, v);
+      }
+      return v;
     };
-  });
+
+    const requirements = Object.entries(programLists?.course_lists || {}).map(([listName, list]) => {
+      const listCourses = Array.isArray(list) ? list : (list as any)?.courses || [];
+      const codes: string[] = listCourses.map((c: { code: string }) => normalizeCode(c.code));
+
+      const sortedCodes = [...codes].sort((a, b) => {
+        const aCanTake = computeCanTake(a);
+        const bCanTake = computeCanTake(b);
+        if (aCanTake && !bCanTake) return -1;
+        if (!aCanTake && bCanTake) return 1;
+        const aSelected = selectedCourses.has(a);
+        const bSelected = selectedCourses.has(b);
+        if (aSelected && !bSelected) return -1;
+        if (!aSelected && bSelected) return 1;
+        return a.localeCompare(b);
+      });
+
+      const selectedCount = codes.filter((code: string) => selectedCourses.has(code)).length;
+      const requiredCount = requirementCounts[listName] || 1;
+      const isFulfilled = selectedCount >= requiredCount;
+
+      return { id: listName, title: listName, codes: sortedCodes, selectedCount, requiredCount, isFulfilled };
+    });
+
+    return { requirements, canTakeByCode: canTake };
+  }, [programLists, edges, selectedCourses, prereqIndex]);
 
   // Auto-collapse fulfilled requirements
   useEffect(() => {
@@ -247,7 +232,7 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
                     <ul className="flex flex-col gap-1">
                       {filteredCodes.map((code: string) => {
                         const isSelected = selectedCourses.has(code);
-                        const canTake = checkMeetsPrerequisites(code);
+                        const canTake = canTakeByCode.get(code) ?? true;
                         const credits = getCourseCredits(code);
                         const title = getCourseTitle(code);
 

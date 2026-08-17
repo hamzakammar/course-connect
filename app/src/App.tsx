@@ -5,6 +5,7 @@ import { useAuth } from './context/AuthContext.tsx';
 import { useUser } from './hooks/useUser.ts';
 import TermTimeline from './components/TermTimeline.tsx';
 import RequirementBoxes from './components/RequirementBoxes.tsx';
+import AuditPanel from './components/AuditPanel.tsx';
 import CourseDetail from './components/CourseDetail.tsx';
 import SignInPage from './components/SignInPage.tsx';
 import PlanManager from './components/PlanManager.tsx';
@@ -362,7 +363,7 @@ function App() {
             />
           </section>
 
-          <section className="min-w-0">
+          <section className="min-w-0 space-y-6">
             <RequirementBoxes
               courses={appData.nodes}
               selectedCourses={selectedCourses}
@@ -371,6 +372,13 @@ function App() {
               onCourseSelect={handleCourseSelect}
               onCourseDeselect={handleCourseDeselect}
               edges={appData.edges}
+            />
+            <AuditPanel
+              programInfo={appData.programInfo}
+              courseSets={appData.courseSets}
+              programLists={appData.programLists}
+              selectedCourses={selectedCourses}
+              courses={appData.nodes}
             />
           </section>
 

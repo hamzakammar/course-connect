@@ -134,6 +134,7 @@ export const usePlans = () => {
         plan_name: planName,
         selected_courses: Array.from(selectedCourses),
         elective_assignments: cleaned,
+        offterm_courses: offTermCourses,
         created_at: now,
         updated_at: now,
       };
@@ -203,6 +204,7 @@ export const usePlans = () => {
             plan_name: planName,
             selected_courses: Array.from(selectedCourses),
             elective_assignments: cleaned,
+            offterm_courses: offTermCourses,
             updated_at: new Date().toISOString(),
           };
           return updated;

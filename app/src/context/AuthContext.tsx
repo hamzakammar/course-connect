@@ -144,8 +144,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Important: This must match the Site URL or be in the Redirect URLs list in Supabase
     const redirectTo = `${window.location.origin}${window.location.pathname}`;
 
-    console.log('Redirecting to:', redirectTo);
-
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {

@@ -27,7 +27,16 @@ To enable user plan saving functionality, you need to run the SQL migration in y
   - `plan_name` - Name of the plan
   - `selected_courses` - Array of selected course codes
   - `elective_assignments` - JSON object mapping electives to terms
+  - `offterm_courses` - JSON object mapping work-term id (e.g. "W1") to an array
+    of course codes taken off-term during a co-op/work term
   - `created_at` / `updated_at` - Timestamps
+
+## Off-term (co-op) courses migration
+
+After the base table exists, run `add_offterm_courses.sql` in the Supabase SQL
+Editor to add the `offterm_courses` column. It is idempotent
+(`ADD COLUMN IF NOT EXISTS`) and backward-compatible — existing plans default to
+an empty object.
 
 - **Row Level Security (RLS)** - Users can only access their own plans
 - **Automatic timestamp updates** - `updated_at` updates on plan changes

@@ -1,77 +1,332 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Course Connect — Editorial / Swiss design system
+   - Ink on paper. Type and 1px hairline rules carry the design.
+   - Monochrome: no chromatic accent. Emphasis rides ink fill,
+     weight, and 1px rules, never hue.
+   - Requirement states expressed with weight + rule + neutral
+     value, not a trio of candy colors.
+   - Flat: no gradients, no drop shadows, square corners.
+   - Fraunces (display serif) · Archivo (grotesque body) ·
+     IBM Plex Mono (course codes). Light + dark via [data-theme].
+   ============================================================ */
+
+/* ---------- Light (paper) ---------- */
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  color-scheme: light;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  --bg: #f1eee7;
+  --surface: #f7f5ef;
+  --surface-2: #e8e3d8;
+  --surface-3: #ddd7c9;
+  --border: #d5cfc0;
+  --border-strong: #a9a191;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+  --text: #17150f;
+  --muted: #6c6659;
+  --faint: #9c9484;
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
+  /* Primary = ink (editorial black button on paper) */
+  --primary: #17150f;
+  --primary-hover: #35312a;
+  --primary-fg: #f7f5ef;
+  --primary-soft: #e8e3d8;
+  --primary-soft-fg: #17150f;
 
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  overflow-x: hidden;
-}
+  /* Ink-only — no chromatic accent. "Accent" collapses to ink so
+     emphasis rides fill + weight + 1px rules, never hue. */
+  --accent: #17150f;
+  --accent-hover: #35312a;
+  --accent-fg: #f7f5ef;
+  --accent-soft: #e8e3d8;
+  --accent-soft-fg: #17150f;
 
-body {
-  min-width: 320px;
-  min-height: 100vh;
-}
+  /* Requirement states — restrained, near-achromatic.
+     met = ink emphasis; partial/unmet = muted recede. */
+  --met: #17150f;
+  --met-fg: #17150f;
+  --met-soft: #e8e3d8;
+  --met-border: #a9a191;
 
-#root {
-  width: 100%;
-  overflow-x: hidden;
-}
+  --partial: #6c6659;
+  --partial-fg: #6c6659;
+  --partial-soft: #e8e3d8;
+  --partial-border: #cdc6b6;
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
+  --unmet: #8b8474;
+  --unmet-fg: #8b8474;
+  --unmet-soft: #ece7dd;
+  --unmet-border: #d5cfc0;
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus, 
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  --ring: #17150f;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+/* ---------- Dark (ink) ---------- */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #131210;
+  --surface: #1a1915;
+  --surface-2: #23211a;
+  --surface-3: #2c2a21;
+  --border: #322f26;
+  --border-strong: #4b4739;
+
+  --text: #efece2;
+  --muted: #a49d8d;
+  --faint: #6f695b;
+
+  --primary: #efece2;
+  --primary-hover: #ffffff;
+  --primary-fg: #131210;
+  --primary-soft: #23211a;
+  --primary-soft-fg: #efece2;
+
+  --accent: #efece2;
+  --accent-hover: #ffffff;
+  --accent-fg: #131210;
+  --accent-soft: #23211a;
+  --accent-soft-fg: #efece2;
+
+  --met: #efece2;
+  --met-fg: #efece2;
+  --met-soft: #23211a;
+  --met-border: #4b4739;
+
+  --partial: #a49d8d;
+  --partial-fg: #a49d8d;
+  --partial-soft: #23211a;
+  --partial-border: #3c3930;
+
+  --unmet: #8f887a;
+  --unmet-fg: #8f887a;
+  --unmet-soft: #201e18;
+  --unmet-border: #322f26;
+
+  --ring: #efece2;
+}
+
+/* System fallback when no explicit theme is set */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+
+    --bg: #131210;
+    --surface: #1a1915;
+    --surface-2: #23211a;
+    --surface-3: #2c2a21;
+    --border: #322f26;
+    --border-strong: #4b4739;
+
+    --text: #efece2;
+    --muted: #a49d8d;
+    --faint: #6f695b;
+
+    --primary: #efece2;
+    --primary-hover: #ffffff;
+    --primary-fg: #131210;
+    --primary-soft: #23211a;
+    --primary-soft-fg: #efece2;
+
+    --accent: #efece2;
+    --accent-hover: #ffffff;
+    --accent-fg: #131210;
+    --accent-soft: #23211a;
+    --accent-soft-fg: #efece2;
+
+    --met: #efece2;
+    --met-fg: #efece2;
+    --met-soft: #23211a;
+    --met-border: #4b4739;
+
+    --partial: #a49d8d;
+    --partial-fg: #a49d8d;
+    --partial-soft: #23211a;
+    --partial-border: #3c3930;
+
+    --unmet: #8f887a;
+    --unmet-fg: #8f887a;
+    --unmet-soft: #201e18;
+    --unmet-border: #322f26;
+
+    --ring: #efece2;
   }
-  a:hover {
-    color: #747bff;
+}
+
+/* ---------- Wire tokens into Tailwind (inline = track theme) ---------- */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-fg: var(--primary-fg);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-soft-fg: var(--primary-soft-fg);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-soft-fg: var(--accent-soft-fg);
+
+  --color-met: var(--met);
+  --color-met-fg: var(--met-fg);
+  --color-met-soft: var(--met-soft);
+  --color-met-border: var(--met-border);
+
+  --color-partial: var(--partial);
+  --color-partial-fg: var(--partial-fg);
+  --color-partial-soft: var(--partial-soft);
+  --color-partial-border: var(--partial-border);
+
+  --color-unmet: var(--unmet);
+  --color-unmet-fg: var(--unmet-fg);
+  --color-unmet-soft: var(--unmet-soft);
+  --color-unmet-border: var(--unmet-border);
+
+  --color-ring: var(--ring);
+
+  --font-sans: "Archivo", system-ui, -apple-system, "Helvetica Neue", Arial,
+    sans-serif;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* Square by design — no card radii. */
+  --radius-xs: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+
+  /* Flat — elevation carried by hairlines, not shadow. */
+  --shadow-e1: none;
+  --shadow-e2: none;
+  --shadow-e3: none;
+}
+
+/* ---------- Base ---------- */
+@layer base {
+  * {
+    border-color: var(--border);
   }
-  button {
-    background-color: #f9f9f9;
+
+  html {
+    font-family: var(--font-sans);
+    -webkit-text-size-adjust: 100%;
   }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.6;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "ss01";
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.012em;
+    color: var(--text);
+    margin: 0;
+    line-height: 1.12;
+  }
+
+  /* Numerals in tables, counts and units line up. */
+  .tabular,
+  time,
+  [data-tnum] {
+    font-variant-numeric: tabular-nums;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-fg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border: 4px solid transparent;
+    background-clip: padding-box;
+  }
+}
+
+/* ---------- Utilities ---------- */
+@layer components {
+  /* Uppercase tracked label — the editorial eyebrow / section kicker. */
+  .eyebrow {
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 0.68rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--faint);
+  }
+
+  .cc-shimmer {
+    background: linear-gradient(
+      100deg,
+      var(--surface-2) 30%,
+      var(--surface-3) 50%,
+      var(--surface-2) 70%
+    );
+    background-size: 200% 100%;
+    animation: cc-shimmer 1.4s ease-in-out infinite;
+  }
+}
+
+@keyframes cc-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+@keyframes cc-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes cc-rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cc-spin {
+  to { transform: rotate(360deg); }
 }

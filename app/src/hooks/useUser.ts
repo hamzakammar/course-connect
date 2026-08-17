@@ -17,13 +17,14 @@ export const useUser = () => {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    if (!user) {
+    if (!user || !supabase) {
       setProfile(null);
       setLoading(false);
       return;
     }
 
     const fetchUserProfile = async () => {
+      if (!supabase) return;
       try {
         setLoading(true);
         setError(null);

@@ -8,25 +8,46 @@ export const normalizeCode = (code: string): string => {
 };
 
 /**
+ * Build an index of PREREQ edges keyed by normalized target code, so callers
+ * that check many courses don't rescan the full edge list every time. Pass the
+ * result as the optional `prereqIndex` arg to meets/getMissingPrerequisites.
+ */
+export const buildPrereqIndex = (edges: CourseEdge[]): Map<string, CourseEdge[]> => {
+  const map = new Map<string, CourseEdge[]>();
+  for (const edge of edges) {
+    if (edge.type !== 'PREREQ') continue;
+    const key = normalizeCode(edge.target);
+    const arr = map.get(key);
+    if (arr) arr.push(edge);
+    else map.set(key, [edge]);
+  }
+  return map;
+};
+
+/**
  * Check if a course meets all prerequisites
  * @param courseCode - The course code to check
  * @param edges - All course edges (prerequisites, corequisites, etc.)
  * @param selectedCourses - Set of selected course codes
+ * @param prereqIndex - Optional prebuilt index (buildPrereqIndex) to avoid rescanning edges
  * @returns true if all prerequisites are met, false otherwise
  */
 export const meetsPrerequisites = (
   courseCode: string,
   edges: CourseEdge[],
-  selectedCourses: Set<string>
+  selectedCourses: Set<string>,
+  prereqIndex?: Map<string, CourseEdge[]>
 ): boolean => {
-  if (!edges || edges.length === 0) return true; // No edges means no prerequisite info
-  
+  if (!prereqIndex && (!edges || edges.length === 0)) return true; // No edges means no prerequisite info
+
   const normalizedTarget = normalizeCode(courseCode);
-  const prereqEdges = edges.filter(edge => {
-    const normalizedEdgeTarget = normalizeCode(edge.target);
-    return normalizedEdgeTarget === normalizedTarget && edge.type === 'PREREQ';
-  });
-  
+  const prereqEdges = prereqIndex
+    ? (prereqIndex.get(normalizedTarget) ?? [])
+    : edges.filter(edge => {
+        const normalizedEdgeTarget = normalizeCode(edge.target);
+        return normalizedEdgeTarget === normalizedTarget && edge.type === 'PREREQ';
+      });
+
   if (prereqEdges.length === 0) return true; // No prerequisites
 
   // Helper: check if a given course code is selected (using normalized comparison)
@@ -145,16 +166,19 @@ export const meetsPrerequisites = (
 export const getMissingPrerequisites = (
   courseCode: string,
   edges: CourseEdge[],
-  selectedCourses: Set<string>
+  selectedCourses: Set<string>,
+  prereqIndex?: Map<string, CourseEdge[]>
 ): string[] => {
-  if (!edges || edges.length === 0) return [];
-  
+  if (!prereqIndex && (!edges || edges.length === 0)) return [];
+
   const normalizedTarget = normalizeCode(courseCode);
-  const prereqEdges = edges.filter(edge => {
-    const normalizedEdgeTarget = normalizeCode(edge.target);
-    return normalizedEdgeTarget === normalizedTarget && edge.type === 'PREREQ';
-  });
-  
+  const prereqEdges = prereqIndex
+    ? (prereqIndex.get(normalizedTarget) ?? [])
+    : edges.filter(edge => {
+        const normalizedEdgeTarget = normalizeCode(edge.target);
+        return normalizedEdgeTarget === normalizedTarget && edge.type === 'PREREQ';
+      });
+
   if (prereqEdges.length === 0) return [];
 
   const isCourseSelected = (code: string): boolean => {

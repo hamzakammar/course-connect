@@ -1,25 +1,41 @@
-import {useState, useEffect } from 'react';
-import './App.css';
+import { useState, useEffect, useMemo } from 'react';
+import { Button, Spinner, ThemeToggle } from './components/ui';
 import { useAppData } from './context/AppDataContext.tsx';
 import { useAuth } from './context/AuthContext.tsx';
 import { useUser } from './hooks/useUser.ts';
 import TermTimeline from './components/TermTimeline.tsx';
 import RequirementBoxes from './components/RequirementBoxes.tsx';
+import AuditPanel from './components/AuditPanel.tsx';
 import CourseDetail from './components/CourseDetail.tsx';
 import SignInPage from './components/SignInPage.tsx';
 import PlanManager from './components/PlanManager.tsx';
 import { SavedPlan } from './hooks/usePlans.ts';
 // import CourseGraph from './components/CourseGraph.tsx';
 import { CourseNode } from './context/AppDataContext.tsx';
-import { meetsPrerequisites, getMissingPrerequisites } from './utils/prerequisites.ts';
+import { meetsPrerequisites, getMissingPrerequisites, normalizeCode } from './utils/prerequisites.ts';
 
 function App() {
-  const { user, loading: authLoading, signOut, isDemo } = useAuth();
+  const { user, guest, isConfigured, loading: authLoading, signOut, signInWithGoogle } = useAuth();
   const { profile } = useUser();
   const { appData, loading: dataLoading, error } = useAppData();
   const [selectedCourses, setSelectedCourses] = useState<Set<string>>(new Set());
   const [courseDetail, setCourseDetail] = useState<CourseNode | null>(null);
   const [electiveAssignments, setElectiveAssignments] = useState<Record<string, string | undefined>>({});
+  // Off-term courses taken during a co-op/work term, keyed by work-term id (e.g. "W1").
+  const [offTermCourses, setOffTermCourses] = useState<Record<string, string[]>>({});
+
+  // Catalog of real courses, indexed normalized-code -> canonical code. Used to
+  // gate every "add course" path so only courses that actually exist can be added.
+  const codeCatalog = useMemo(() => {
+    const map = new Map<string, string>();
+    (appData?.nodes || []).forEach((n: CourseNode) => map.set(normalizeCode(n.code), n.code));
+    return map;
+  }, [appData]);
+
+  // Returns the canonical catalog code for a typed/passed code, or null if it
+  // isn't a real course.
+  const resolveCourseCode = (raw: string): string | null =>
+    codeCatalog.get(normalizeCode(raw)) ?? null;
 
   // On initial load, pre-select all required courses from the program plan
   useEffect(() => {
@@ -49,42 +65,27 @@ function App() {
 
   // Show sign in page if not authenticated
   if (authLoading) {
-    return (
-      <div className="loading-container">
-        <div className="loading-spinner"></div>
-        <p>Loading...</p>
-      </div>
-    );
+    return <FullScreenLoader message="Loading…" />;
   }
 
-  if (!user) {
+  if (!user && !guest) {
     return <SignInPage />;
   }
 
   if (dataLoading) {
-    return (
-      <div className="loading-container">
-        <div className="loading-spinner"></div>
-        <p>Loading course data...</p>
-      </div>
-    );
+    return <FullScreenLoader message="Loading course data…" />;
   }
 
   if (error) {
-    return (
-      <div className="error-container">
-        <h2>Error Loading Data</h2>
-        <p>{error}</p>
-      </div>
-    );
+    return <FullScreenError title="Error loading data" message={error} />;
   }
 
   if (!appData) {
     return (
-      <div className="error-container">
-        <h2>No Data Available</h2>
-        <p>No application data available. Please refresh the page.</p>
-      </div>
+      <FullScreenError
+        title="No data available"
+        message="No application data available. Please refresh the page."
+      />
     );
   }
 
@@ -146,6 +147,16 @@ function App() {
   };
 
   const handleCourseSelect = (courseCode: string, term?: string) => {
+    // Gate: only real catalog courses can be added. Resolve to the canonical
+    // code so downstream matching (prereqs, requirements) works regardless of
+    // how the code was typed.
+    const resolved = resolveCourseCode(courseCode);
+    if (!resolved) {
+      window.alert(`"${courseCode}" isn't a course in the catalog. Please pick an existing course.`);
+      return;
+    }
+    courseCode = resolved;
+
     // Check prerequisites before allowing selection
     if (!meetsPrerequisites(courseCode, appData.edges, selectedCourses)) {
       const missing = getMissingPrerequisites(courseCode, appData.edges, selectedCourses);
@@ -218,6 +229,35 @@ function App() {
     });
   };
 
+  const handleAddOffTermCourse = (term: string, courseCode: string) => {
+    // Gate: only real catalog courses can be added off-term.
+    const resolved = resolveCourseCode(courseCode);
+    if (!resolved) {
+      window.alert(`"${courseCode}" isn't a course in the catalog. Please enter an existing course code.`);
+      return;
+    }
+    setOffTermCourses(prev => {
+      const existing = prev[term] || [];
+      if (existing.includes(resolved)) return prev;
+      return { ...prev, [term]: [...existing, resolved] };
+    });
+  };
+
+  const handleRemoveOffTermCourse = (term: string, courseCode: string) => {
+    setOffTermCourses(prev => {
+      const existing = prev[term];
+      if (!existing) return prev;
+      const next = existing.filter(code => code !== courseCode);
+      const copy = { ...prev };
+      if (next.length > 0) {
+        copy[term] = next;
+      } else {
+        delete copy[term];
+      }
+      return copy;
+    });
+  };
+
   const handleViewCourseDetail = (courseCode: string) => {
     const normalizeCode = (code: string) => code.replace(/\s+/g, '').toUpperCase();
     const normalizedCode = normalizeCode(courseCode);
@@ -269,86 +309,140 @@ function App() {
       converted[key] = value;
     });
     setElectiveAssignments(converted);
+    // Backward-compatible: older plans have no offterm_courses field.
+    setOffTermCourses(plan.offterm_courses || {});
   };
 
   return (
-    <div className="App">
-      <div className="app-header">
-        <h1>Course Connect Planner</h1>
-        <div className="header-right">
-          <div className="plan-manager-compact">
+    <div className="min-h-screen bg-bg text-text">
+      <header className="sticky top-0 z-30 border-b border-border-strong bg-bg">
+        <div className="mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-x-6 gap-y-3 px-4 py-3 sm:px-6">
+          <div className="flex items-baseline gap-2.5">
+            <span className="h-3.5 w-3.5 shrink-0 translate-y-0.5 bg-accent" aria-hidden />
+            <h1 className="font-display text-xl font-semibold tracking-tight sm:text-2xl">
+              Course Connect
+            </h1>
+            <span className="eyebrow hidden sm:inline">Degree Planner</span>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <PlanManager
               selectedCourses={selectedCourses}
               electiveAssignments={electiveAssignments}
+              offTermCourses={offTermCourses}
               onLoadPlan={handleLoadPlan}
             />
-          </div>
-        <div className="user-info">
-            {isDemo ? (
-              <>
-                <span className="demo-badge">Demo Mode</span>
-                <span className="user-email">Plans won't be saved</span>
-              </>
-            ) : (
-              <>
-                {profile && profile.name && (
-                  <span className="user-name">{profile.name}</span>
-                )}
-                <span className="user-email">{user.email}</span>
-              </>
-            )}
-          <button className="sign-out-button" onClick={signOut}>
-            {isDemo ? 'Exit Demo' : 'Sign Out'}
-          </button>
-          </div>
-        </div>
-      </div>
-      
-      <div className="main-content">
-        <div className="content-panels">
-        <div className="left-panel">
-          <TermTimeline
-            courses={appData.nodes}
-            programInfo={appData.programInfo}
-            courseSets={appData.courseSets}
-            selectedCourses={selectedCourses}
-            onViewCourseDetail={handleViewCourseDetail}
-            onCourseSelect={handleCourseSelect}
-            onCourseDeselect={handleCourseDeselect}
-            electiveAssignments={electiveAssignments}
-            programLists={appData.programLists}
-            edges={appData.edges}
-          />
-        </div>
-        
-        <div className="middle-panel">
-          <RequirementBoxes
-            courses={appData.nodes}
-            selectedCourses={selectedCourses}
-            onViewCourseDetail={handleViewCourseDetail}
-            programLists={appData.programLists!}
-            onCourseSelect={handleCourseSelect}
-            onCourseDeselect={handleCourseDeselect}
-            edges={appData.edges}
-          />
-        </div>
-        
-        <div className="rightmost-panel">
-          <CourseDetail
-            course={courseDetail}
-            edges={appData.edges}
-            allCourses={appData.nodes}
-            onViewCourseDetail={handleViewCourseDetail}
-            selectedCourses={selectedCourses}
-          />
+            <ThemeToggle />
+            <div className="flex items-center gap-3 border-l border-border pl-4">
+              {guest ? (
+                <>
+                  <span className="eyebrow hidden sm:inline">Guest</span>
+                  <Button
+                    variant="accent"
+                    size="sm"
+                    onClick={() => {
+                      if (isConfigured) {
+                        signInWithGoogle().catch((e) => console.error(e));
+                      } else {
+                        signOut();
+                      }
+                    }}
+                    title={isConfigured ? 'Sign in to sync your plans' : 'Return to sign-in'}
+                  >
+                    Sign in to sync
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <div className="hidden text-right leading-tight sm:block">
+                    {profile && profile.name && (
+                      <div className="text-sm font-medium text-text">{profile.name}</div>
+                    )}
+                    {user?.email && (
+                      <div className="text-xs text-muted">{user.email}</div>
+                    )}
+                  </div>
+                  <Button variant="ghost" size="sm" onClick={signOut}>
+                    Sign out
+                  </Button>
+                </>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-      
-      {/* <div style={{ marginTop: '40px', clear: 'both' }}>
-        <h2>Course Graph Visualization</h2>
-        <CourseGraph courses={appData.nodes} edges={appData.edges} />
-      </div> */}
+      </header>
+
+      <main className="mx-auto max-w-[1600px] px-4 py-6 sm:px-6">
+        <div className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_380px_340px]">
+          <section className="min-w-0">
+            <TermTimeline
+              courses={appData.nodes}
+              programInfo={appData.programInfo}
+              courseSets={appData.courseSets}
+              selectedCourses={selectedCourses}
+              onViewCourseDetail={handleViewCourseDetail}
+              onCourseSelect={handleCourseSelect}
+              onCourseDeselect={handleCourseDeselect}
+              electiveAssignments={electiveAssignments}
+              programLists={appData.programLists}
+              edges={appData.edges}
+              offTermCourses={offTermCourses}
+              onAddOffTermCourse={handleAddOffTermCourse}
+              onRemoveOffTermCourse={handleRemoveOffTermCourse}
+            />
+          </section>
+
+          <section className="min-w-0 space-y-6">
+            <RequirementBoxes
+              courses={appData.nodes}
+              selectedCourses={selectedCourses}
+              onViewCourseDetail={handleViewCourseDetail}
+              programLists={appData.programLists!}
+              onCourseSelect={handleCourseSelect}
+              onCourseDeselect={handleCourseDeselect}
+              edges={appData.edges}
+            />
+            <AuditPanel
+              programInfo={appData.programInfo}
+              courseSets={appData.courseSets}
+              programLists={appData.programLists}
+              selectedCourses={selectedCourses}
+              courses={appData.nodes}
+            />
+          </section>
+
+          <section className="min-w-0">
+            <div className="xl:sticky xl:top-[84px]">
+              <CourseDetail
+                course={courseDetail}
+                edges={appData.edges}
+                allCourses={appData.nodes}
+                onViewCourseDetail={handleViewCourseDetail}
+                selectedCourses={selectedCourses}
+              />
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  );
+}
+
+function FullScreenLoader({ message }: { message: string }) {
+  return (
+    <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-bg text-text">
+      <Spinner size={44} />
+      <p className="text-sm text-muted">{message}</p>
+    </div>
+  );
+}
+
+function FullScreenError({ title, message }: { title: string; message: string }) {
+  return (
+    <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-bg px-6 text-center">
+      <div className="mb-1 h-8 w-8 bg-accent" aria-hidden />
+      <h2 className="font-display text-2xl font-semibold tracking-tight text-text">{title}</h2>
+      <p className="max-w-md text-sm text-muted">{message}</p>
     </div>
   );
 }

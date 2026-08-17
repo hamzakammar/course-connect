@@ -1,6 +1,7 @@
 import React from 'react';
 import { CourseNode, ProgramInfo, CourseSet, ProgramLists, CourseEdge } from '../context/AppDataContext';
 import { meetsPrerequisites, normalizeCode } from '../utils/prerequisites';
+import { Badge, Button, CourseCode, cn } from './ui';
 
 interface TermTimelineProps {
   courses: CourseNode[];
@@ -13,11 +14,108 @@ interface TermTimelineProps {
   electiveAssignments: Record<string, string | undefined>;
   programLists: ProgramLists | null;
   edges?: CourseEdge[];
+  // Off-term (co-op) courses keyed by work-term id (e.g. "W1").
+  offTermCourses?: Record<string, string[]>;
+  onAddOffTermCourse?: (term: string, courseCode: string) => void;
+  onRemoveOffTermCourse?: (term: string, courseCode: string) => void;
 }
 
-const TermTimeline: React.FC<TermTimelineProps> = ({ 
-  courses, 
-  programInfo, 
+interface CourseRowProps {
+  code: string;
+  title: string;
+  credits: number;
+  isSelected: boolean;
+  canTake?: boolean;
+  onView: () => void;
+  onToggle?: () => void;
+  toggleDisabled?: boolean;
+  toggleTitle?: string;
+}
+
+const CourseRow: React.FC<CourseRowProps> = ({
+  code,
+  title,
+  credits,
+  isSelected,
+  canTake = true,
+  onView,
+  onToggle,
+  toggleDisabled,
+  toggleTitle,
+}) => (
+  <li
+    role="button"
+    tabIndex={0}
+    onClick={(e) => {
+      e.preventDefault();
+      onView();
+    }}
+    onKeyDown={(e) => {
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+        e.preventDefault();
+        onView();
+      }
+    }}
+    className={cn(
+      'group flex cursor-pointer items-center gap-3 rounded-none border-l-2 py-2 pl-2.5 pr-1 transition-colors',
+      isSelected
+        ? 'border-text bg-surface-2'
+        : canTake
+          ? 'border-transparent hover:border-border-strong hover:bg-surface-2'
+          : 'border-transparent opacity-55 hover:bg-surface-2'
+    )}
+  >
+    <CourseCode active={isSelected}>{code}</CourseCode>
+    <span className="min-w-0 flex-1 truncate text-sm text-muted">{title}</span>
+    {canTake && !isSelected && (
+      <span className="eyebrow hidden shrink-0 text-accent sm:inline">Ready</span>
+    )}
+    <span className="shrink-0 font-mono text-xs tabular-nums text-faint">
+      {credits.toFixed(2)}
+    </span>
+    {isSelected && (
+      <span className="shrink-0 text-text" aria-label="selected">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden>
+          <path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </span>
+    )}
+    {onToggle && (
+      <Button
+        size="sm"
+        variant={isSelected ? 'secondary' : 'primary'}
+        disabled={toggleDisabled}
+        title={toggleTitle}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          onToggle();
+        }}
+        className="shrink-0"
+      >
+        {isSelected ? 'Remove' : 'Add'}
+      </Button>
+    )}
+  </li>
+);
+
+const SectionTitle: React.FC<{ children: React.ReactNode; className?: string }> = ({
+  children,
+  className,
+}) => (
+  <h4
+    className={cn(
+      'mb-1.5 text-[0.7rem] font-semibold uppercase tracking-wider text-faint',
+      className
+    )}
+  >
+    {children}
+  </h4>
+);
+
+const TermTimeline: React.FC<TermTimelineProps> = ({
+  courses,
+  programInfo,
   courseSets,
   selectedCourses,
   onViewCourseDetail,
@@ -25,7 +123,10 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
   onCourseDeselect,
   electiveAssignments,
   programLists,
-  edges = []
+  edges = [],
+  offTermCourses = {},
+  onAddOffTermCourse,
+  onRemoveOffTermCourse
 }) => {
   const courseMap = new Map<string, CourseNode>();
   courses.forEach(course => courseMap.set(course.code, course));
@@ -75,14 +176,29 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
     }
   });
 
-  // Extract term order (1A, 1B, 2A, 2B, 3A, 3B, 4A, 4B)
-  const termOrder = ['1A', '1B', '2A', '2B', '3A', '3B', '4A', '4B'];
-  
+  // Timeline slots: academic study terms interleaved with co-op/work terms.
+  // Work terms (W1..W5) normally hold no courses, but can hold off-term courses.
+  const timelineSlots: Array<{ id: string; type: 'study' | 'work' }> = [
+    { id: '1A', type: 'study' },
+    { id: '1B', type: 'study' },
+    { id: 'W1', type: 'work' },
+    { id: '2A', type: 'study' },
+    { id: 'W2', type: 'work' },
+    { id: '2B', type: 'study' },
+    { id: 'W3', type: 'work' },
+    { id: '3A', type: 'study' },
+    { id: 'W4', type: 'work' },
+    { id: '3B', type: 'study' },
+    { id: 'W5', type: 'work' },
+    { id: '4A', type: 'study' },
+    { id: '4B', type: 'study' },
+  ];
+
   // Get required_by_term from programInfo
   const requiredByTerm = programInfo?.required_by_term || {};
 
   // Get ANY requirements (select one) from course sets
-  const anyRequirements = courseSets.filter(cs => 
+  const anyRequirements = courseSets.filter(cs =>
     cs.id_hint && cs.id_hint.includes('_any')
   );
   const anyReqMap = new Map<string, CourseSet>();
@@ -95,34 +211,143 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
   });
 
   return (
-    <div className="term-timeline">
-      <div className="term-timeline-container">
-        {termOrder.map((term) => {
+    <div>
+      <div className="mb-3 flex items-baseline justify-between">
+        <h2 className="text-lg font-semibold tracking-tight">Term Timeline</h2>
+        <span className="text-xs text-muted">Scroll to browse terms →</span>
+      </div>
+      <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3">
+        {timelineSlots.map((slot) => {
+          const term = slot.id;
+
+          // Co-op / work term: normally holds no courses, but can carry
+          // off-term courses. Rendered as a recessive, hairline-dashed card.
+          if (slot.type === 'work') {
+            const offCodes = offTermCourses[term] || [];
+            const workCredits = offCodes.reduce((sum, code) => sum + getCourseCredits(code), 0);
+            return (
+              <div
+                key={term}
+                className="flex w-[320px] shrink-0 snap-start flex-col border border-dashed border-border bg-surface-2 transition-colors hover:border-border-strong"
+              >
+                <div className="flex items-end justify-between border-b border-border-strong px-4 py-3">
+                  <div className="flex items-baseline gap-2">
+                    <span className="font-display text-3xl font-semibold leading-none tracking-tight text-muted">
+                      {term}
+                    </span>
+                    <span className="eyebrow text-accent">Co-op</span>
+                  </div>
+                  <span className="font-mono text-xs tabular-nums text-muted">
+                    {workCredits.toFixed(2)}<span className="text-faint"> cr</span>
+                  </span>
+                </div>
+
+                <div className="flex flex-col gap-4 p-4">
+                  <div>
+                    <div className="mb-1.5 flex items-center justify-between gap-2">
+                      <SectionTitle className="mb-0">Off-term Courses</SectionTitle>
+                      {onAddOffTermCourse && (
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            const input = window.prompt(
+                              `Enter course code taken off-term during ${term} (co-op):`,
+                              ''
+                            );
+                            if (input && input.trim()) {
+                              onAddOffTermCourse(term, input.trim().toUpperCase());
+                            }
+                          }}
+                        >
+                          + Add
+                        </Button>
+                      )}
+                    </div>
+                    {offCodes.length === 0 ? (
+                      <p className="py-6 text-center text-sm italic text-faint">
+                        Work term — no courses. Add one if taking a course off-term.
+                      </p>
+                    ) : (
+                      <ul className="flex flex-col gap-1">
+                        {offCodes.map((code) => {
+                          const credits = getCourseCredits(code);
+                          const title = getCourseTitle(code);
+                          return (
+                            <li
+                              key={code}
+                              role="button"
+                              tabIndex={0}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                onViewCourseDetail(code);
+                              }}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+                                  e.preventDefault();
+                                  onViewCourseDetail(code);
+                                }
+                              }}
+                              className="group flex cursor-pointer items-center gap-3 rounded-none border-l-2 border-border-strong bg-surface py-2 pl-2.5 pr-1 transition-colors hover:border-text"
+                            >
+                              <CourseCode>{code}</CourseCode>
+                              <span className="min-w-0 flex-1 truncate text-sm text-muted">{title}</span>
+                              <Badge tone="accent" className="shrink-0">off-term</Badge>
+                              <span className="shrink-0 font-mono text-xs tabular-nums text-faint">
+                                {credits.toFixed(2)}
+                              </span>
+                              {onRemoveOffTermCourse && (
+                                <Button
+                                  size="sm"
+                                  variant="secondary"
+                                  className="shrink-0"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    onRemoveOffTermCourse(term, code);
+                                  }}
+                                >
+                                  Remove
+                                </Button>
+                              )}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
           const termCourses = requiredByTerm[term] || [];
           const anyReq = anyReqMap.get(term);
-          
+
           // Filter out courses from termCourses that are in the ANY requirement (they should only appear in "Select One")
           const anyReqCourseCodes = new Set(anyReq?.courses.map((code: string) => normalizeCode(code)) || []);
-          const filteredTermCourses = termCourses.filter((course: { code: string }) => 
+          const filteredTermCourses = termCourses.filter((course: { code: string }) =>
             !anyReqCourseCodes.has(normalizeCode(course.code))
           );
-          
+
           const electiveCodesForTerm = Object.entries(electiveAssignments)
             .filter(([_, assignedTerm]) => assignedTerm === term)
             .map(([code]) => code);
           const electiveRequirement = programInfo?.elective_requirements_by_term?.[term];
-          
+
           // Calculate selected credits for this term
           const selectedCredits = (() => {
             let total: number = 0.0;
-            
+
             // Count credits from selected required courses (excluding ANY courses)
             filteredTermCourses.forEach(course => {
               if (selectedCourses.has(course.code)) {
                 total += getCourseCredits(course.code);
               }
             });
-            
+
             // Count credits from selected ANY courses (only count one if multiple are selected)
             if (anyReq) {
               const selectedAnyCourses = anyReq.courses.filter((code: string) => selectedCourses.has(code));
@@ -138,295 +363,216 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
                 total += getCourseCredits(code);
               }
             });
-            
+
             return total;
           })();
-          
+
           return (
-            <div key={term} className="term-box-wrapper">
-              <div className="term-box">
-                <div className="term-header">
-                  <h3 className="term-label">{term}</h3>
-                  <h6 className="term-units">Credits: {selectedCredits.toFixed(2)}</h6>
+            <div
+              key={term}
+              className="flex w-[320px] shrink-0 snap-start flex-col border border-border bg-surface transition-colors hover:border-border-strong"
+            >
+              <div className="flex items-end justify-between border-b border-border-strong px-4 py-3">
+                <div className="flex items-baseline gap-2">
+                  <span className="font-display text-3xl font-semibold leading-none tracking-tight">
+                    {term}
+                  </span>
+                  <span className="eyebrow">Term</span>
                 </div>
-                
-                <div className="term-content">
-                  {/* Required courses */}
-                  {filteredTermCourses.length > 0 && (
-                    <div className="term-section">
-                      <h4 className="term-section-title">Required</h4>
-                      <ul className="term-course-list">
-                        {filteredTermCourses.map((course: { code: string; title: string }) => {
-                          const credits = getCourseCredits(course.code);
-                          const title = getCourseTitle(course.code) || course.title;
-                          const isSelected = selectedCourses.has(course.code);
-                          const canTake = meetsPrerequisites(course.code, edges, selectedCourses);
-                          return (
-                            <li 
-                              key={course.code} 
-                              className={`term-course-item ${isSelected ? 'course-selected' : ''} ${canTake ? 'course-eligible' : 'course-not-eligible'}`}
-                              role="button"
-                              tabIndex={0}
-                              onClick={(e) => {
-                                e.preventDefault();
-                                onViewCourseDetail(course.code);
-                              }}
-                              onKeyDown={(e) => {
-                                if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
-                                  e.preventDefault();
-                                  onViewCourseDetail(course.code);
-                                }
-                              }}
-                            >
-                              <div className="course-link">
-                                <span className="course-code">{course.code}</span>
-                                <span className="course-title">{title}</span>
-                                <span className="course-units">{credits.toFixed(2)}</span>
-                                {isSelected && <span className="selected-indicator">✓</span>}
-                                {canTake && !isSelected && <span style={{ color: '#4caf50', marginLeft: '0.5rem', fontSize: '0.9em' }}>✓ Ready</span>}
-                              </div>
-                              {onCourseSelect && onCourseDeselect && (
-                                <button
-                                  className="course-toggle-btn"
-                                  disabled={!isSelected && !canTake}
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
+                <span className="font-mono text-xs tabular-nums text-muted">
+                  {selectedCredits.toFixed(2)}<span className="text-faint"> cr</span>
+                </span>
+              </div>
+
+              <div className="flex flex-col gap-4 p-4">
+                {/* Required courses */}
+                {filteredTermCourses.length > 0 && (
+                  <div>
+                    <SectionTitle>Required</SectionTitle>
+                    <ul className="flex flex-col gap-1">
+                      {filteredTermCourses.map((course: { code: string; title: string }) => {
+                        const credits = getCourseCredits(course.code);
+                        const title = getCourseTitle(course.code) || course.title;
+                        const isSelected = selectedCourses.has(course.code);
+                        const canTake = meetsPrerequisites(course.code, edges, selectedCourses);
+                        return (
+                          <CourseRow
+                            key={course.code}
+                            code={course.code}
+                            title={title}
+                            credits={credits}
+                            isSelected={isSelected}
+                            canTake={canTake}
+                            onView={() => onViewCourseDetail(course.code)}
+                            onToggle={
+                              onCourseSelect && onCourseDeselect
+                                ? () => {
                                     if (isSelected) {
                                       onCourseDeselect(course.code, term);
                                     } else if (canTake) {
                                       onCourseSelect(course.code, term);
                                     }
-                                  }}
-                                  title={!isSelected && !canTake ? 'Prerequisites not met' : ''}
-                                >
-                                  {isSelected ? 'Deselect' : 'Select'}
-                                </button>
-                              )}
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  )}
-                  
-                  {/* Select one courses (ANY requirements) */}
-                  {anyReq && (
-                    <div className="term-section term-section-any">
-                      <h4 className="term-section-title">Select One</h4>
-                      <ul className="term-course-list">
-                        {anyReq.courses.map((courseCode: string) => {
-                          const credits = getCourseCredits(courseCode);
-                          const title = getCourseTitle(courseCode);
-                          const isSelected = selectedCourses.has(courseCode);
-                          const canTake = meetsPrerequisites(courseCode, edges, selectedCourses);
-                          return (
-                            <li
+                                  }
+                                : undefined
+                            }
+                            toggleDisabled={!isSelected && !canTake}
+                            toggleTitle={!isSelected && !canTake ? 'Prerequisites not met' : ''}
+                          />
+                        );
+                      })}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Select one courses (ANY requirements) */}
+                {anyReq && (
+                  <div className="border-t border-dashed border-border pt-3">
+                    <SectionTitle>Select One</SectionTitle>
+                    <ul className="flex flex-col gap-1">
+                      {anyReq.courses.map((courseCode: string) => {
+                        const credits = getCourseCredits(courseCode);
+                        const title = getCourseTitle(courseCode);
+                        const isSelected = selectedCourses.has(courseCode);
+                        const canTake = meetsPrerequisites(courseCode, edges, selectedCourses);
+                        return (
+                          <CourseRow
                             key={courseCode}
-                            className={`term-course-item term-course-any ${isSelected ? 'course-selected' : ''} ${canTake ? 'course-eligible' : 'course-not-eligible'}`}
-                            role="button"
-                            tabIndex={0}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              onViewCourseDetail(courseCode);
-                            }}
-                            onKeyDown={(e) => {
-                              if (e.key === 'Enter' || e.key === ' ') {
-                                e.preventDefault();
-                                onViewCourseDetail(courseCode);
-                              }
-                            }}
-                            >
-                              <div className="course-link">
-                                <span className="course-code">{courseCode}</span>
-                                <span className="course-title">{title}</span>
-                                <span className="course-units">{credits.toFixed(2)}</span>
-                                {isSelected && <span className="selected-indicator">✓</span>}
-                                {canTake && !isSelected && <span style={{ color: '#4caf50', marginLeft: '0.5rem', fontSize: '0.9em' }}>✓ Ready</span>}
-                              </div>
-                              {onCourseSelect && onCourseDeselect && (
-                                <button
-                                  className="course-toggle-btn"
-                                  disabled={!isSelected && !canTake}
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
+                            code={courseCode}
+                            title={title}
+                            credits={credits}
+                            isSelected={isSelected}
+                            canTake={canTake}
+                            onView={() => onViewCourseDetail(courseCode)}
+                            onToggle={
+                              onCourseSelect && onCourseDeselect
+                                ? () => {
                                     if (isSelected) {
                                       onCourseDeselect(courseCode, term);
                                     } else if (canTake) {
                                       onCourseSelect(courseCode, term);
                                     }
-                                  }}
-                                  title={!isSelected && !canTake ? 'Prerequisites not met' : ''}
-                                >
-                                  {isSelected ? 'Deselect' : 'Select'}
-                                </button>
-                              )}
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  )}
-
-                  {/* Elective requirements */}
-                  {electiveRequirement && (
-                    <div className="term-section term-section-electives">
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                        <h4 className="term-section-title">
-                          {electiveRequirement.description || 'Approved'} Electives ({electiveCodesForTerm.length}/{electiveRequirement.count})
-                        </h4>
-                        {electiveCodesForTerm.length < electiveRequirement.count && onCourseSelect && (
-                          <button
-                            className="add-elective-btn"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              const input = window.prompt(
-                                `Enter course code for ${electiveRequirement.description || 'approved'} elective:`,
-                                ''
-                              );
-                              if (input && input.trim()) {
-                                const courseCode = input.trim().toUpperCase();
-                                onCourseSelect(courseCode, term);
-                              }
-                            }}
-                            style={{
-                              padding: '0.25rem 0.5rem',
-                              fontSize: '0.85rem',
-                              backgroundColor: '#4CAF50',
-                              color: 'white',
-                              border: 'none',
-                              borderRadius: '4px',
-                              cursor: 'pointer'
-                            }}
-                          >
-                            + Add Elective
-                          </button>
-                        )}
-                      </div>
-                      {electiveCodesForTerm.length < electiveRequirement.count && (
-                        <p style={{ 
-                          fontSize: '0.85rem', 
-                          color: '#666', 
-                          fontStyle: 'italic',
-                          marginBottom: '0.5rem'
-                        }}>
-                          Complete {electiveRequirement.count - electiveCodesForTerm.length} more {electiveRequirement.description || 'approved'} elective{electiveRequirement.count - electiveCodesForTerm.length > 1 ? 's' : ''}
-                        </p>
-                      )}
-                      {electiveCodesForTerm.length > 0 && (
-                        <ul className="term-course-list">
-                          {electiveCodesForTerm.map(code => {
-                            const isSelected = selectedCourses.has(code);
-                            const credits = getCourseCredits(code);
-                            const title = getCourseTitle(code);
-                            return (
-                              <li
-                                key={code}
-                                className={`term-course-item term-course-any ${isSelected ? 'course-selected' : ''}`}
-                                role="button"
-                                tabIndex={0}
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  onViewCourseDetail(code);
-                                }}
-                                onKeyDown={(e) => {
-                                  if (e.key === 'Enter' || e.key === ' ') {
-                                    e.preventDefault();
-                                    onViewCourseDetail(code);
                                   }
-                                }}
-                              >
-                                <div className="course-link">
-                                  <span className="course-code">{code}</span>
-                                  <span className="course-title">{title}</span>
-                                  <span className="course-units">{credits.toFixed(2)}</span>
-                                  {isSelected && <span className="selected-indicator">✓</span>}
-                                </div>
-                                {onCourseSelect && onCourseDeselect && (
-                                  <button
-                                    className="course-toggle-btn"
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      e.stopPropagation();
+                                : undefined
+                            }
+                            toggleDisabled={!isSelected && !canTake}
+                            toggleTitle={!isSelected && !canTake ? 'Prerequisites not met' : ''}
+                          />
+                        );
+                      })}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Elective requirements */}
+                {electiveRequirement && (
+                  <div className="border-t border-dashed border-border pt-3">
+                    <div className="mb-1.5 flex items-center justify-between gap-2">
+                      <SectionTitle className="mb-0">
+                        {electiveRequirement.description || 'Approved'} Electives ({electiveCodesForTerm.length}/{electiveRequirement.count})
+                      </SectionTitle>
+                      {electiveCodesForTerm.length < electiveRequirement.count && onCourseSelect && (
+                        <Button
+                          size="sm"
+                          variant="success"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            const input = window.prompt(
+                              `Enter course code for ${electiveRequirement.description || 'approved'} elective:`,
+                              ''
+                            );
+                            if (input && input.trim()) {
+                              const courseCode = input.trim().toUpperCase();
+                              onCourseSelect(courseCode, term);
+                            }
+                          }}
+                        >
+                          + Add
+                        </Button>
+                      )}
+                    </div>
+                    {electiveCodesForTerm.length < electiveRequirement.count && (
+                      <p className="mb-1.5 text-xs italic text-muted">
+                        Complete {electiveRequirement.count - electiveCodesForTerm.length} more {electiveRequirement.description || 'approved'} elective{electiveRequirement.count - electiveCodesForTerm.length > 1 ? 's' : ''}
+                      </p>
+                    )}
+                    {electiveCodesForTerm.length > 0 && (
+                      <ul className="flex flex-col gap-1">
+                        {electiveCodesForTerm.map(code => {
+                          const isSelected = selectedCourses.has(code);
+                          const credits = getCourseCredits(code);
+                          const title = getCourseTitle(code);
+                          return (
+                            <CourseRow
+                              key={code}
+                              code={code}
+                              title={title}
+                              credits={credits}
+                              isSelected={isSelected}
+                              onView={() => onViewCourseDetail(code)}
+                              onToggle={
+                                onCourseSelect && onCourseDeselect
+                                  ? () => {
                                       if (isSelected) {
                                         onCourseDeselect(code, term);
                                       } else {
                                         onCourseSelect(code, term);
                                       }
-                                    }}
-                                  >
-                                    {isSelected ? 'Deselect' : 'Select'}
-                                  </button>
-                                )}
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      )}
-                    </div>
-                  )}
-                  
-                  {/* Legacy: Electives explicitly assigned to this term (if no requirement defined) */}
-                  {!electiveRequirement && electiveCodesForTerm.length > 0 && (
-                    <div className="term-section term-section-any">
-                      <h4 className="term-section-title">Electives</h4>
-                      <ul className="term-course-list">
-                        {electiveCodesForTerm.map(code => {
-                          const isSelected = selectedCourses.has(code);
-                          const credits = getCourseCredits(code);
-                          const title = getCourseTitle(code);
-                          const canTake = meetsPrerequisites(code, edges, selectedCourses);
-                          return (
-                            <li
-                              key={code}
-                              className={`term-course-item term-course-any ${isSelected ? 'course-selected' : ''} ${canTake ? 'course-eligible' : 'course-not-eligible'}`}
-                              role="button"
-                              tabIndex={0}
-                              onClick={(e) => {
-                                e.preventDefault();
-                                onViewCourseDetail(code);
-                              }}
-                              onKeyDown={(e) => {
-                                if (e.key === 'Enter' || e.key === ' ') {
-                                  e.preventDefault();
-                                  onViewCourseDetail(code);
-                                }
-                              }}
-                            >
-                              <div className="course-link">
-                                <span className="course-code">{code}</span>
-                                <span className="course-title">{title}</span>
-                                <span className="course-units">{credits.toFixed(2)}</span>
-                                {isSelected && <span className="selected-indicator">✓</span>}
-                                {canTake && !isSelected && <span style={{ color: '#4caf50', marginLeft: '0.5rem', fontSize: '0.9em' }}>✓ Ready</span>}
-                              </div>
-                              {onCourseSelect && onCourseDeselect && (
-                                <button
-                                  className="course-toggle-btn"
-                                  disabled={!isSelected && !canTake}
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
+                                    }
+                                  : undefined
+                              }
+                            />
+                          );
+                        })}
+                      </ul>
+                    )}
+                  </div>
+                )}
+
+                {/* Legacy: Electives explicitly assigned to this term (if no requirement defined) */}
+                {!electiveRequirement && electiveCodesForTerm.length > 0 && (
+                  <div className="border-t border-dashed border-border pt-3">
+                    <SectionTitle>Electives</SectionTitle>
+                    <ul className="flex flex-col gap-1">
+                      {electiveCodesForTerm.map(code => {
+                        const isSelected = selectedCourses.has(code);
+                        const credits = getCourseCredits(code);
+                        const title = getCourseTitle(code);
+                        const canTake = meetsPrerequisites(code, edges, selectedCourses);
+                        return (
+                          <CourseRow
+                            key={code}
+                            code={code}
+                            title={title}
+                            credits={credits}
+                            isSelected={isSelected}
+                            canTake={canTake}
+                            onView={() => onViewCourseDetail(code)}
+                            onToggle={
+                              onCourseSelect && onCourseDeselect
+                                ? () => {
                                     if (isSelected) {
                                       onCourseDeselect(code, term);
                                     } else if (canTake) {
                                       onCourseSelect(code, term);
                                     }
-                                  }}
-                                  title={!isSelected && !canTake ? 'Prerequisites not met' : ''}
-                                >
-                                  {isSelected ? 'Deselect' : 'Select'}
-                                </button>
-                              )}
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  )}
-                </div>
+                                  }
+                                : undefined
+                            }
+                            toggleDisabled={!isSelected && !canTake}
+                            toggleTitle={!isSelected && !canTake ? 'Prerequisites not met' : ''}
+                          />
+                        );
+                      })}
+                    </ul>
+                  </div>
+                )}
+
+                {filteredTermCourses.length === 0 && !anyReq && !electiveRequirement && electiveCodesForTerm.length === 0 && (
+                  <p className="py-6 text-center text-sm italic text-faint">
+                    No requirements for this term.
+                  </p>
+                )}
               </div>
             </div>
           );
@@ -437,4 +583,3 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
 };
 
 export default TermTimeline;
-

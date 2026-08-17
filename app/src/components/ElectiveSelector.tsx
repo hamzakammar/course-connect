@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { CourseNode, CourseEdge } from '../context/AppDataContext';
 import { meetsPrerequisites as meetsPrerequisitesUtil, getMissingPrerequisites, normalizeCode } from '../utils/prerequisites';
+import { Input, Button, CourseCode, Badge, cn } from './ui';
 
 interface ElectiveSelectorProps {
   courses: CourseNode[];
@@ -84,21 +85,29 @@ const ElectiveSelector: React.FC<ElectiveSelectorProps> = ({
   const sortedElectives = sortCoursesByEligibility(availableElectives);
 
   return (
-    <div className="elective-selector">
-      <h2>Select Electives</h2>
-      <input
-        type="text"
-        placeholder="Search electives..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <div className="elective-list">
+    <div>
+      <h2 className="mb-3 text-lg font-semibold tracking-tight">Select Electives</h2>
+      <div className="mb-4">
+        <Input
+          type="text"
+          placeholder="Search electives…"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          leadingIcon={
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
+              <path d="m20 20-3-3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+          }
+        />
+      </div>
+      <div className="flex flex-col gap-2">
         {sortedElectives.map(course => {
           const canTake = meetsPrerequisites(course.code);
+          const prereqs = getPrerequisites(course.code);
           return (
-            <div 
-              key={course.id} 
-              className={`elective-item ${canTake ? 'elective-eligible' : 'elective-not-eligible'}`}
+            <div
+              key={course.id}
               role="button"
               tabIndex={0}
               onClick={(e) => {
@@ -111,45 +120,56 @@ const ElectiveSelector: React.FC<ElectiveSelectorProps> = ({
                   onViewCourseDetail(course.code);
                 }
               }}
+              className={cn(
+                'cursor-pointer rounded-lg border border-l-2 bg-surface p-3 transition-all hover:shadow-e1',
+                canTake
+                  ? 'border-border border-l-met hover:border-met-border'
+                  : 'border-border border-l-partial opacity-90 hover:border-partial-border'
+              )}
             >
-              <div className="elective-main">
-                <span>
-                  {course.code} - {course.title} ({course.credits} credits)
-                  {canTake && <span style={{ color: '#4caf50', marginLeft: '0.5rem', fontWeight: 'bold' }}>✓ Ready to take</span>}
+              <div className="flex items-center gap-3">
+                <CourseCode>{course.code}</CourseCode>
+                <span className="min-w-0 flex-1 truncate text-sm text-text">
+                  {course.title}
+                  <span className="ml-1 text-muted">({course.credits} cr)</span>
                 </span>
+                {canTake && <Badge tone="met" dot>Ready</Badge>}
+                <Button
+                  size="sm"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onCourseSelect(course.code);
+                  }}
+                  className="shrink-0"
+                >
+                  Add
+                </Button>
               </div>
-            <button 
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                onCourseSelect(course.code);
-              }}
-            >
-              Add
-            </button>
-            <div className="prerequisites">
-              {getPrerequisites(course.code).length > 0 && (
-                <p>Prerequisites: 
-                  {getPrerequisites(course.code).map((prereq, index, array) => {
+              {prereqs.length > 0 && (
+                <p className="mt-2 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-muted">
+                  <span className="text-faint">Prereqs:</span>
+                  {prereqs.map((prereq, index, array) => {
                     const normalizedPrereq = normalizeCode(prereq.code);
                     const isCompleted = Array.from(selectedCourses).some(selected => normalizeCode(selected) === normalizedPrereq);
                     return (
                       <React.Fragment key={prereq.id}>
-                        <span style={{ color: isCompleted ? 'green' : 'red' }}>
-                          {prereq.code}{!isCompleted && ' (Missing)'}
+                        <span className={cn('font-mono', isCompleted ? 'text-met-fg' : 'text-unmet-fg')}>
+                          {prereq.code}{!isCompleted && ' (missing)'}
                         </span>
-                        {index < array.length - 1 && ', '}
+                        {index < array.length - 1 && <span className="text-faint">·</span>}
                       </React.Fragment>
                     );
                   })}
                 </p>
               )}
-              {!meetsPrerequisites(course.code) && (
-                <p style={{ color: 'red' }}>Does not meet all prerequisites.</p>
+              {!canTake && (
+                <p className="mt-1.5 text-xs font-medium text-partial-fg">
+                  Does not meet all prerequisites.
+                </p>
               )}
             </div>
-          </div>
-        );
+          );
         })}
       </div>
     </div>

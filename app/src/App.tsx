@@ -1,5 +1,5 @@
 import {useState, useEffect } from 'react';
-import './App.css';
+import { Button, Spinner, ThemeToggle } from './components/ui';
 import { useAppData } from './context/AppDataContext.tsx';
 import { useAuth } from './context/AuthContext.tsx';
 import { useUser } from './hooks/useUser.ts';
@@ -49,12 +49,7 @@ function App() {
 
   // Show sign in page if not authenticated
   if (authLoading) {
-    return (
-      <div className="loading-container">
-        <div className="loading-spinner"></div>
-        <p>Loading...</p>
-      </div>
-    );
+    return <FullScreenLoader message="Loading…" />;
   }
 
   if (!user) {
@@ -62,29 +57,19 @@ function App() {
   }
 
   if (dataLoading) {
-    return (
-      <div className="loading-container">
-        <div className="loading-spinner"></div>
-        <p>Loading course data...</p>
-      </div>
-    );
+    return <FullScreenLoader message="Loading course data…" />;
   }
 
   if (error) {
-    return (
-      <div className="error-container">
-        <h2>Error Loading Data</h2>
-        <p>{error}</p>
-      </div>
-    );
+    return <FullScreenError title="Error loading data" message={error} />;
   }
 
   if (!appData) {
     return (
-      <div className="error-container">
-        <h2>No Data Available</h2>
-        <p>No application data available. Please refresh the page.</p>
-      </div>
+      <FullScreenError
+        title="No data available"
+        message="No application data available. Please refresh the page."
+      />
     );
   }
 
@@ -272,74 +257,112 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <div className="app-header">
-        <h1>Course Connect Planner</h1>
-        <div className="header-right">
-          <div className="plan-manager-compact">
+    <div className="min-h-screen bg-bg text-text">
+      <header className="sticky top-0 z-30 border-b border-border bg-surface/80 backdrop-blur-md">
+        <div className="mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
+          <div className="flex items-center gap-3">
+            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-fg shadow-e1">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
+                <path d="M4 6.5A2.5 2.5 0 0 1 6.5 4H20v13H6.5A2.5 2.5 0 0 0 4 19.5V6.5Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20v3H6.5A2.5 2.5 0 0 1 4 19.5Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
+              </svg>
+            </span>
+            <div className="leading-tight">
+              <h1 className="text-lg font-semibold tracking-tight sm:text-xl">
+                Course Connect
+              </h1>
+              <p className="hidden text-xs text-muted sm:block">Degree Planner</p>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3">
             <PlanManager
               selectedCourses={selectedCourses}
               electiveAssignments={electiveAssignments}
               onLoadPlan={handleLoadPlan}
             />
-          </div>
-        <div className="user-info">
-            {profile && profile.name && (
-              <span className="user-name">{profile.name}</span>
-            )}
-          <span className="user-email">{user.email}</span>
-          <button className="sign-out-button" onClick={signOut}>
-            Sign Out
-          </button>
+            <ThemeToggle />
+            <div className="flex items-center gap-3 border-l border-border pl-3">
+              <div className="hidden text-right leading-tight sm:block">
+                {profile && profile.name && (
+                  <div className="text-sm font-medium text-text">{profile.name}</div>
+                )}
+                <div className="text-xs text-muted">{user.email}</div>
+              </div>
+              <Button variant="ghost" size="sm" onClick={signOut}>
+                Sign out
+              </Button>
+            </div>
           </div>
         </div>
+      </header>
+
+      <main className="mx-auto max-w-[1600px] px-4 py-6 sm:px-6">
+        <div className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_380px_340px]">
+          <section className="min-w-0">
+            <TermTimeline
+              courses={appData.nodes}
+              programInfo={appData.programInfo}
+              courseSets={appData.courseSets}
+              selectedCourses={selectedCourses}
+              onViewCourseDetail={handleViewCourseDetail}
+              onCourseSelect={handleCourseSelect}
+              onCourseDeselect={handleCourseDeselect}
+              electiveAssignments={electiveAssignments}
+              programLists={appData.programLists}
+              edges={appData.edges}
+            />
+          </section>
+
+          <section className="min-w-0">
+            <RequirementBoxes
+              courses={appData.nodes}
+              selectedCourses={selectedCourses}
+              onViewCourseDetail={handleViewCourseDetail}
+              programLists={appData.programLists!}
+              onCourseSelect={handleCourseSelect}
+              onCourseDeselect={handleCourseDeselect}
+              edges={appData.edges}
+            />
+          </section>
+
+          <section className="min-w-0">
+            <div className="xl:sticky xl:top-[84px]">
+              <CourseDetail
+                course={courseDetail}
+                edges={appData.edges}
+                allCourses={appData.nodes}
+                onViewCourseDetail={handleViewCourseDetail}
+                selectedCourses={selectedCourses}
+              />
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  );
+}
+
+function FullScreenLoader({ message }: { message: string }) {
+  return (
+    <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-bg text-text">
+      <Spinner size={44} />
+      <p className="text-sm text-muted">{message}</p>
+    </div>
+  );
+}
+
+function FullScreenError({ title, message }: { title: string; message: string }) {
+  return (
+    <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-bg px-6 text-center">
+      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-unmet-soft text-unmet-fg">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
+          <path d="M12 8v5M12 16.5h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2" />
+        </svg>
       </div>
-      
-      <div className="main-content">
-        <div className="content-panels">
-        <div className="left-panel">
-          <TermTimeline
-            courses={appData.nodes}
-            programInfo={appData.programInfo}
-            courseSets={appData.courseSets}
-            selectedCourses={selectedCourses}
-            onViewCourseDetail={handleViewCourseDetail}
-            onCourseSelect={handleCourseSelect}
-            onCourseDeselect={handleCourseDeselect}
-            electiveAssignments={electiveAssignments}
-            programLists={appData.programLists}
-            edges={appData.edges}
-          />
-        </div>
-        
-        <div className="middle-panel">
-          <RequirementBoxes
-            courses={appData.nodes}
-            selectedCourses={selectedCourses}
-            onViewCourseDetail={handleViewCourseDetail}
-            programLists={appData.programLists!}
-            onCourseSelect={handleCourseSelect}
-            onCourseDeselect={handleCourseDeselect}
-            edges={appData.edges}
-          />
-        </div>
-        
-        <div className="rightmost-panel">
-          <CourseDetail
-            course={courseDetail}
-            edges={appData.edges}
-            allCourses={appData.nodes}
-            onViewCourseDetail={handleViewCourseDetail}
-            selectedCourses={selectedCourses}
-          />
-          </div>
-        </div>
-      </div>
-      
-      {/* <div style={{ marginTop: '40px', clear: 'both' }}>
-        <h2>Course Graph Visualization</h2>
-        <CourseGraph courses={appData.nodes} edges={appData.edges} />
-      </div> */}
+      <h2 className="text-xl font-semibold text-text">{title}</h2>
+      <p className="max-w-md text-sm text-muted">{message}</p>
     </div>
   );
 }

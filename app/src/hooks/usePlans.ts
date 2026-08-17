@@ -8,6 +8,9 @@ export interface SavedPlan {
   plan_name: string;
   selected_courses: string[];
   elective_assignments: Record<string, string>;
+  // Courses taken off-term during a co-op/work term, keyed by work-term id (e.g. "W1").
+  // Optional for backward-compatibility with plans saved before this feature existed.
+  offterm_courses?: Record<string, string[]>;
   created_at: string;
   updated_at: string;
 }
@@ -62,7 +65,8 @@ export const usePlans = () => {
   const savePlan = async (
     planName: string,
     selectedCourses: Set<string>,
-    electiveAssignments: Record<string, string | undefined>
+    electiveAssignments: Record<string, string | undefined>,
+    offTermCourses: Record<string, string[]> = {}
   ): Promise<SavedPlan | null> => {
     // Filter out undefined values before saving
     const cleaned: Record<string, string> = {};
@@ -83,6 +87,7 @@ export const usePlans = () => {
           plan_name: planName,
           selected_courses: Array.from(selectedCourses),
           elective_assignments: cleaned,
+          offterm_courses: offTermCourses,
         })
         .select()
         .single();
@@ -112,7 +117,8 @@ export const usePlans = () => {
     planId: string,
     planName: string,
     selectedCourses: Set<string>,
-    electiveAssignments: Record<string, string | undefined>
+    electiveAssignments: Record<string, string | undefined>,
+    offTermCourses: Record<string, string[]> = {}
   ): Promise<SavedPlan | null> => {
     // Filter out undefined values before saving
     const cleaned: Record<string, string> = {};
@@ -132,6 +138,7 @@ export const usePlans = () => {
           plan_name: planName,
           selected_courses: Array.from(selectedCourses),
           elective_assignments: cleaned,
+          offterm_courses: offTermCourses,
           updated_at: new Date().toISOString(),
         })
         .eq('id', planId)

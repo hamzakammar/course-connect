@@ -20,6 +20,8 @@ function App() {
   const [selectedCourses, setSelectedCourses] = useState<Set<string>>(new Set());
   const [courseDetail, setCourseDetail] = useState<CourseNode | null>(null);
   const [electiveAssignments, setElectiveAssignments] = useState<Record<string, string | undefined>>({});
+  // Off-term courses taken during a co-op/work term, keyed by work-term id (e.g. "W1").
+  const [offTermCourses, setOffTermCourses] = useState<Record<string, string[]>>({});
 
   // On initial load, pre-select all required courses from the program plan
   useEffect(() => {
@@ -218,6 +220,29 @@ function App() {
     });
   };
 
+  const handleAddOffTermCourse = (term: string, courseCode: string) => {
+    setOffTermCourses(prev => {
+      const existing = prev[term] || [];
+      if (existing.includes(courseCode)) return prev;
+      return { ...prev, [term]: [...existing, courseCode] };
+    });
+  };
+
+  const handleRemoveOffTermCourse = (term: string, courseCode: string) => {
+    setOffTermCourses(prev => {
+      const existing = prev[term];
+      if (!existing) return prev;
+      const next = existing.filter(code => code !== courseCode);
+      const copy = { ...prev };
+      if (next.length > 0) {
+        copy[term] = next;
+      } else {
+        delete copy[term];
+      }
+      return copy;
+    });
+  };
+
   const handleViewCourseDetail = (courseCode: string) => {
     const normalizeCode = (code: string) => code.replace(/\s+/g, '').toUpperCase();
     const normalizedCode = normalizeCode(courseCode);
@@ -269,6 +294,8 @@ function App() {
       converted[key] = value;
     });
     setElectiveAssignments(converted);
+    // Backward-compatible: older plans have no offterm_courses field.
+    setOffTermCourses(plan.offterm_courses || {});
   };
 
   return (
@@ -280,6 +307,7 @@ function App() {
             <PlanManager
               selectedCourses={selectedCourses}
               electiveAssignments={electiveAssignments}
+              offTermCourses={offTermCourses}
               onLoadPlan={handleLoadPlan}
             />
           </div>
@@ -309,6 +337,9 @@ function App() {
             electiveAssignments={electiveAssignments}
             programLists={appData.programLists}
             edges={appData.edges}
+            offTermCourses={offTermCourses}
+            onAddOffTermCourse={handleAddOffTermCourse}
+            onRemoveOffTermCourse={handleRemoveOffTermCourse}
           />
         </div>
         

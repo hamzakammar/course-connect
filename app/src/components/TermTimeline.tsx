@@ -13,6 +13,10 @@ interface TermTimelineProps {
   electiveAssignments: Record<string, string | undefined>;
   programLists: ProgramLists | null;
   edges?: CourseEdge[];
+  // Off-term (co-op) courses keyed by work-term id (e.g. "W1").
+  offTermCourses?: Record<string, string[]>;
+  onAddOffTermCourse?: (term: string, courseCode: string) => void;
+  onRemoveOffTermCourse?: (term: string, courseCode: string) => void;
 }
 
 const TermTimeline: React.FC<TermTimelineProps> = ({ 
@@ -25,7 +29,10 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
   onCourseDeselect,
   electiveAssignments,
   programLists,
-  edges = []
+  edges = [],
+  offTermCourses = {},
+  onAddOffTermCourse,
+  onRemoveOffTermCourse
 }) => {
   const courseMap = new Map<string, CourseNode>();
   courses.forEach(course => courseMap.set(course.code, course));
@@ -75,8 +82,23 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
     }
   });
 
-  // Extract term order (1A, 1B, 2A, 2B, 3A, 3B, 4A, 4B)
-  const termOrder = ['1A', '1B', '2A', '2B', '3A', '3B', '4A', '4B'];
+  // Timeline slots: academic study terms interleaved with co-op/work terms.
+  // Work terms (W1..W5) normally hold no courses, but can hold off-term courses.
+  const timelineSlots: Array<{ id: string; type: 'study' | 'work' }> = [
+    { id: '1A', type: 'study' },
+    { id: '1B', type: 'study' },
+    { id: 'W1', type: 'work' },
+    { id: '2A', type: 'study' },
+    { id: 'W2', type: 'work' },
+    { id: '2B', type: 'study' },
+    { id: 'W3', type: 'work' },
+    { id: '3A', type: 'study' },
+    { id: 'W4', type: 'work' },
+    { id: '3B', type: 'study' },
+    { id: 'W5', type: 'work' },
+    { id: '4A', type: 'study' },
+    { id: '4B', type: 'study' },
+  ];
   
   // Get required_by_term from programInfo
   const requiredByTerm = programInfo?.required_by_term || {};
@@ -97,7 +119,108 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
   return (
     <div className="term-timeline">
       <div className="term-timeline-container">
-        {termOrder.map((term) => {
+        {timelineSlots.map((slot) => {
+          const term = slot.id;
+
+          // Co-op / work term: normally no courses, but can hold off-term courses.
+          if (slot.type === 'work') {
+            const offCodes = offTermCourses[term] || [];
+            const workCredits = offCodes.reduce((sum, code) => sum + getCourseCredits(code), 0);
+            return (
+              <div key={term} className="term-box-wrapper">
+                <div className="term-box term-box-work">
+                  <div className="term-header">
+                    <h3 className="term-label">{term} · Co-op</h3>
+                    <h6 className="term-units">Credits: {workCredits.toFixed(2)}</h6>
+                  </div>
+                  <div className="term-content">
+                    <div className="term-section term-section-any">
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                        <h4 className="term-section-title">Off-term Courses</h4>
+                        {onAddOffTermCourse && (
+                          <button
+                            className="add-elective-btn"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              const input = window.prompt(
+                                `Enter course code taken off-term during ${term} (co-op):`,
+                                ''
+                              );
+                              if (input && input.trim()) {
+                                onAddOffTermCourse(term, input.trim().toUpperCase());
+                              }
+                            }}
+                            style={{
+                              padding: '0.25rem 0.5rem',
+                              fontSize: '0.85rem',
+                              backgroundColor: '#4CAF50',
+                              color: 'white',
+                              border: 'none',
+                              borderRadius: '4px',
+                              cursor: 'pointer'
+                            }}
+                          >
+                            + Add Course
+                          </button>
+                        )}
+                      </div>
+                      {offCodes.length === 0 ? (
+                        <p style={{ fontSize: '0.85rem', color: '#666', fontStyle: 'italic' }}>
+                          Work term — no courses. Add one if taking a course off-term.
+                        </p>
+                      ) : (
+                        <ul className="term-course-list">
+                          {offCodes.map(code => {
+                            const credits = getCourseCredits(code);
+                            const title = getCourseTitle(code);
+                            return (
+                              <li
+                                key={code}
+                                className="term-course-item term-course-any"
+                                role="button"
+                                tabIndex={0}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  onViewCourseDetail(code);
+                                }}
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter' || e.key === ' ') {
+                                    e.preventDefault();
+                                    onViewCourseDetail(code);
+                                  }
+                                }}
+                              >
+                                <div className="course-link">
+                                  <span className="course-code">{code}</span>
+                                  <span className="course-title">{title}</span>
+                                  <span className="offterm-badge">off-term</span>
+                                  <span className="course-units">{credits.toFixed(2)}</span>
+                                </div>
+                                {onRemoveOffTermCourse && (
+                                  <button
+                                    className="course-toggle-btn"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      e.stopPropagation();
+                                      onRemoveOffTermCourse(term, code);
+                                    }}
+                                  >
+                                    Remove
+                                  </button>
+                                )}
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
           const termCourses = requiredByTerm[term] || [];
           const anyReq = anyReqMap.get(term);
           

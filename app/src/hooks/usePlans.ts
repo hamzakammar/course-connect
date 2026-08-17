@@ -12,20 +12,75 @@ export interface SavedPlan {
   updated_at: string;
 }
 
+const GUEST_PLANS_KEY = 'cc-guest-plans';
+
+// ---- Guest (localStorage) persistence helpers ----
+
+function readGuestPlans(): SavedPlan[] {
+  try {
+    const raw = localStorage.getItem(GUEST_PLANS_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? (parsed as SavedPlan[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeGuestPlans(plans: SavedPlan[]) {
+  try {
+    localStorage.setItem(GUEST_PLANS_KEY, JSON.stringify(plans));
+  } catch {
+    /* ignore quota / privacy-mode errors */
+  }
+}
+
+function makeId(): string {
+  try {
+    if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
+      return crypto.randomUUID();
+    }
+  } catch {
+    /* fall through */
+  }
+  return `guest-${Date.now()}-${Math.floor(Math.random() * 1e6)}`;
+}
+
+function cleanAssignments(
+  electiveAssignments: Record<string, string | undefined>
+): Record<string, string> {
+  const cleaned: Record<string, string> = {};
+  Object.entries(electiveAssignments).forEach(([key, value]) => {
+    if (value !== undefined) {
+      cleaned[key] = value;
+    }
+  });
+  return cleaned;
+}
+
 export const usePlans = () => {
-  const { user } = useAuth();
+  const { user, guest } = useAuth();
   const [plans, setPlans] = useState<SavedPlan[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    if (!user) {
+    // Guest mode: load plans from the browser, no network.
+    if (guest && !user) {
+      setPlans(readGuestPlans());
+      setLoading(false);
+      setError(null);
+      return;
+    }
+
+    if (!user || !supabase) {
       setPlans([]);
       setLoading(false);
       return;
     }
 
     const fetchPlans = async () => {
+      if (!supabase) return;
       try {
         setLoading(true);
         setError(null);
@@ -57,21 +112,36 @@ export const usePlans = () => {
     };
 
     fetchPlans();
-  }, [user]);
+  }, [user, guest]);
 
   const savePlan = async (
     planName: string,
     selectedCourses: Set<string>,
     electiveAssignments: Record<string, string | undefined>
   ): Promise<SavedPlan | null> => {
-    // Filter out undefined values before saving
-    const cleaned: Record<string, string> = {};
-    Object.entries(electiveAssignments).forEach(([key, value]) => {
-      if (value !== undefined) {
-        cleaned[key] = value;
-      }
-    });
-    if (!user) {
+    const cleaned = cleanAssignments(electiveAssignments);
+
+    // Guest mode: persist to localStorage.
+    if (guest && !user) {
+      const now = new Date().toISOString();
+      const plan: SavedPlan = {
+        id: makeId(),
+        user_id: 'guest',
+        plan_name: planName,
+        selected_courses: Array.from(selectedCourses),
+        elective_assignments: cleaned,
+        created_at: now,
+        updated_at: now,
+      };
+      setPlans(prev => {
+        const next = [plan, ...prev];
+        writeGuestPlans(next);
+        return next;
+      });
+      return plan;
+    }
+
+    if (!user || !supabase) {
       throw new Error('Must be logged in to save plans');
     }
 
@@ -114,14 +184,30 @@ export const usePlans = () => {
     selectedCourses: Set<string>,
     electiveAssignments: Record<string, string | undefined>
   ): Promise<SavedPlan | null> => {
-    // Filter out undefined values before saving
-    const cleaned: Record<string, string> = {};
-    Object.entries(electiveAssignments).forEach(([key, value]) => {
-      if (value !== undefined) {
-        cleaned[key] = value;
-      }
-    });
-    if (!user) {
+    const cleaned = cleanAssignments(electiveAssignments);
+
+    // Guest mode: update in localStorage.
+    if (guest && !user) {
+      let updated: SavedPlan | null = null;
+      setPlans(prev => {
+        const next = prev.map(p => {
+          if (p.id !== planId) return p;
+          updated = {
+            ...p,
+            plan_name: planName,
+            selected_courses: Array.from(selectedCourses),
+            elective_assignments: cleaned,
+            updated_at: new Date().toISOString(),
+          };
+          return updated;
+        });
+        writeGuestPlans(next);
+        return next;
+      });
+      return updated;
+    }
+
+    if (!user || !supabase) {
       throw new Error('Must be logged in to update plans');
     }
 
@@ -160,7 +246,17 @@ export const usePlans = () => {
   };
 
   const deletePlan = async (planId: string): Promise<void> => {
-    if (!user) {
+    // Guest mode: delete from localStorage.
+    if (guest && !user) {
+      setPlans(prev => {
+        const next = prev.filter(p => p.id !== planId);
+        writeGuestPlans(next);
+        return next;
+      });
+      return;
+    }
+
+    if (!user || !supabase) {
       throw new Error('Must be logged in to delete plans');
     }
 
@@ -184,4 +280,3 @@ export const usePlans = () => {
 
   return { plans, loading, error, savePlan, updatePlan, deletePlan };
 };
-

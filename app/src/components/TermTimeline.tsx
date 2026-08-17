@@ -53,26 +53,24 @@ const CourseRow: React.FC<CourseRowProps> = ({
       }
     }}
     className={cn(
-      'group flex cursor-pointer items-center gap-3 rounded-md border-l-2 px-2.5 py-2 transition-colors',
+      'group flex cursor-pointer items-center gap-3 rounded-none border-l-2 py-2 pl-2.5 pr-1 transition-colors',
       isSelected
-        ? 'border-met bg-met-soft'
+        ? 'border-text bg-surface-2'
         : canTake
-          ? 'border-transparent hover:border-primary hover:bg-surface-2'
-          : 'border-transparent opacity-70 hover:bg-surface-2'
+          ? 'border-transparent hover:border-border-strong hover:bg-surface-2'
+          : 'border-transparent opacity-55 hover:bg-surface-2'
     )}
   >
     <CourseCode active={isSelected}>{code}</CourseCode>
     <span className="min-w-0 flex-1 truncate text-sm text-muted">{title}</span>
     {canTake && !isSelected && (
-      <span className="hidden shrink-0 text-xs font-medium text-met-fg sm:inline">
-        Ready
-      </span>
+      <span className="eyebrow hidden shrink-0 text-accent sm:inline">Ready</span>
     )}
-    <span className="shrink-0 font-mono text-xs text-faint">
+    <span className="shrink-0 font-mono text-xs tabular-nums text-faint">
       {credits.toFixed(2)}
     </span>
     {isSelected && (
-      <span className="shrink-0 text-met" aria-label="selected">
+      <span className="shrink-0 text-text" aria-label="selected">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden>
           <path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
@@ -245,19 +243,17 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
           return (
             <div
               key={term}
-              className="flex w-[320px] shrink-0 snap-start flex-col rounded-lg border border-border bg-surface shadow-e1 transition-shadow hover:shadow-e2"
+              className="flex w-[320px] shrink-0 snap-start flex-col border border-border bg-surface transition-colors hover:border-border-strong"
             >
-              <div className="flex items-center justify-between border-b border-border px-4 py-3">
-                <div className="flex items-center gap-2.5">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-soft font-display text-base font-bold text-primary-soft-fg">
+              <div className="flex items-end justify-between border-b border-border-strong px-4 py-3">
+                <div className="flex items-baseline gap-2">
+                  <span className="font-display text-3xl font-semibold leading-none tracking-tight">
                     {term}
                   </span>
-                  <span className="text-xs font-medium uppercase tracking-wide text-faint">
-                    Term
-                  </span>
+                  <span className="eyebrow">Term</span>
                 </div>
-                <span className="rounded-full bg-surface-2 px-2.5 py-1 font-mono text-xs font-medium text-muted">
-                  {selectedCredits.toFixed(2)} cr
+                <span className="font-mono text-xs tabular-nums text-muted">
+                  {selectedCredits.toFixed(2)}<span className="text-faint"> cr</span>
                 </span>
               </div>
 

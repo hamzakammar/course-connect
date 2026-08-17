@@ -2,11 +2,11 @@ import React from 'react';
 import { cn } from './utils';
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Adds hover elevation + slight lift. */
+  /** Adds a hover treatment on the hairline frame. */
   interactive?: boolean;
   /** Removes inner padding (caller controls spacing). */
   flush?: boolean;
-  /** Accent color of the left status rail, if any. */
+  /** Accent color of the left status rule, if any. */
   rail?: 'met' | 'partial' | 'unmet' | 'primary' | 'accent' | 'none';
 }
 
@@ -24,14 +24,13 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
     <div
       ref={ref}
       className={cn(
-        'relative overflow-hidden rounded-lg border border-border bg-surface shadow-e1',
-        'transition-all duration-200',
+        'relative rounded-none border border-border bg-surface',
+        'transition-colors duration-150',
         !flush && 'p-5',
-        interactive &&
-          'hover:-translate-y-0.5 hover:border-border-strong hover:shadow-e2',
+        interactive && 'hover:border-border-strong',
         rail !== 'none' &&
           cn(
-            "before:absolute before:inset-y-0 before:left-0 before:w-1 before:content-['']",
+            "before:absolute before:inset-y-0 before:left-0 before:w-[3px] before:content-['']",
             railColors[rail]
           ),
         className

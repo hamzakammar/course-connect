@@ -11,13 +11,11 @@ interface CourseDetailProps {
 }
 
 const Panel: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className="rounded-lg border border-border bg-surface shadow-e1">{children}</div>
+  <div className="border border-border bg-surface">{children}</div>
 );
 
 const SectionHeading: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <h3 className="mb-2 text-[0.7rem] font-semibold uppercase tracking-wider text-faint">
-    {children}
-  </h3>
+  <h3 className="eyebrow mb-2">{children}</h3>
 );
 
 const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses, onViewCourseDetail, selectedCourses = new Set() }) => {
@@ -25,14 +23,14 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses, 
   if (!course) {
     return (
       <Panel>
-        <div className="flex flex-col items-center justify-center px-6 py-16 text-center">
-          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary-soft text-primary-soft-fg">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
-              <path d="M4 6.5A2.5 2.5 0 0 1 6.5 4H20v13H6.5A2.5 2.5 0 0 0 4 19.5V6.5Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
+        <div className="flex flex-col items-center justify-center px-6 py-20 text-center">
+          <div className="mb-5 flex h-11 w-11 items-center justify-center border border-border-strong text-muted">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path d="M4 6.5A2.5 2.5 0 0 1 6.5 4H20v13H6.5A2.5 2.5 0 0 0 4 19.5V6.5Z" stroke="currentColor" strokeWidth="1.75" strokeLinejoin="round" />
             </svg>
           </div>
-          <h2 className="text-base font-semibold text-text">Course details</h2>
-          <p className="mt-1 max-w-[240px] text-sm text-muted">
+          <h2 className="font-display text-lg font-semibold text-text">Course details</h2>
+          <p className="mt-1.5 max-w-[240px] text-sm text-muted">
             Select a course to view its details, prerequisites, and ratings.
           </p>
         </div>
@@ -269,10 +267,10 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses, 
         {Array.from(groups.entries()).map(([groupId, groupItems]) => {
           const isFulfilled = checkCompleted && groupItems.some(item => isCourseSelected(item.course.code));
           return (
-            <div key={groupId} className="rounded-md border border-border bg-surface-2 p-2.5">
+            <div key={groupId} className="border-l-2 border-border-strong bg-surface-2 py-2 pl-3 pr-2.5">
               <div className="mb-1 flex items-center gap-1.5">
-                <Badge tone={isFulfilled ? 'met' : 'primary'}>
-                  One of{isFulfilled ? ' ✓' : ''}
+                <Badge tone={isFulfilled ? 'accent' : 'neutral'}>
+                  {isFulfilled ? 'One of · met' : 'One of'}
                 </Badge>
               </div>
               <ul className="pl-0.5">
@@ -346,13 +344,13 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses, 
               {ratings.map(({ label, value }) =>
                 value != null ? (
                   <div key={label}>
-                    <div className="mb-1 flex items-center justify-between text-xs">
-                      <span className="font-medium text-text">{label}</span>
-                      <span className="font-mono text-muted">{formatRating(value)}</span>
+                    <div className="mb-1 flex items-baseline justify-between text-xs">
+                      <span className="eyebrow">{label}</span>
+                      <span className="font-mono tabular-nums text-text">{formatRating(value)}</span>
                     </div>
-                    <div className="h-1.5 w-full overflow-hidden rounded-full bg-surface-3">
+                    <div className="h-[3px] w-full bg-surface-3">
                       <div
-                        className="h-full rounded-full bg-primary"
+                        className="h-[3px] bg-text"
                         style={{ width: `${Math.round(value * 100)}%` }}
                       />
                     </div>
@@ -369,7 +367,7 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ course, edges, allCourses, 
                   href={course.uwflow_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-0.5 inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+                  className="mt-0.5 inline-flex items-center gap-1 text-sm font-medium text-accent underline decoration-1 underline-offset-2 hover:decoration-2"
                 >
                   View on UWFlow →
                 </a>

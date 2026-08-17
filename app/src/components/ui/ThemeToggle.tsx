@@ -59,7 +59,7 @@ export const ThemeToggle: React.FC<{ className?: string }> = ({ className }) => 
       role="radiogroup"
       aria-label="Color theme"
       className={cn(
-        'inline-flex items-center gap-0.5 rounded-full border border-border bg-surface-2 p-0.5',
+        'inline-flex items-center rounded-none border border-border-strong divide-x divide-border',
         className
       )}
     >
@@ -74,10 +74,10 @@ export const ThemeToggle: React.FC<{ className?: string }> = ({ className }) => 
             title={`${opt.label} theme`}
             onClick={() => setChoice(opt.value)}
             className={cn(
-              'inline-flex h-7 w-8 items-center justify-center rounded-full transition-all duration-150',
-              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+              'inline-flex h-7 w-8 items-center justify-center rounded-none transition-colors duration-150',
+              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset',
               selected
-                ? 'bg-surface text-primary shadow-e1'
+                ? 'bg-surface-2 text-accent'
                 : 'text-faint hover:text-text'
             )}
           >

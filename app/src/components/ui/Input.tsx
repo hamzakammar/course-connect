@@ -14,13 +14,12 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <input
         ref={ref}
         className={cn(
-          'h-10 w-full rounded-md border bg-surface px-3 text-sm text-text',
+          'h-10 w-full rounded-none border-0 border-b bg-transparent px-0 text-sm text-text',
           'placeholder:text-faint transition-colors duration-150',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
-          'focus-visible:ring-offset-1 focus-visible:ring-offset-bg',
-          'disabled:cursor-not-allowed disabled:opacity-55',
-          invalid ? 'border-unmet' : 'border-border hover:border-border-strong',
-          leadingIcon != null && 'pl-9',
+          'focus-visible:outline-none focus:border-text',
+          'disabled:cursor-not-allowed disabled:opacity-45',
+          invalid ? 'border-accent' : 'border-border-strong',
+          leadingIcon != null && 'pl-7',
           className
         )}
         {...props}
@@ -31,7 +30,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <div className="relative">
-        <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-faint">
+        <span className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 text-faint">
           {leadingIcon}
         </span>
         {field}
@@ -58,18 +57,15 @@ export const Field: React.FC<FieldProps> = ({
   className,
   children,
 }) => (
-  <div className={cn('flex flex-col gap-1.5', className)}>
+  <div className={cn('flex flex-col gap-2', className)}>
     {label != null && (
-      <label
-        htmlFor={htmlFor}
-        className="text-sm font-medium text-text"
-      >
+      <label htmlFor={htmlFor} className="eyebrow">
         {label}
       </label>
     )}
     {children}
     {error != null ? (
-      <p className="text-xs text-unmet-fg">{error}</p>
+      <p className="text-xs text-accent-soft-fg">{error}</p>
     ) : (
       hint != null && <p className="text-xs text-muted">{hint}</p>
     )}

@@ -170,13 +170,13 @@ const PlanManager: React.FC<PlanManagerProps> = ({
             {plans.map((plan) => (
               <div
                 key={plan.id}
-                className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border bg-surface-2 p-3.5 transition-colors hover:border-border-strong"
+                className="flex flex-wrap items-center justify-between gap-3 border border-border bg-surface-2 p-3.5 transition-colors hover:border-border-strong"
               >
                 <div className="min-w-0">
-                  <h4 className="truncate text-sm font-semibold text-text">
+                  <h4 className="truncate font-display text-base font-semibold text-text">
                     {plan.plan_name}
                   </h4>
-                  <p className="mt-0.5 text-xs text-muted">
+                  <p className="mt-0.5 text-xs tabular-nums text-muted">
                     {plan.selected_courses.length} courses • Updated{' '}
                     {new Date(plan.updated_at).toLocaleDateString()}
                   </p>

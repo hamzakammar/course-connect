@@ -1,174 +1,159 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Course Connect — Design System
-   Identity: "Cobalt & Coral on warm paper"
-   - Original palette: warm off-white paper, cobalt primary,
-     coral accent, and distinct semantic requirement states.
-   - Type: Sora (UI/display) + JetBrains Mono (course codes).
-   - Theming: semantic tokens switched via [data-theme] on <html>,
-     with a system fallback via prefers-color-scheme.
+   Course Connect — Editorial / Swiss design system
+   - Ink on paper. Type and 1px hairline rules carry the design.
+   - Exactly one chromatic accent (signal red), used sparingly.
+   - Requirement states expressed with weight + rule + neutral
+     value, not a trio of candy colors.
+   - Flat: no gradients, no drop shadows, square corners.
+   - Fraunces (display serif) · Archivo (grotesque body) ·
+     IBM Plex Mono (course codes). Light + dark via [data-theme].
    ============================================================ */
 
-/* ---------- Light theme (default) ---------- */
+/* ---------- Light (paper) ---------- */
 :root {
   color-scheme: light;
 
-  /* Surfaces & structure */
-  --bg: #f7f5f0;
-  --surface: #ffffff;
-  --surface-2: #f1eee7;
-  --surface-3: #e9e5db;
-  --border: #e5e0d5;
-  --border-strong: #d3ccbc;
+  --bg: #f1eee7;
+  --surface: #f7f5ef;
+  --surface-2: #e8e3d8;
+  --surface-3: #ddd7c9;
+  --border: #d5cfc0;
+  --border-strong: #a9a191;
 
-  /* Text */
-  --text: #211d17;
-  --muted: #6d6658;
-  --faint: #948c7c;
+  --text: #17150f;
+  --muted: #6c6659;
+  --faint: #9c9484;
 
-  /* Brand — cobalt */
-  --primary: #2f57d6;
-  --primary-hover: #2545b8;
-  --primary-fg: #ffffff;
-  --primary-soft: #e7ecfb;
-  --primary-soft-fg: #23409e;
+  /* Primary = ink (editorial black button on paper) */
+  --primary: #17150f;
+  --primary-hover: #35312a;
+  --primary-fg: #f7f5ef;
+  --primary-soft: #e8e3d8;
+  --primary-soft-fg: #17150f;
 
-  /* Accent — coral */
-  --accent: #f0603a;
-  --accent-hover: #d94d29;
-  --accent-fg: #ffffff;
-  --accent-soft: #fde8e1;
-  --accent-soft-fg: #b53d1f;
+  /* The one accent — signal red. Used for brand, links, alerts,
+     destructive intent, and the single "complete" spot. */
+  --accent: #c62d1f;
+  --accent-hover: #a5251a;
+  --accent-fg: #f7f5ef;
+  --accent-soft: #f3e2de;
+  --accent-soft-fg: #a5251a;
 
-  /* Semantic requirement states */
-  --met: #17935a;
-  --met-fg: #0f6b41;
-  --met-soft: #e2f4ea;
-  --met-border: #b6e0c8;
+  /* Requirement states — restrained, near-achromatic.
+     met = ink emphasis; partial/unmet = muted recede. */
+  --met: #17150f;
+  --met-fg: #17150f;
+  --met-soft: #e8e3d8;
+  --met-border: #a9a191;
 
-  --partial: #cf8321;
-  --partial-fg: #9a5f11;
-  --partial-soft: #fbeed6;
-  --partial-border: #eccf9b;
+  --partial: #6c6659;
+  --partial-fg: #6c6659;
+  --partial-soft: #e8e3d8;
+  --partial-border: #cdc6b6;
 
-  --unmet: #d8483f;
-  --unmet-fg: #a8342d;
-  --unmet-soft: #fbe7e5;
-  --unmet-border: #efc0bb;
+  --unmet: #8b8474;
+  --unmet-fg: #8b8474;
+  --unmet-soft: #ece7dd;
+  --unmet-border: #d5cfc0;
 
-  /* Focus ring */
-  --ring: #6b86e6;
-
-  /* Elevation (theme-aware) */
-  --elev-1: 0 1px 2px rgba(33, 29, 23, 0.06), 0 1px 3px rgba(33, 29, 23, 0.08);
-  --elev-2: 0 4px 12px rgba(33, 29, 23, 0.08), 0 2px 4px rgba(33, 29, 23, 0.06);
-  --elev-3: 0 12px 32px rgba(33, 29, 23, 0.14), 0 6px 12px rgba(33, 29, 23, 0.08);
+  --ring: #c62d1f;
 }
 
-/* ---------- Dark theme ---------- */
+/* ---------- Dark (ink) ---------- */
 :root[data-theme="dark"] {
   color-scheme: dark;
 
-  --bg: #14131a;
-  --surface: #1c1b24;
-  --surface-2: #23222d;
-  --surface-3: #2c2b38;
-  --border: #322f3d;
-  --border-strong: #45414f;
+  --bg: #131210;
+  --surface: #1a1915;
+  --surface-2: #23211a;
+  --surface-3: #2c2a21;
+  --border: #322f26;
+  --border-strong: #4b4739;
 
-  --text: #f3f0ea;
-  --muted: #a8a2b3;
-  --faint: #7c7787;
+  --text: #efece2;
+  --muted: #a49d8d;
+  --faint: #6f695b;
 
-  --primary: #7d92ff;
-  --primary-hover: #93a4ff;
-  --primary-fg: #10121f;
-  --primary-soft: #232744;
-  --primary-soft-fg: #b9c4ff;
+  --primary: #efece2;
+  --primary-hover: #ffffff;
+  --primary-fg: #131210;
+  --primary-soft: #23211a;
+  --primary-soft-fg: #efece2;
 
-  --accent: #ff7a54;
-  --accent-hover: #ff8f6e;
-  --accent-fg: #1a120f;
-  --accent-soft: #33211b;
-  --accent-soft-fg: #ffb59e;
+  --accent: #ff5a44;
+  --accent-hover: #ff7361;
+  --accent-fg: #131210;
+  --accent-soft: #2d1a16;
+  --accent-soft-fg: #ff8f80;
 
-  --met: #3ccb84;
-  --met-fg: #6fdaa2;
-  --met-soft: #16281f;
-  --met-border: #23503a;
+  --met: #efece2;
+  --met-fg: #efece2;
+  --met-soft: #23211a;
+  --met-border: #4b4739;
 
-  --partial: #edad55;
-  --partial-fg: #f2c37f;
-  --partial-soft: #2b2113;
-  --partial-border: #4d3c1e;
+  --partial: #a49d8d;
+  --partial-fg: #a49d8d;
+  --partial-soft: #23211a;
+  --partial-border: #3c3930;
 
-  --unmet: #f27167;
-  --unmet-fg: #f79389;
-  --unmet-soft: #2c1917;
-  --unmet-border: #522f2b;
+  --unmet: #8f887a;
+  --unmet-fg: #8f887a;
+  --unmet-soft: #201e18;
+  --unmet-border: #322f26;
 
-  --ring: #7d92ff;
-
-  --elev-1: 0 1px 2px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.5);
-  --elev-2: 0 6px 16px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.4);
-  --elev-3: 0 16px 40px rgba(0, 0, 0, 0.55), 0 8px 16px rgba(0, 0, 0, 0.4);
+  --ring: #ff5a44;
 }
 
-/* System preference fallback when no explicit theme is chosen */
+/* System fallback when no explicit theme is set */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     color-scheme: dark;
 
-    --bg: #14131a;
-    --surface: #1c1b24;
-    --surface-2: #23222d;
-    --surface-3: #2c2b38;
-    --border: #322f3d;
-    --border-strong: #45414f;
+    --bg: #131210;
+    --surface: #1a1915;
+    --surface-2: #23211a;
+    --surface-3: #2c2a21;
+    --border: #322f26;
+    --border-strong: #4b4739;
 
-    --text: #f3f0ea;
-    --muted: #a8a2b3;
-    --faint: #7c7787;
+    --text: #efece2;
+    --muted: #a49d8d;
+    --faint: #6f695b;
 
-    --primary: #7d92ff;
-    --primary-hover: #93a4ff;
-    --primary-fg: #10121f;
-    --primary-soft: #232744;
-    --primary-soft-fg: #b9c4ff;
+    --primary: #efece2;
+    --primary-hover: #ffffff;
+    --primary-fg: #131210;
+    --primary-soft: #23211a;
+    --primary-soft-fg: #efece2;
 
-    --accent: #ff7a54;
-    --accent-hover: #ff8f6e;
-    --accent-fg: #1a120f;
-    --accent-soft: #33211b;
-    --accent-soft-fg: #ffb59e;
+    --accent: #ff5a44;
+    --accent-hover: #ff7361;
+    --accent-fg: #131210;
+    --accent-soft: #2d1a16;
+    --accent-soft-fg: #ff8f80;
 
-    --met: #3ccb84;
-    --met-fg: #6fdaa2;
-    --met-soft: #16281f;
-    --met-border: #23503a;
+    --met: #efece2;
+    --met-fg: #efece2;
+    --met-soft: #23211a;
+    --met-border: #4b4739;
 
-    --partial: #edad55;
-    --partial-fg: #f2c37f;
-    --partial-soft: #2b2113;
-    --partial-border: #4d3c1e;
+    --partial: #a49d8d;
+    --partial-fg: #a49d8d;
+    --partial-soft: #23211a;
+    --partial-border: #3c3930;
 
-    --unmet: #f27167;
-    --unmet-fg: #f79389;
-    --unmet-soft: #2c1917;
-    --unmet-border: #522f2b;
+    --unmet: #8f887a;
+    --unmet-fg: #8f887a;
+    --unmet-soft: #201e18;
+    --unmet-border: #322f26;
 
-    --ring: #7d92ff;
-
-    --elev-1: 0 1px 2px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.5);
-    --elev-2: 0 6px 16px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.4);
-    --elev-3: 0 16px 40px rgba(0, 0, 0, 0.55), 0 8px 16px rgba(0, 0, 0, 0.4);
+    --ring: #ff5a44;
   }
 }
 
-/* ---------- Wire tokens into Tailwind's theme ----------
-   `inline` makes utilities reference the CSS variables directly
-   so they track the [data-theme] cascade at runtime. */
+/* ---------- Wire tokens into Tailwind (inline = track theme) ---------- */
 @theme inline {
   --color-bg: var(--bg);
   --color-surface: var(--surface);
@@ -210,25 +195,26 @@
 
   --color-ring: var(--ring);
 
-  --font-sans: "Sora", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+  --font-sans: "Archivo", system-ui, -apple-system, "Helvetica Neue", Arial,
     sans-serif;
-  --font-display: "Sora", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", "Menlo",
-    monospace;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
 
-  --radius-xs: 4px;
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
-  --radius-xl: 20px;
-  --radius-2xl: 28px;
+  /* Square by design — no card radii. */
+  --radius-xs: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
 
-  --shadow-e1: var(--elev-1);
-  --shadow-e2: var(--elev-2);
-  --shadow-e3: var(--elev-3);
+  /* Flat — elevation carried by hairlines, not shadow. */
+  --shadow-e1: none;
+  --shadow-e2: none;
+  --shadow-e3: none;
 }
 
-/* ---------- Base layer ---------- */
+/* ---------- Base ---------- */
 @layer base {
   * {
     border-color: var(--border);
@@ -245,25 +231,34 @@
     background-color: var(--bg);
     color: var(--text);
     font-family: var(--font-sans);
-    line-height: 1.55;
+    font-size: 15px;
+    line-height: 1.6;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    transition: background-color 0.25s ease, color 0.25s ease;
+    font-feature-settings: "ss01";
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
     font-weight: 600;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.012em;
     color: var(--text);
     margin: 0;
+    line-height: 1.12;
+  }
+
+  /* Numerals in tables, counts and units line up. */
+  .tabular,
+  time,
+  [data-tnum] {
+    font-variant-numeric: tabular-nums;
   }
 
   ::selection {
-    background: var(--primary);
-    color: var(--primary-fg);
+    background: var(--accent);
+    color: var(--accent-fg);
   }
 
   :focus-visible {
@@ -271,29 +266,39 @@
     outline-offset: 2px;
   }
 
-  /* Custom scrollbars */
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
   * {
     scrollbar-width: thin;
     scrollbar-color: var(--border-strong) transparent;
   }
   *::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
   }
   *::-webkit-scrollbar-thumb {
     background: var(--border-strong);
-    border-radius: 999px;
-    border: 2px solid transparent;
-    background-clip: padding-box;
-  }
-  *::-webkit-scrollbar-thumb:hover {
-    background: var(--muted);
+    border: 4px solid transparent;
     background-clip: padding-box;
   }
 }
 
-/* ---------- Reusable component classes ---------- */
+/* ---------- Utilities ---------- */
 @layer components {
+  /* Uppercase tracked label — the editorial eyebrow / section kicker. */
+  .eyebrow {
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 0.68rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--faint);
+  }
+
   .cc-shimmer {
     background: linear-gradient(
       100deg,
@@ -316,9 +321,9 @@
   to { opacity: 1; }
 }
 
-@keyframes cc-pop-in {
-  from { opacity: 0; transform: translateY(8px) scale(0.98); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+@keyframes cc-rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes cc-spin {

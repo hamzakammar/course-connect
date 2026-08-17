@@ -89,7 +89,7 @@ export const Modal: React.FC<ModalProps> = ({
       style={{ animation: 'cc-fade-in 0.15s ease' }}
     >
       <div
-        className="absolute inset-0 bg-black/45 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/55"
         onClick={onClose}
         aria-hidden
       />
@@ -100,19 +100,19 @@ export const Modal: React.FC<ModalProps> = ({
         aria-labelledby={title != null ? titleId.current : undefined}
         tabIndex={-1}
         className={cn(
-          'relative z-10 flex max-h-[85vh] w-full flex-col overflow-hidden rounded-xl',
-          'border border-border bg-surface shadow-e3 focus:outline-none',
+          'relative z-10 flex max-h-[85vh] w-full flex-col overflow-hidden rounded-none',
+          'border border-border-strong bg-surface focus:outline-none',
           sizes[size],
           className
         )}
-        style={{ animation: 'cc-pop-in 0.22s cubic-bezier(0.16, 1, 0.3, 1)' }}
+        style={{ animation: 'cc-rise 0.2s cubic-bezier(0.16, 1, 0.3, 1)' }}
       >
         {(title != null || description != null) && (
           <div className="border-b border-border px-6 pb-4 pt-5">
             {title != null && (
               <h2
                 id={titleId.current}
-                className="text-lg font-semibold text-text"
+                className="text-xl font-semibold tracking-tight text-text"
               >
                 {title}
               </h2>
@@ -124,7 +124,7 @@ export const Modal: React.FC<ModalProps> = ({
         )}
         <div className="flex-1 overflow-y-auto px-6 py-5">{children}</div>
         {footer != null && (
-          <div className="flex justify-end gap-3 border-t border-border bg-surface-2 px-6 py-4">
+          <div className="flex justify-end gap-3 border-t border-border px-6 py-4">
             {footer}
           </div>
         )}

@@ -121,19 +121,19 @@ const ElectiveSelector: React.FC<ElectiveSelectorProps> = ({
                 }
               }}
               className={cn(
-                'cursor-pointer rounded-lg border border-l-2 bg-surface p-3 transition-all hover:shadow-e1',
+                'cursor-pointer border border-l-2 bg-surface p-3 transition-colors',
                 canTake
-                  ? 'border-border border-l-met hover:border-met-border'
-                  : 'border-border border-l-partial opacity-90 hover:border-partial-border'
+                  ? 'border-border border-l-text hover:border-border-strong'
+                  : 'border-border border-l-border-strong opacity-70 hover:opacity-100'
               )}
             >
               <div className="flex items-center gap-3">
                 <CourseCode>{course.code}</CourseCode>
                 <span className="min-w-0 flex-1 truncate text-sm text-text">
                   {course.title}
-                  <span className="ml-1 text-muted">({course.credits} cr)</span>
+                  <span className="ml-1 tabular-nums text-muted">({course.credits} cr)</span>
                 </span>
-                {canTake && <Badge tone="met" dot>Ready</Badge>}
+                {canTake && <Badge tone="accent" dot>Ready</Badge>}
                 <Button
                   size="sm"
                   onClick={(e) => {
@@ -148,13 +148,13 @@ const ElectiveSelector: React.FC<ElectiveSelectorProps> = ({
               </div>
               {prereqs.length > 0 && (
                 <p className="mt-2 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-muted">
-                  <span className="text-faint">Prereqs:</span>
+                  <span className="eyebrow">Prereqs</span>
                   {prereqs.map((prereq, index, array) => {
                     const normalizedPrereq = normalizeCode(prereq.code);
                     const isCompleted = Array.from(selectedCourses).some(selected => normalizeCode(selected) === normalizedPrereq);
                     return (
                       <React.Fragment key={prereq.id}>
-                        <span className={cn('font-mono', isCompleted ? 'text-met-fg' : 'text-unmet-fg')}>
+                        <span className={cn('font-mono', isCompleted ? 'text-text' : 'text-accent-soft-fg')}>
                           {prereq.code}{!isCompleted && ' (missing)'}
                         </span>
                         {index < array.length - 1 && <span className="text-faint">·</span>}
@@ -164,7 +164,7 @@ const ElectiveSelector: React.FC<ElectiveSelectorProps> = ({
                 </p>
               )}
               {!canTake && (
-                <p className="mt-1.5 text-xs font-medium text-partial-fg">
+                <p className="mt-1.5 text-xs text-muted">
                   Does not meet all prerequisites.
                 </p>
               )}

@@ -40,11 +40,11 @@ const TermCourseList: React.FC<TermCourseListProps> = ({ courses, programInfo, p
               const termCourses: CourseNode[] = courseSet ? courseSet.courses.map(code => courseMap.get(code)).filter(Boolean) as CourseNode[] : [];
 
               return (
-                <div key={termReq.id} className="rounded-lg border border-border bg-surface p-4 shadow-e1">
-                  <h3 className="mb-2 text-sm font-semibold text-text">
+                <div key={termReq.id} className="border border-border bg-surface p-4">
+                  <h3 className="mb-2 font-display text-base font-semibold text-text">
                     {termReq.explanations[0] || `Term: ${courseSet?.title || termReq.id}`}
                   </h3>
-                  <ul className="flex flex-col gap-1">
+                  <ul className="flex flex-col gap-0.5">
                     {termCourses.length === 0 ? (
                       <li className="text-sm italic text-faint">No courses found for this term.</li>
                     ) : (
@@ -55,11 +55,11 @@ const TermCourseList: React.FC<TermCourseListProps> = ({ courses, programInfo, p
                             e.preventDefault();
                             onViewCourseDetail(course.code);
                           }}
-                          className="flex cursor-pointer items-center gap-2.5 rounded-md px-2 py-1.5 transition-colors hover:bg-surface-2"
+                          className="flex cursor-pointer items-center gap-2.5 px-2 py-1.5 transition-colors hover:bg-surface-2"
                         >
                           <CourseCode>{course.code}</CourseCode>
                           <span className="min-w-0 flex-1 truncate text-sm text-muted">{course.title}</span>
-                          <span className="shrink-0 font-mono text-xs text-faint">{course.credits} cr</span>
+                          <span className="shrink-0 font-mono text-xs tabular-nums text-faint">{course.credits} cr</span>
                         </li>
                       ))
                     )}

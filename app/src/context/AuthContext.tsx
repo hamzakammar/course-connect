@@ -1,12 +1,20 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
-import { supabase } from '../lib/supabase';
+import { supabase, isSupabaseConfigured } from '../lib/supabase';
+
+const GUEST_KEY = 'cc-guest';
 
 interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
+  /** True when browsing without an account (plans persist to localStorage). */
+  guest: boolean;
+  /** Whether a Supabase backend is available for real sign-in. */
+  isConfigured: boolean;
   signInWithGoogle: () => Promise<void>;
+  continueAsGuest: () => void;
+  exitGuest: () => void;
   signOut: () => Promise<void>;
 }
 
@@ -28,8 +36,21 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [guest, setGuest] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem(GUEST_KEY) === '1';
+    } catch {
+      return false;
+    }
+  });
 
   useEffect(() => {
+    // No backend configured: boot straight into guest-capable state.
+    if (!supabase) {
+      setLoading(false);
+      return;
+    }
+
     // Handle OAuth callback - Supabase redirects back with hash fragments
     const handleAuthCallback = async () => {
       // Check if we're on the Supabase callback URL (wrong redirect)
@@ -49,13 +70,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const hashParams = new URLSearchParams(window.location.hash.substring(1));
         const accessToken = hashParams.get('access_token');
         const error = hashParams.get('error');
-        
+
         if (error) {
           console.error('OAuth error:', error);
           setLoading(false);
           return;
         }
-        
+
         if (accessToken) {
           // Supabase will handle the session automatically
           // Clean up the URL by removing hash fragments after processing
@@ -82,18 +103,49 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
+      // A real sign-in supersedes guest mode.
+      if (session?.user) {
+        setGuest(false);
+        try {
+          localStorage.removeItem(GUEST_KEY);
+        } catch {
+          /* ignore */
+        }
+      }
     });
 
     return () => subscription.unsubscribe();
   }, []);
 
+  const continueAsGuest = () => {
+    setGuest(true);
+    try {
+      localStorage.setItem(GUEST_KEY, '1');
+    } catch {
+      /* ignore */
+    }
+  };
+
+  const exitGuest = () => {
+    setGuest(false);
+    try {
+      localStorage.removeItem(GUEST_KEY);
+    } catch {
+      /* ignore */
+    }
+  };
+
   const signInWithGoogle = async () => {
+    if (!supabase) {
+      throw new Error('Sign-in is unavailable — no backend is configured.');
+    }
+
     // Use the current origin as redirect URL
     // Important: This must match the Site URL or be in the Redirect URLs list in Supabase
     const redirectTo = `${window.location.origin}${window.location.pathname}`;
-    
+
     console.log('Redirecting to:', redirectTo);
-    
+
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
@@ -104,18 +156,25 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         },
       },
     });
-    
+
     if (error) {
       console.error('Error signing in with Google:', error);
       throw error;
     }
-    
+
     // Note: The browser will redirect to Google for authentication
     // After authentication, Google will redirect back to Supabase's callback URL
     // Supabase will then redirect to the redirectTo URL we specified
   };
 
   const signOut = async () => {
+    // Leaving guest mode is a purely local operation.
+    if (guest) {
+      exitGuest();
+      return;
+    }
+    if (!supabase) return;
+
     const { error } = await supabase.auth.signOut();
     if (error) {
       console.error('Error signing out:', error);
@@ -127,10 +186,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     user,
     session,
     loading,
+    guest,
+    isConfigured: isSupabaseConfigured,
     signInWithGoogle,
+    continueAsGuest,
+    exitGuest,
     signOut,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
-

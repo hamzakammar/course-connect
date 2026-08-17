@@ -201,15 +201,15 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
             <div
               key={req.id}
               className={cn(
-                'relative overflow-hidden rounded-lg border bg-surface shadow-e1 transition-all',
-                req.isFulfilled ? 'border-met-border' : 'border-border'
+                'relative overflow-hidden border bg-surface transition-colors',
+                req.isFulfilled ? 'border-border-strong' : 'border-border'
               )}
             >
               <span
                 aria-hidden
                 className={cn(
-                  'absolute inset-y-0 left-0 w-1',
-                  req.isFulfilled ? 'bg-met' : 'bg-border-strong'
+                  'absolute inset-y-0 left-0 w-[3px]',
+                  req.isFulfilled ? 'bg-accent' : 'bg-transparent'
                 )}
               />
               <button
@@ -219,13 +219,13 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
                 aria-expanded={!isCollapsed}
               >
                 <div className="min-w-0">
-                  <h3 className="truncate text-sm font-semibold text-text">{req.title}</h3>
-                  <p className="mt-0.5 text-xs text-muted">
+                  <h3 className="truncate font-display text-base font-semibold text-text">{req.title}</h3>
+                  <p className="mt-0.5 text-xs tabular-nums text-muted">
                     {req.selectedCount} / {req.requiredCount} {req.requiredCount === 1 ? 'course' : 'courses'} selected
                   </p>
                 </div>
-                <div className="flex shrink-0 items-center gap-2">
-                  <Badge tone={req.isFulfilled ? 'met' : 'neutral'} dot>
+                <div className="flex shrink-0 items-center gap-2.5">
+                  <Badge tone={req.isFulfilled ? 'accent' : 'neutral'} dot>
                     {req.isFulfilled ? 'Complete' : 'In progress'}
                   </Badge>
                   <svg
@@ -275,24 +275,22 @@ const RequirementBoxes: React.FC<RequirementBoxesProps> = ({
                               }
                             }}
                             className={cn(
-                              'flex cursor-pointer items-center gap-3 rounded-md border-l-2 px-2.5 py-2 transition-colors',
+                              'flex cursor-pointer items-center gap-3 rounded-none border-l-2 py-2 pl-2.5 pr-1 transition-colors',
                               isSelected
-                                ? 'border-met bg-met-soft'
+                                ? 'border-text bg-surface-2'
                                 : canTake
-                                  ? 'border-transparent hover:border-primary hover:bg-surface-2'
-                                  : 'border-transparent opacity-70 hover:bg-surface-2'
+                                  ? 'border-transparent hover:border-border-strong hover:bg-surface-2'
+                                  : 'border-transparent opacity-55 hover:bg-surface-2'
                             )}
                           >
                             <CourseCode active={isSelected}>{code}</CourseCode>
                             <span className="min-w-0 flex-1 truncate text-sm text-muted">{title}</span>
                             {canTake && !isSelected && (
-                              <span className="hidden shrink-0 text-xs font-medium text-met-fg sm:inline">
-                                Ready
-                              </span>
+                              <span className="eyebrow hidden shrink-0 text-accent sm:inline">Ready</span>
                             )}
-                            <span className="shrink-0 font-mono text-xs text-faint">{credits.toFixed(2)}</span>
+                            <span className="shrink-0 font-mono text-xs tabular-nums text-faint">{credits.toFixed(2)}</span>
                             {isSelected && (
-                              <span className="shrink-0 text-met" aria-label="selected">
+                              <span className="shrink-0 text-text" aria-label="selected">
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden>
                                   <path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>

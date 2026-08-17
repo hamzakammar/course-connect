@@ -14,7 +14,7 @@ import { CourseNode } from './context/AppDataContext.tsx';
 import { meetsPrerequisites, getMissingPrerequisites } from './utils/prerequisites.ts';
 
 function App() {
-  const { user, loading: authLoading, signOut } = useAuth();
+  const { user, guest, isConfigured, loading: authLoading, signOut, signInWithGoogle } = useAuth();
   const { profile } = useUser();
   const { appData, loading: dataLoading, error } = useAppData();
   const [selectedCourses, setSelectedCourses] = useState<Set<string>>(new Set());
@@ -52,7 +52,7 @@ function App() {
     return <FullScreenLoader message="Loading…" />;
   }
 
-  if (!user) {
+  if (!user && !guest) {
     return <SignInPage />;
   }
 
@@ -258,40 +258,57 @@ function App() {
 
   return (
     <div className="min-h-screen bg-bg text-text">
-      <header className="sticky top-0 z-30 border-b border-border bg-surface/80 backdrop-blur-md">
-        <div className="mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
-          <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-fg shadow-e1">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
-                <path d="M4 6.5A2.5 2.5 0 0 1 6.5 4H20v13H6.5A2.5 2.5 0 0 0 4 19.5V6.5Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
-                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20v3H6.5A2.5 2.5 0 0 1 4 19.5Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
-              </svg>
-            </span>
-            <div className="leading-tight">
-              <h1 className="text-lg font-semibold tracking-tight sm:text-xl">
-                Course Connect
-              </h1>
-              <p className="hidden text-xs text-muted sm:block">Degree Planner</p>
-            </div>
+      <header className="sticky top-0 z-30 border-b border-border-strong bg-bg">
+        <div className="mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-x-6 gap-y-3 px-4 py-3 sm:px-6">
+          <div className="flex items-baseline gap-2.5">
+            <span className="h-3.5 w-3.5 shrink-0 translate-y-0.5 bg-accent" aria-hidden />
+            <h1 className="font-display text-xl font-semibold tracking-tight sm:text-2xl">
+              Course Connect
+            </h1>
+            <span className="eyebrow hidden sm:inline">Degree Planner</span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <PlanManager
               selectedCourses={selectedCourses}
               electiveAssignments={electiveAssignments}
               onLoadPlan={handleLoadPlan}
             />
             <ThemeToggle />
-            <div className="flex items-center gap-3 border-l border-border pl-3">
-              <div className="hidden text-right leading-tight sm:block">
-                {profile && profile.name && (
-                  <div className="text-sm font-medium text-text">{profile.name}</div>
-                )}
-                <div className="text-xs text-muted">{user.email}</div>
-              </div>
-              <Button variant="ghost" size="sm" onClick={signOut}>
-                Sign out
-              </Button>
+            <div className="flex items-center gap-3 border-l border-border pl-4">
+              {guest ? (
+                <>
+                  <span className="eyebrow hidden sm:inline">Guest</span>
+                  <Button
+                    variant="accent"
+                    size="sm"
+                    onClick={() => {
+                      if (isConfigured) {
+                        signInWithGoogle().catch((e) => console.error(e));
+                      } else {
+                        signOut();
+                      }
+                    }}
+                    title={isConfigured ? 'Sign in to sync your plans' : 'Return to sign-in'}
+                  >
+                    Sign in to sync
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <div className="hidden text-right leading-tight sm:block">
+                    {profile && profile.name && (
+                      <div className="text-sm font-medium text-text">{profile.name}</div>
+                    )}
+                    {user?.email && (
+                      <div className="text-xs text-muted">{user.email}</div>
+                    )}
+                  </div>
+                  <Button variant="ghost" size="sm" onClick={signOut}>
+                    Sign out
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -355,13 +372,8 @@ function FullScreenLoader({ message }: { message: string }) {
 function FullScreenError({ title, message }: { title: string; message: string }) {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-bg px-6 text-center">
-      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-unmet-soft text-unmet-fg">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
-          <path d="M12 8v5M12 16.5h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-          <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2" />
-        </svg>
-      </div>
-      <h2 className="text-xl font-semibold text-text">{title}</h2>
+      <div className="mb-1 h-8 w-8 bg-accent" aria-hidden />
+      <h2 className="font-display text-2xl font-semibold tracking-tight text-text">{title}</h2>
       <p className="max-w-md text-sm text-muted">{message}</p>
     </div>
   );

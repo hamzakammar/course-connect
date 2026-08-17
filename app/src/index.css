@@ -3,7 +3,8 @@
 /* ============================================================
    Course Connect — Editorial / Swiss design system
    - Ink on paper. Type and 1px hairline rules carry the design.
-   - Exactly one chromatic accent (signal red), used sparingly.
+   - Monochrome: no chromatic accent. Emphasis rides ink fill,
+     weight, and 1px rules, never hue.
    - Requirement states expressed with weight + rule + neutral
      value, not a trio of candy colors.
    - Flat: no gradients, no drop shadows, square corners.
@@ -33,13 +34,13 @@
   --primary-soft: #e8e3d8;
   --primary-soft-fg: #17150f;
 
-  /* The one accent — signal red. Used for brand, links, alerts,
-     destructive intent, and the single "complete" spot. */
-  --accent: #c62d1f;
-  --accent-hover: #a5251a;
+  /* Ink-only — no chromatic accent. "Accent" collapses to ink so
+     emphasis rides fill + weight + 1px rules, never hue. */
+  --accent: #17150f;
+  --accent-hover: #35312a;
   --accent-fg: #f7f5ef;
-  --accent-soft: #f3e2de;
-  --accent-soft-fg: #a5251a;
+  --accent-soft: #e8e3d8;
+  --accent-soft-fg: #17150f;
 
   /* Requirement states — restrained, near-achromatic.
      met = ink emphasis; partial/unmet = muted recede. */
@@ -58,7 +59,7 @@
   --unmet-soft: #ece7dd;
   --unmet-border: #d5cfc0;
 
-  --ring: #c62d1f;
+  --ring: #17150f;
 }
 
 /* ---------- Dark (ink) ---------- */
@@ -82,11 +83,11 @@
   --primary-soft: #23211a;
   --primary-soft-fg: #efece2;
 
-  --accent: #ff5a44;
-  --accent-hover: #ff7361;
+  --accent: #efece2;
+  --accent-hover: #ffffff;
   --accent-fg: #131210;
-  --accent-soft: #2d1a16;
-  --accent-soft-fg: #ff8f80;
+  --accent-soft: #23211a;
+  --accent-soft-fg: #efece2;
 
   --met: #efece2;
   --met-fg: #efece2;
@@ -103,7 +104,7 @@
   --unmet-soft: #201e18;
   --unmet-border: #322f26;
 
-  --ring: #ff5a44;
+  --ring: #efece2;
 }
 
 /* System fallback when no explicit theme is set */
@@ -128,11 +129,11 @@
     --primary-soft: #23211a;
     --primary-soft-fg: #efece2;
 
-    --accent: #ff5a44;
-    --accent-hover: #ff7361;
+    --accent: #efece2;
+    --accent-hover: #ffffff;
     --accent-fg: #131210;
-    --accent-soft: #2d1a16;
-    --accent-soft-fg: #ff8f80;
+    --accent-soft: #23211a;
+    --accent-soft-fg: #efece2;
 
     --met: #efece2;
     --met-fg: #efece2;
@@ -149,7 +150,7 @@
     --unmet-soft: #201e18;
     --unmet-border: #322f26;
 
-    --ring: #ff5a44;
+    --ring: #efece2;
   }
 }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { CourseNode, ProgramInfo, CourseSet, ProgramLists, CourseEdge } from '../context/AppDataContext';
 import { meetsPrerequisites, normalizeCode } from '../utils/prerequisites';
-import { Button, CourseCode, cn } from './ui';
+import { Badge, Button, CourseCode, cn } from './ui';
 
 interface TermTimelineProps {
   courses: CourseNode[];
@@ -14,6 +14,10 @@ interface TermTimelineProps {
   electiveAssignments: Record<string, string | undefined>;
   programLists: ProgramLists | null;
   edges?: CourseEdge[];
+  // Off-term (co-op) courses keyed by work-term id (e.g. "W1").
+  offTermCourses?: Record<string, string[]>;
+  onAddOffTermCourse?: (term: string, courseCode: string) => void;
+  onRemoveOffTermCourse?: (term: string, courseCode: string) => void;
 }
 
 interface CourseRowProps {
@@ -119,7 +123,10 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
   onCourseDeselect,
   electiveAssignments,
   programLists,
-  edges = []
+  edges = [],
+  offTermCourses = {},
+  onAddOffTermCourse,
+  onRemoveOffTermCourse
 }) => {
   const courseMap = new Map<string, CourseNode>();
   courses.forEach(course => courseMap.set(course.code, course));
@@ -169,8 +176,23 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
     }
   });
 
-  // Extract term order (1A, 1B, 2A, 2B, 3A, 3B, 4A, 4B)
-  const termOrder = ['1A', '1B', '2A', '2B', '3A', '3B', '4A', '4B'];
+  // Timeline slots: academic study terms interleaved with co-op/work terms.
+  // Work terms (W1..W5) normally hold no courses, but can hold off-term courses.
+  const timelineSlots: Array<{ id: string; type: 'study' | 'work' }> = [
+    { id: '1A', type: 'study' },
+    { id: '1B', type: 'study' },
+    { id: 'W1', type: 'work' },
+    { id: '2A', type: 'study' },
+    { id: 'W2', type: 'work' },
+    { id: '2B', type: 'study' },
+    { id: 'W3', type: 'work' },
+    { id: '3A', type: 'study' },
+    { id: 'W4', type: 'work' },
+    { id: '3B', type: 'study' },
+    { id: 'W5', type: 'work' },
+    { id: '4A', type: 'study' },
+    { id: '4B', type: 'study' },
+  ];
 
   // Get required_by_term from programInfo
   const requiredByTerm = programInfo?.required_by_term || {};
@@ -195,7 +217,112 @@ const TermTimeline: React.FC<TermTimelineProps> = ({
         <span className="text-xs text-muted">Scroll to browse terms →</span>
       </div>
       <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3">
-        {termOrder.map((term) => {
+        {timelineSlots.map((slot) => {
+          const term = slot.id;
+
+          // Co-op / work term: normally holds no courses, but can carry
+          // off-term courses. Rendered as a recessive, hairline-dashed card.
+          if (slot.type === 'work') {
+            const offCodes = offTermCourses[term] || [];
+            const workCredits = offCodes.reduce((sum, code) => sum + getCourseCredits(code), 0);
+            return (
+              <div
+                key={term}
+                className="flex w-[320px] shrink-0 snap-start flex-col border border-dashed border-border bg-surface-2 transition-colors hover:border-border-strong"
+              >
+                <div className="flex items-end justify-between border-b border-border-strong px-4 py-3">
+                  <div className="flex items-baseline gap-2">
+                    <span className="font-display text-3xl font-semibold leading-none tracking-tight text-muted">
+                      {term}
+                    </span>
+                    <span className="eyebrow text-accent">Co-op</span>
+                  </div>
+                  <span className="font-mono text-xs tabular-nums text-muted">
+                    {workCredits.toFixed(2)}<span className="text-faint"> cr</span>
+                  </span>
+                </div>
+
+                <div className="flex flex-col gap-4 p-4">
+                  <div>
+                    <div className="mb-1.5 flex items-center justify-between gap-2">
+                      <SectionTitle className="mb-0">Off-term Courses</SectionTitle>
+                      {onAddOffTermCourse && (
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            const input = window.prompt(
+                              `Enter course code taken off-term during ${term} (co-op):`,
+                              ''
+                            );
+                            if (input && input.trim()) {
+                              onAddOffTermCourse(term, input.trim().toUpperCase());
+                            }
+                          }}
+                        >
+                          + Add
+                        </Button>
+                      )}
+                    </div>
+                    {offCodes.length === 0 ? (
+                      <p className="py-6 text-center text-sm italic text-faint">
+                        Work term — no courses. Add one if taking a course off-term.
+                      </p>
+                    ) : (
+                      <ul className="flex flex-col gap-1">
+                        {offCodes.map((code) => {
+                          const credits = getCourseCredits(code);
+                          const title = getCourseTitle(code);
+                          return (
+                            <li
+                              key={code}
+                              role="button"
+                              tabIndex={0}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                onViewCourseDetail(code);
+                              }}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+                                  e.preventDefault();
+                                  onViewCourseDetail(code);
+                                }
+                              }}
+                              className="group flex cursor-pointer items-center gap-3 rounded-none border-l-2 border-border-strong bg-surface py-2 pl-2.5 pr-1 transition-colors hover:border-text"
+                            >
+                              <CourseCode>{code}</CourseCode>
+                              <span className="min-w-0 flex-1 truncate text-sm text-muted">{title}</span>
+                              <Badge tone="accent" className="shrink-0">off-term</Badge>
+                              <span className="shrink-0 font-mono text-xs tabular-nums text-faint">
+                                {credits.toFixed(2)}
+                              </span>
+                              {onRemoveOffTermCourse && (
+                                <Button
+                                  size="sm"
+                                  variant="secondary"
+                                  className="shrink-0"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    onRemoveOffTermCourse(term, code);
+                                  }}
+                                >
+                                  Remove
+                                </Button>
+                              )}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
           const termCourses = requiredByTerm[term] || [];
           const anyReq = anyReqMap.get(term);
 

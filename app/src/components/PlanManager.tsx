@@ -5,12 +5,14 @@ import { Button, Modal, Input, Badge } from './ui';
 interface PlanManagerProps {
   selectedCourses: Set<string>;
   electiveAssignments: Record<string, string | undefined>;
+  offTermCourses: Record<string, string[]>;
   onLoadPlan: (plan: SavedPlan) => void;
 }
 
 const PlanManager: React.FC<PlanManagerProps> = ({
   selectedCourses,
   electiveAssignments,
+  offTermCourses,
   onLoadPlan,
 }) => {
   const { plans, loading, savePlan, updatePlan, deletePlan } = usePlans();
@@ -29,9 +31,9 @@ const PlanManager: React.FC<PlanManagerProps> = ({
     setSaving(true);
     try {
       if (editingPlanId) {
-        await updatePlan(editingPlanId, planName, selectedCourses, electiveAssignments);
+        await updatePlan(editingPlanId, planName, selectedCourses, electiveAssignments, offTermCourses);
       } else {
-        await savePlan(planName, selectedCourses, electiveAssignments);
+        await savePlan(planName, selectedCourses, electiveAssignments, offTermCourses);
       }
       setShowSaveDialog(false);
       setPlanName('');
